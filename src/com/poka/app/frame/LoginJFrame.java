@@ -1,0 +1,682 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.poka.app.frame;
+
+import com.poka.entity.Arg;
+import com.poka.entity.User;
+import com.poka.util.LogManager;
+import com.poka.util.LoginResult;
+import com.poka.util.LoginUtil;
+import com.poka.util.PokaSftp;
+import com.poka.util.StaticVar;
+import com.poka.util.XmlSax;
+import com.poka.util.argPro;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import org.jvnet.substance.SubstanceLookAndFeel;
+import org.jvnet.substance.skin.SubstanceCremeCoffeeLookAndFeel;
+import org.jvnet.substance.watermark.SubstanceBubblesWatermark;
+
+/**
+ * @author poka
+ */
+public class LoginJFrame extends javax.swing.JFrame implements KeyListener {
+
+    private List<User> u;
+    static final Logger logger = LogManager.getLogger(LoginJFrame.class);
+    private boolean sfotRegistFlag = false;
+
+    /**
+     * Creates new form LoginJFrame
+     */
+    public LoginJFrame(boolean sfotRegistFlag) {
+
+        this.setSfotRegistFlag(sfotRegistFlag);
+        //    this.setVisible(false);
+        initComponents();
+        regisLabel.setVisible(false);
+        regisLabel.setEnabled(false);
+        //   this.setVisible(false);
+        if (this.xmlsax.getDiaoChaoLogin().equals("1")) {
+            this.loginPanel.removeAll();
+            this.mainjPanel.setLayout(null);
+            this.loginPanel.setSize(314, 120);
+            this.loginPanel.setLocation(150, 120);
+            this.loginPanel.setLayout(null);
+            this.loginPanel.add(msgLabel);
+            msgLabel.setLocation(10, 10);
+            this.loginPanel.add(this.resetButton);
+            this.loginPanel.add(this.loginButton);
+            this.loginButton.setLocation(20, 80);
+            this.resetButton.setLocation(120, 80);
+
+        }
+//        if (!xmlsax.isRegist()) {
+        if (!this.isSfotRegistFlag()) {
+//            regisLabel.setVisible(true);
+//            regisLabel.setEnabled(true);
+            msgLabel.setText("该软件仍未注册，请先注册！");
+            rgFlag = false;
+        } else {
+//            regisLabel.setVisible(false);
+//            regisLabel.setEnabled(false);
+            rgFlag = true;
+            // this.loginButton.doClick();
+        }
+
+        String logi = xmlsax.getLastLoginer().trim();
+        if (logi != null && logi.length() > 0) {
+            username.setText(logi);
+            password.requestFocus();
+        } else {
+            username.requestFocus();
+        }
+
+        this.username.addKeyListener(this);
+        this.password.addKeyListener(this);
+        this.loginButton.addKeyListener(this);
+        this.resetButton.addKeyListener(this);
+
+        this.loginPanel.setOpaque(false);
+        this.setLocationRelativeTo(null);
+        //禁止最大化
+        this.setResizable(false);
+        //设置背景图片 start
+        String path = System.getProperty("user.dir");
+        ImageIcon iico = new ImageIcon(getClass().getResource("/com/poka/images/33.png"));
+        JLabel label_bgImg = new JLabel(iico);
+        label_bgImg.setBounds(0, 0, iico.getIconWidth(), iico.getIconHeight());
+        JPanel j = (JPanel) this.getContentPane();
+        j.setOpaque(false);
+
+        this.getLayeredPane().add(label_bgImg, new Integer(Integer.MIN_VALUE));
+        this.setSize(iico.getIconWidth(), iico.getIconHeight());
+        //设置背景图片结束
+        //把面板设置为透明
+        mainjPanel.setOpaque(false);
+        jPanel1.setOpaque(false);
+
+        int windowWidth = 600;
+        int windowHeight = 350;
+        Toolkit kit = Toolkit.getDefaultToolkit(); // 定义工具包    
+        Dimension screenSize = kit.getScreenSize(); // 获取屏幕的尺寸   
+        int screenWidth = screenSize.width; // 获取屏幕的宽   
+        int screenHeight = screenSize.height; // 获取屏幕的高    
+        //System.out.print(screenWidth);
+        this.setBounds((screenWidth - windowWidth) / 2, (screenHeight - windowHeight) / 2, 600, 350);
+        xmlsax.getSoftTitle();
+        this.setTitle(StaticVar.showSoftName.trim());
+
+        ImageIcon a = new ImageIcon(getClass().getResource("/com/poka/images/2.png"));
+
+        this.setIconImage(a.getImage());
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        mainjPanel = new javax.swing.JPanel();
+        loginPanel = new javax.swing.JPanel();
+        userjLabel = new javax.swing.JLabel();
+        username = new javax.swing.JTextField();
+        pswLabel = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
+        regisLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        resetButton = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
+        msgLabel = new javax.swing.JLabel();
+        dbCfgjLabel = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+
+        userjLabel.setText("用 户 名:");
+
+        username.setToolTipText("");
+
+        pswLabel.setText("密    码:");
+
+        regisLabel.setText("注 册");
+        regisLabel.setForeground(Color.red);
+        regisLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regisLabelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
+        loginPanel.setLayout(loginPanelLayout);
+        loginPanelLayout.setHorizontalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                        .addComponent(pswLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addComponent(userjLabel)
+                        .addGap(5, 5, 5)))
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(username, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                    .addComponent(password))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(regisLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        loginPanelLayout.setVerticalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userjLabel)
+                    .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(regisLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pswLabel)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        resetButton.setText("注册");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
+
+        loginButton.setText("登录");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+
+        msgLabel.setForeground(new java.awt.Color(255, 0, 51));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(loginButton)
+                        .addGap(52, 52, 52)
+                        .addComponent(resetButton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(msgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 47, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resetButton)
+                    .addComponent(loginButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(msgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        msgLabel.getAccessibleContext().setAccessibleName("prompt");
+
+        dbCfgjLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/poka/images/set.png"))); // NOI18N
+        dbCfgjLabel.setText("设置");
+        dbCfgjLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dbCfgjLabelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout mainjPanelLayout = new javax.swing.GroupLayout(mainjPanel);
+        mainjPanel.setLayout(mainjPanelLayout);
+        mainjPanelLayout.setHorizontalGroup(
+            mainjPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainjPanelLayout.createSequentialGroup()
+                .addGroup(mainjPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainjPanelLayout.createSequentialGroup()
+                        .addGap(124, 124, 124)
+                        .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(mainjPanelLayout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(dbCfgjLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(76, Short.MAX_VALUE))
+        );
+        mainjPanelLayout.setVerticalGroup(
+            mainjPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainjPanelLayout.createSequentialGroup()
+                .addContainerGap(102, Short.MAX_VALUE)
+                .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(mainjPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainjPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainjPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dbCfgjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69))))
+        );
+
+        getContentPane().add(mainjPanel);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+    /**
+     * 数据库属性设置操作
+     *
+     * @param evt
+     */
+    private void dbCfgjLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbCfgjLabelMouseClicked
+        DBConfigJFrame n = new DBConfigJFrame();
+        // dbreload = true;
+        n.show();
+    }//GEN-LAST:event_dbCfgjLabelMouseClicked
+
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+//        this.username.setText("");
+//        this.password.setText("");
+        if (this.resetButton.isEnabled()) {
+            RegistryFrame rgs = new RegistryFrame();
+            rgs.setLoginFrame(this);
+            rgs.show();
+        }
+    }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        if (!isRgFlag()) {
+            JOptionPane.showMessageDialog(null, "请先注册软件!");
+            return;
+        }
+//        if (dbreload) {
+//            HibernateUtil.reConnect();
+//        }
+        LoginResult res = null;
+        if (!this.xmlsax.getDiaoChaoLogin().equals("1")) {
+            this.loginButton.setEnabled(false);
+            String user = this.username.getText().trim();
+            String pwd = this.password.getText().trim();
+            if (user.equals("")) {
+                this.msgLabel.setText("用户名为空");
+                this.loginButton.setEnabled(true);
+                return;
+            }
+            if (!this.xmlsax.getDiaoChaoLogin().equals("1")) {
+                if (pwd.equals("")) {
+                    this.msgLabel.setText("密码为空");
+                    this.loginButton.setEnabled(true);
+                    return;
+                }
+            }
+            xmlsax.getBankInfo();
+            if (xmlsax.getBankNum() == null) {
+                this.msgLabel.setText("请设置银行编号！");
+                this.loginButton.setEnabled(true);
+                return;
+            }
+            if (xmlsax.getNetworkNum() == null) {
+                this.msgLabel.setText("请设置网点编号！");
+                this.loginButton.setEnabled(true);
+                return;
+            }
+
+            res = LoginUtil.login(xmlsax.getIp(), xmlsax.getPort(), user, pwd);
+        }
+        if (this.xmlsax.getDiaoChaoLogin().equals("1") || (res != null && res.isFlag())) {
+            if (res != null) {
+                StaticVar.loginUser = res.getLoginCode();
+                StaticVar.loginName = res.getLoginName();
+            }
+            xmlsax.getBankInfo();
+            StaticVar.bankId = xmlsax.getBankNum();
+            StaticVar.agencyNo = xmlsax.getNetworkNum();
+            xmlsax.setLastLoginer(this.username.getText().trim());
+            //删除广电清分机后台文件      
+            //IOUtil.deleteGuangdianFile();
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    PokaMainFrame f = PokaMainFrame.instance();
+                    f.show();
+                    ImageIcon a = new ImageIcon(getClass().getResource("/com/poka/images/2.png"));
+                    f.setIconImage(a.getImage());
+                }
+
+            });
+
+            this.dispose();
+
+        } else {
+            this.msgLabel.setText(res.getMsg());
+        }
+        this.loginButton.setEnabled(true);
+    }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void regisLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regisLabelMouseClicked
+        if (this.regisLabel.isEnabled()) {
+            RegistryFrame rgs = new RegistryFrame();
+            rgs.setLoginFrame(this);
+            rgs.show();
+        }
+    }//GEN-LAST:event_regisLabelMouseClicked
+
+    public static boolean downLoadFile() {
+
+        String localPath = System.getProperty("user.dir");
+        //服务器更新路径
+        String basePath = StaticVar.cfgMap.get(argPro.updatePath);
+        String docName = "version.txt";
+        if (basePath == null) {
+            return false;
+        }
+        if(StaticVar.cfgMap.get(argPro.port)==null){
+            return false;
+        }
+        
+        //通过SFTP方式连接到服务器
+        PokaSftp sftp = new PokaSftp();
+        sftp.connect(StaticVar.cfgMap.get(argPro.ftp), Integer.valueOf(StaticVar.cfgMap.get(argPro.port)), StaticVar.cfgMap.get(argPro.user), StaticVar.cfgMap.get(argPro.pwd), 2000);
+        if (sftp.getSftp() == null) {
+            return false;
+        } else {
+            sftp.download(basePath, docName, localPath + File.separator + docName);
+            sftp.disConnect();
+            return true;
+        }
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(Level.INFO, null, ex);
+        }
+        //</editor-fold>
+        new Thread(new LoadingFrame()).start();
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (true) {
+                    System.gc();
+                    //  System.out.println("aaaa");
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(LoginJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }).start();
+
+        try {
+            JFrame.setDefaultLookAndFeelDecorated(true);
+            JDialog.setDefaultLookAndFeelDecorated(true);
+            //设置外观  
+            UIManager.setLookAndFeel(new SubstanceCremeCoffeeLookAndFeel());
+            //UIManager.setLookAndFeel(new SubstanceNebulaBrickWallLookAndFeel());
+            //UIManager.setLookAndFeel(new SubstanceOfficeBlue2007LookAndFeel());
+            //UIManager.setLookAndFeel(new SubstanceAutumnLookAndFeel());
+
+            //设置主题   
+            //SubstanceLookAndFeel.setCurrentTheme(new SubstanceEbonyTheme()); 
+            //SubstanceLookAndFeel.setCurrentTheme(new SubstanceSteelBlueTheme());
+            //设置按钮外观  
+            //  SubstanceLookAndFeel.setCurrentButtonShaper(new StandardButtonShaper());
+            //设置水印  
+            SubstanceLookAndFeel.setCurrentWatermark(new SubstanceBubblesWatermark());
+            //设置边框  
+            //  SubstanceLookAndFeel.setCurrentBorderPainter(new StandardBorderPainter());
+            //设置渐变渲染  
+            //   SubstanceLookAndFeel.setCurrentGradientPainter(new StandardGradientPainter());
+            //设置标题  
+            // SubstanceLookAndFeel.setCurrentTitlePainter(new Glass3DTitlePainter());
+        } catch (Exception ex) {
+            logger.log(Level.INFO, null, ex);
+        }
+
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                logger.log(Level.INFO, "Server start!");
+                List<Arg> argList = XmlSax.getInstance().getArgList();
+                StaticVar.cfgMap = new HashMap<String, String>();
+                for (Arg a : argList) {
+                    StaticVar.cfgMap.put(a.getAkey(), a.getAvalue());
+                }
+                
+                if(StaticVar.cfgMap.get(argPro.port)==null){
+                     StaticVar.cfgMap.put(argPro.port,"22");
+                }
+                /**
+                 * 下载版本文件 注意： flag为false表示连接服务器失败，就无法进行更新操作了。
+                 */
+                boolean flag = downLoadFile();
+
+                if (flag) {
+                    //***********************解析下载文件start**************************//
+                    FileReader fr = null;
+                    try {
+                        fr = new FileReader(System.getProperty("user.dir") + File.separator + "version.txt");
+                    } catch (FileNotFoundException ex) {
+                        logger.log(Level.INFO, null, ex);
+                        //  Logger.getLogger(LoginJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    BufferedReader br = new BufferedReader(fr);
+                    String strTemp = "";
+                    try {
+                        strTemp = br.readLine();
+                    } catch (IOException ex) {
+                        logger.log(Level.INFO, null, ex);
+                    }
+
+                    //***********************解析下载文件end**************************//
+                    if (strTemp != null && !strTemp.equals(StaticVar.cfgMap.get(argPro.softVersion))) {
+                        Object[] options = {"确定", "取消"};
+                        int response = JOptionPane.showOptionDialog(null, "发现新的软件版本!是否进行升级操作！", "宝嘉冠字号采集软件", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                        if (response == 0) {
+                            Runtime runtime = Runtime.getRuntime();
+                            //这里运行更新程序
+                            String runPath = System.getProperty("user.dir") + "\\PokaUpdate.exe";
+                            try {
+                                Process pro = runtime.exec(runPath);
+                            } catch (Exception ex) {
+                                logger.log(Level.INFO, null, ex);
+                            }
+                            System.exit(0);
+                        }
+                    }
+                }
+                reFlag = XmlSax.getInstance().isRegist();
+                if (XmlSax.getInstance().getDiaoChaoLogin().equals("1") && reFlag) {
+
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            PokaMainFrame f = PokaMainFrame.instance();
+                            f.setVisible(true);
+                            ImageIcon a = new ImageIcon(getClass().getResource("/com/poka/images/2.png"));
+                            f.setIconImage(a.getImage());
+                        }
+
+                    });
+
+                } else {
+
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            LoginJFrame fm = new LoginJFrame(reFlag);
+
+                            fm.setVisible(true);
+                        }
+
+                    });
+
+                }
+
+                if (LoadingFrame.instance().isVisible()) {
+                    LoadingFrame.instance().dispose();
+                }
+
+//                ImageIcon ico = new ImageIcon(getClass().getResource("/com/poka/images/1.ico"));
+//                fm.setIconImage(ico);
+                //  fm.username.selectAll();
+            }
+        });
+    }
+    static boolean reFlag;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel dbCfgjLabel;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JPanel loginPanel;
+    private javax.swing.JPanel mainjPanel;
+    private javax.swing.JLabel msgLabel;
+    private javax.swing.JPasswordField password;
+    private javax.swing.JLabel pswLabel;
+    private javax.swing.JLabel regisLabel;
+    private javax.swing.JButton resetButton;
+    private javax.swing.JLabel userjLabel;
+    public javax.swing.JTextField username;
+    // End of variables declaration//GEN-END:variables
+    //private BaseDao<Arg> bd = null;
+    private XmlSax xmlsax = XmlSax.getInstance();
+
+    //  private boolean dbreload = false;
+    private boolean rgFlag = false;
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (e.getSource() == this.username) {
+                this.password.selectAll();
+                this.password.requestFocus();
+            } else if (e.getSource() == this.password) {
+                this.loginButton.requestFocus();
+            } else if (e.getSource() == this.loginButton) {
+                //   this.loginButton.doClick();
+            } else if (e.getSource() == this.resetButton) {
+                //   this.resetButton.doClick();
+                this.username.requestFocus();
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (e.getSource() == this.username) {
+                this.password.selectAll();
+                this.password.requestFocus();
+            } else if (e.getSource() == this.password) {
+                this.loginButton.requestFocus();
+            } else if (e.getSource() == this.loginButton) {
+                this.resetButton.requestFocus();
+            } else if (e.getSource() == this.resetButton) {
+                this.username.selectAll();
+                this.username.requestFocus();
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            if (e.getSource() == this.username) {
+                this.resetButton.requestFocus();
+            } else if (e.getSource() == this.password) {
+                this.username.selectAll();
+                this.username.requestFocus();
+            } else if (e.getSource() == this.loginButton) {
+                this.password.selectAll();
+                this.password.requestFocus();
+            } else if (e.getSource() == this.resetButton) {
+                this.loginButton.requestFocus();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    /**
+     * @return the rgFlag
+     */
+    public boolean isRgFlag() {
+        return rgFlag;
+    }
+
+    /**
+     * @param rgFlag the rgFlag to set
+     */
+    public void setRgFlag(boolean rgFlag) {
+        this.rgFlag = rgFlag;
+    }
+
+    /**
+     * @return the sfotRegistFlag
+     */
+    public final boolean isSfotRegistFlag() {
+        return sfotRegistFlag;
+    }
+
+    /**
+     * @param sfotRegistFlag the sfotRegistFlag to set
+     */
+    public void setSfotRegistFlag(boolean sfotRegistFlag) {
+        this.sfotRegistFlag = sfotRegistFlag;
+    }
+
+}

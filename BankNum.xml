@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <bankInfos> 
+    <bankInfo myname="冠字号采集软件" id="2"/>  
+    <bankInfo ip="192.168.1.250" port="8001" bankNum="0299" NetWorkNum="0204" id="1"/> 
+  </bankInfos>  
+  <loginers> 
+    <loginer>00000000</loginer> 
+  </loginers>  
+  <machines> 
+    <machine machineType="中钞信达点钞机" machineNum="0" ip="192.168.1.2" user1="11111111" user2="1111111" type="0"/>  
+    <machine machineType="中钞信达点钞机" machineNum="0" ip="10.16.130.120" user1="9999" user2="999999" type="0"/>  
+    <machine machineType="仁杰点钞机" machineNum="2" ip="192.168.1.221" user1="11111111" user2="22222222" type="0"/>  
+    <machine machineType="中钞信达点钞机" machineNum="0" ip="10.16.130.119" user1="2222" user2="22" type="2"/> 
+  </machines>  
+  <addcoms> 
+    <com>COM2</com> 
+  </addcoms>  
+  <coms> 
+    <com>COM19</com> 
+  </coms>  
+  <paperSize> 
+    <lastSize>155*77</lastSize> 
+  </paperSize>  
+  <args> 
+    <ftp>192.168.100.233</ftp>  
+    <user>root</user>  
+    <pwd>123456</pwd>  
+    <localAddr>D:\fsn</localAddr>  
+    <remoteAddr>/fsn</remoteAddr>  
+    <updatePath>/home/poka/update</updatePath>  
+    <softVersion>VGX141218.2</softVersion> 
+  </args>  
+  <login>1</login>  
+  <mechineNo> 
+    <title>00000000000000</title> 
+  </mechineNo>  
+  <bankName> 
+    <name>gfggfgf</name> 
+  </bankName>  
+  <folwMoney> 
+    <flow>1|2</flow>  
+    <damaged>3</damaged> 
+  </folwMoney>  
+  <grmachine> 
+    <ma>011061027</ma>  
+    <mb>2</mb> 
+  </grmachine>  
+  <QFJ> 
+    <laftQF>4</laftQF> 
+  </QFJ>  
+  <quans> 
+    <A100A10>5A</A100A10>  
+    <A50A10>5B</A50A10>  
+    <A20A10>5C</A20A10>  
+    <A10A10>5D</A10A10>  
+    <A5A10>5E</A5A10>  
+    <A100A5>9A</A100A5>  
+    <A50A5>9B</A50A5>  
+    <A20A5>9C</A20A5>  
+    <A10A5>9D</A10A5>  
+    <A5A5>9E</A5A5> 
+  </quans>  
+  <breadqf>1</breadqf>  
+  <lljlL>[0-9A-Z]*_1_[0-9]{4}_[0-9]{17}[.]FSN$</lljlL>  
+  <lljlC>[0-9A-Z]*_2_[0-9]{4}_[0-9]{17}[.]FSN$</lljlC>  
+  <dgL>[0-9A-Za-z]*_[0-9]{14}_[0-9A-Za-z]{8}_[0-9]*_(1|2|3)[.]FSN$</dgL>  
+  <dgC>[0-9A-Za-z]*_[0-9]{14}_[0-9A-Za-z]{8}_[0-9]*_(4|8|12)[.]FSN$</dgC>  
+  <zcxdL>[0-9]{8}_[0-9A-Za-z]*_[0-9]*_1_(CNY)[.]FSN$</zcxdL>  
+  <zcxdC>[0-9]{8}_[0-9A-Za-z]*_[0-9]*_2_(CNY)[.]FSN$</zcxdC>  
+  <hport>
+    <name>2221</name>
+  </hport>
+</root>
