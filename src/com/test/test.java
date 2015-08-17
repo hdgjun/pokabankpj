@@ -36,7 +36,7 @@ private List<String> myList = new ArrayList<String>();
                 tt.start();
             }
         } catch (IOException ex) {
-
+            System.out.println("dg");
         }
        
     }
