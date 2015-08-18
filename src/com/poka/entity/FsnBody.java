@@ -293,14 +293,10 @@ public class FsnBody {
                 + reservel + "imageSNo :" + imageSNo.toString();
     }
 
-//    public static void main(String[] args){
-//    Pattern pattern = Pattern.compile("[0-9A-Za-z]{10}");
-//        Matcher matcher = pattern.matcher("'111110111");
-//        boolean b = matcher.matches();
-//        if (b) {
-//           System.out.println("match");
-//        }else{
-//            System.out.println("not match!");
-//        }
-//     }
+  
+    public static void main(String[] args) {
+      byte[] monData= new byte[]{0x41,0x42,0x43,0x44};
+      int lo = 0;
+      System.out.println(""+ (char)monData[lo++]+(char)monData[lo++]+(char)monData[lo++]+(char)monData[lo++]);
+    }
 }

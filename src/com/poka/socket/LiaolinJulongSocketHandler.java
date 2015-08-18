@@ -79,12 +79,8 @@ public class LiaolinJulongSocketHandler extends AbstractSocketHandle {
             ip = this.socketHandle.getSocket().getInetAddress().getHostAddress();
             int iRet;
             byte[] head = new byte[12];
-            boolean flag = false;
                         
             while (StaticVar.monTcpListen) {
-                if (flag) {
-                    break;
-                }
                 boolean bRt = PokaFsn.readData(head, 12, input);
                 if(!bRt){
                     showMsg(PanelMsgEntity.connectMSGType, "ip:" + ip + " 机具已断开连接！", null, ip, PanelMsgEntity.closeState);
@@ -163,7 +159,7 @@ public class LiaolinJulongSocketHandler extends AbstractSocketHandle {
                         PokaFsn.readData(mBody, 72, input);
                         int packageIndex = mBody[48] * 255 + mBody[49];
                         if (packageIndex == 0) {
-                            this.fsnFileName =  this.getFsnName();
+                            this.fsnFileName =  this.getFsnName(this.property.getBankNo(),this.property.getDotNo());
                             this.fsnFilePath = this.property.getPath() + File.separator + UploadFtp.tem + File.separator + this.fsnFileName;
                             this.temFileName = this.fsnFileName + ".JULONG";
                             this.temFilePath = this.fsnFilePath + ".JULONG";
@@ -202,18 +198,7 @@ public class LiaolinJulongSocketHandler extends AbstractSocketHandle {
         }
     }
 
-    public synchronized String getFsnName() {
-        String bankNo = this.property.getBankNo();
-        if (null == bankNo) {
-            bankNo = "*";
-        }
-        String dotNo = this.property.getDotNo();
-        if (null == dotNo) {
-            dotNo = "*";
-        }
-        String date = (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(new Date());
-        return bankNo + "_" + dotNo + "_XXXXXXXXXXXXXX_XXXXXXX" + date + ".FSN";
-    }
+    
 
     public boolean removeRepeat(String mon) {
         if (this.property.getBusType() == FsnComProperty.comBusType) {

@@ -186,7 +186,7 @@ public class YiTeNuoSocketHandler extends AbstractSocketHandle {
                     bList.clear();
                     
                     if (fsn.getbList().size() > 0) {
-                        String newPokaName = getFsnName();
+                        String newPokaName =  this.getFsnName(this.property.getBankNo(),this.property.getDotNo());
                     
                         String newPokaPath = this.property.getPath() + File.separator + UploadFtp.tem + File.separator + newPokaName;
 
@@ -232,18 +232,7 @@ public class YiTeNuoSocketHandler extends AbstractSocketHandle {
         return true;
     }
 
-    public synchronized String getFsnName() {
-        String bankNo = this.property.getBankNo();
-        if (null == bankNo) {
-            bankNo = "*";
-        }
-        String dotNo = this.property.getDotNo();
-        if (null == dotNo) {
-            dotNo = "*";
-        }
-        String date = (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(new Date());
-        return bankNo + "_" + dotNo + "_XXXXXXXXXXXXXX_XXXXXXX" + date + ".FSN";
-    }
+   
 
     private void showMsg(int busyType, String cmdMsg, String dataMsg, String ip, int state) {
         if (this.property.getDealPanel() != null) {
@@ -259,7 +248,6 @@ public class YiTeNuoSocketHandler extends AbstractSocketHandle {
     }
 
     public boolean removeRepeat(String mon) {
-        
         if (this.property.getBusType() == FsnComProperty.comBusType) {
             return this.property.getXmlCfg().isRepeatMon(mon, property.getLimit());
         } else {

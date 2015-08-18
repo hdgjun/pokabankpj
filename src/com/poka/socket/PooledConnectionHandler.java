@@ -62,6 +62,11 @@ public class PooledConnectionHandler implements Runnable {
                     xDhd = new GuAoSocketHandler(sh, this.property);
                     break;
                 }
+                case FsnComProperty.weiRongType:{
+                    SocketHandle sh = new WeiRongsockethandleImpl(this.connection);
+                    xDhd = new WeiRongSocketHandler(sh, this.property);
+                    break;
+                }
             }
             SocketHandleFactory.getInstance(xDhd).receData();
         } catch (Exception ex) {

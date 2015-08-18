@@ -37,6 +37,7 @@ public class FsnComProperty {
     public static final int xinDaMeType = 3;
     public static final int liaoNinJulongType = 4;
     public static final int guaoMeType = 5;
+    public static final int weiRongType = 6;
 
     public static final int comBusType = 0;  //服务端模式
     public static final int atmAddBusType = 1;//加钞

@@ -6,10 +6,25 @@
 
 package com.poka.socket;
 
+import java.util.Date;
+
 /**
  *
  * @author Administrator
  */
 public abstract class AbstractSocketHandle {
     public abstract void receData();
+    
+    public synchronized String getFsnName(String BankNo,String DotNo) {
+        String bankNo = BankNo;
+        if (null == bankNo) {
+            bankNo = "*";
+        }
+        String dotNo = DotNo;
+        if (null == dotNo) {
+            dotNo = "*";
+        }
+        String date = (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(new Date());
+        return bankNo + "_" + dotNo + "_XXXXXXXXXXXXXX_XXXXXXX" + date + ".FSN";
+    }
 }

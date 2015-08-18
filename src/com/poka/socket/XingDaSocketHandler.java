@@ -11,7 +11,6 @@ import com.poka.entity.OperationUser;
 import com.poka.entity.PanelMsgEntity;
 import com.poka.entity.PokaFsn;
 import com.poka.entity.PokaFsnBody;
-import com.poka.util.IOUtil;
 import com.poka.util.LogManager;
 import com.poka.util.MsgThread;
 import com.poka.util.StaticVar;
@@ -152,15 +151,8 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
             String sComName = null;
             int date = 0;
             String time = "";
-
-            int len = 0;
-            String baID = "";
-            String kunId = "";
+  
             ip = client.getInetAddress().getHostAddress();
-
-            synchronized (lock) {
-                baID = IOUtil.getBaID(this.property.getBoxId());
-            }
 
             while (StaticVar.monTcpListen) {
                 if (client.isConnected()) {
@@ -176,7 +168,7 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
                 byte[] temD = null;
                 if (temHead.iDataLen > 0) {
                     temD = new byte[temHead.iDataLen];
-                    len = input.read(temD);
+                    input.read(temD);
                 }
                 switch (temHead.iCmd) {
                     case nullCmd: {
@@ -333,18 +325,7 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
         }
     }
 
-    public synchronized String getFsnName() {
-        String bankNo = this.property.getBankNo();
-        if (null == bankNo) {
-            bankNo = "*";
-        }
-        String dotNo = this.property.getDotNo();
-        if (null == dotNo) {
-            dotNo = "*";
-        }
-        String date = (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(new Date());
-        return bankNo + "_" + dotNo + "_XXXXXXXXXXXXXX_XXXXXXX" + date + ".FSN";
-    }
+   
 
     public boolean removeRepeat(String mon) {
         if (this.property.getBusType() == FsnComProperty.comBusType) {
