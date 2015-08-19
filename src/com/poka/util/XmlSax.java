@@ -50,7 +50,7 @@ public class XmlSax {
 
     private static final String bankFile = path + "\\BankNum.xml";
 
-   // private static final String gzhFile = path + "\\GZH.xml";
+    // private static final String gzhFile = path + "\\GZH.xml";
     private static final String sqlserverFile = path + "\\hibernate.cfg.sqlserver.xml";
 
     private final String encodingType = "GBK";
@@ -74,6 +74,7 @@ public class XmlSax {
     private List<MachinesCfg> guaoMachines;
     private List<Arg> argList;
 
+    
     public static XmlSax getInstance() {
         if (xmlSax == null) {
             xmlSax = new XmlSax();
@@ -134,21 +135,22 @@ public class XmlSax {
         return document;
     }
 
-    public boolean writeToXml(Document doc,String file){
-         try {
+    public boolean writeToXml(Document doc, String file) {
+        try {
             OutputFormat format = OutputFormat.createPrettyPrint();
             format.setEncoding(encodingType);
             XMLWriter writer = new XMLWriter(new FileWriter(file), format);
             writer.write(doc);
             writer.flush();
             writer.close();
-            
+
         } catch (IOException ex) {
-            Logger.getLogger(XmlSax.class.getName()).log(Level.SEVERE, null, ex); 
+            Logger.getLogger(XmlSax.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-         return true;
+        return true;
     }
+
     public void writeRegist(String reg) {
         Document doc = load(regis, false);
         Element rootElm = doc.getRootElement();
@@ -157,8 +159,8 @@ public class XmlSax {
             root1Elm = rootElm.addElement("regist");
         }
         root1Elm.setText(reg);
-        
-        writeToXml(doc,regis);
+
+        writeToXml(doc, regis);
     }
 
     public void writeNeedLogin(String reg) {
@@ -170,7 +172,7 @@ public class XmlSax {
         }
         root1Elm.setText(reg);
 
-       writeToXml(doc,regis);
+        writeToXml(doc, regis);
     }
 
     public String getQuans(String mon, String kun) {
@@ -189,7 +191,7 @@ public class XmlSax {
             root1Elm.addElement("A20A5").setText("9C");
             root1Elm.addElement("A10A5").setText("9D");
             root1Elm.addElement("A5A5").setText("9E");
-            writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
         }
         String tem;
         Element node = root1Elm.element("A" + mon.trim() + "A" + kun.trim());
@@ -201,8 +203,10 @@ public class XmlSax {
         return tem;
     }
 
-    public static String flowMoney = "flow";
-    public static String damagedMoney = "damaged";
+    public final static String flowMoney = "flow";
+    public final static String damagedMoney = "damaged";
+    public final static String clientPort = "client";
+    public final static String serverPort = "server";
 
     public String getFlowMoney(String type) {
         Document doc = load(bankFile, false);
@@ -212,7 +216,7 @@ public class XmlSax {
             root1Elm = rootElm.addElement("folwMoney");
             root1Elm.addElement(flowMoney).setText("1|2");
             root1Elm.addElement(damagedMoney).setText("3");
-            writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
         }
         String tem;
         Element node = root1Elm.element(type);
@@ -234,7 +238,7 @@ public class XmlSax {
             root1Elm = rootElm.addElement("grmachine");
             root1Elm.addElement(machineA).setText("1");
             root1Elm.addElement(machineB).setText("2");
-            writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
         }
         String tem;
         Element node = root1Elm.element(type);
@@ -246,7 +250,7 @@ public class XmlSax {
         return tem;
     }
 
-       public int getLastQF() {
+    public int getLastQF() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
         Element root1Elm = rootElm.element("QFJ");
@@ -259,8 +263,8 @@ public class XmlSax {
         }
         return Integer.parseInt(node.getText().trim());
     }
-       
-    public void setLastQF(int item ) {
+
+    public void setLastQF(int item) {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
         Element root1Elm = rootElm.element("QFJ");
@@ -271,10 +275,10 @@ public class XmlSax {
         if (node == null) {
             node = root1Elm.addElement("laftQF");
         }
-        node.setText(""+item);
-        writeToXml(doc,bankFile);
+        node.setText("" + item);
+        writeToXml(doc, bankFile);
     }
-       
+
     public String readRegist() {
         Document doc = load(regis, false);
         Element rootElm = doc.getRootElement();
@@ -295,13 +299,13 @@ public class XmlSax {
             root1Elm = rootElm.addElement("login");
             root1Elm.setText("0");
             res = "0";
-             writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
         } else {
             res = root1Elm.getText().trim();
         }
         return res;
     }
-    
+
     public String getZCXDFileNameL() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
@@ -312,13 +316,13 @@ public class XmlSax {
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("zcxdL");
             root1Elm.setText("[0-9]{8}_[0-9A-Za-z]*_[0-9]*_1_(CNY)[.]FSN$");
-            writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
             return "[0-9]{8}_[0-9A-Za-z]*_[0-9]*_1_(CNY)[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
     }
-    
+
     public String getZCXDFileNameC() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
@@ -329,13 +333,13 @@ public class XmlSax {
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("zcxdC");
             root1Elm.setText("[0-9]{8}_[0-9A-Za-z]*_[0-9]*_2_(CNY)[.]FSN$");
-            writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
             return "[0-9]{8}_[0-9A-Za-z]*_[0-9]*_2_(CNY)[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
     }
-    
+
     public String getGDFileNameL() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
@@ -346,12 +350,13 @@ public class XmlSax {
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("dgL");
             root1Elm.setText("[0-9A-Za-z]*_[0-9]{14}_[0-9A-Za-z]{8}_[0-9]*_(1|2|3)[.]FSN$");
-             writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
             return "[0-9A-Za-z]*_[0-9]{14}_[0-9A-Za-z]{8}_[0-9]*_(1|2|3)[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
     }
+
     public String getGDFileNameC() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
@@ -362,12 +367,13 @@ public class XmlSax {
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("dgC");
             root1Elm.setText("[0-9A-Za-z]*_[0-9]{14}_[0-9A-Za-z]{8}_[0-9]*_(4|8|12)[.]FSN$");
-             writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
             return "[0-9A-Za-z]*_[0-9]{14}_[0-9A-Za-z]{8}_[0-9]*_(4|8|12)[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
     }
+
     public String getLLJLFileNameL() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
@@ -378,13 +384,13 @@ public class XmlSax {
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("lljlL");
             root1Elm.setText("[0-9A-Z]*_1_[0-9]{4}_[0-9]{17}[.]FSN$");
-            writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
             return "[0-9A-Z]*_1_[0-9]{4}_[0-9]{17}[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
     }
-    
+
     public String getLLJLFileNameC() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
@@ -395,13 +401,13 @@ public class XmlSax {
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("lljlC");
             root1Elm.setText("[0-9A-Z]*_2_[0-9]{4}_[0-9]{17}[.]FSN$");
-             writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
             return "[0-9A-Z]*_2_[0-9]{4}_[0-9]{17}[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
     }
-    
+
     public boolean isNeedBreakQF() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
@@ -412,7 +418,7 @@ public class XmlSax {
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("breadqf");
             root1Elm.setText("0");
-            writeToXml(doc,bankFile);
+            writeToXml(doc, bankFile);
             return false;
         } else {
             String tem = root1Elm.getTextTrim();
@@ -479,8 +485,8 @@ public class XmlSax {
                 elm.setText(pwd);
             }
         }
-        
-        return writeToXml(doc,sqlserverFile);
+
+        return writeToXml(doc, sqlserverFile);
     }
 
     /**
@@ -538,7 +544,7 @@ public class XmlSax {
                 elm.setText(pwd);
             }
         }
-        return  writeToXml(doc,getF());
+        return writeToXml(doc, getF());
     }
 
     public boolean changeBankNumXmlAtt() {
@@ -571,14 +577,44 @@ public class XmlSax {
             elm.setAttributeValue("NetWorkNum", this.networkNum);
             elm.setAttributeValue("id", "1");
         }
-        return  writeToXml(doc,bankFile);
+        return writeToXml(doc, bankFile);
     }
-    
-     public String getHPort() {
+
+    public String getDPort(String type) {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        Element root1Elm = rootElm.element("dport");
+
+        if (root1Elm != null) {
+
+            Element em = root1Elm.element(type);
+            if (em != null) {
+                return em.getTextTrim();
+            }
+        }
+        return null;
+    }
+
+    public void setDPort(String type, String name) {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        Element root1Elm = rootElm.element("dport");
+        if (root1Elm == null) {
+            root1Elm = rootElm.addElement("dport");
+        }
+        Element node = root1Elm.element(type);
+        if(node == null){
+            node = root1Elm.addElement(type);
+        }
+        node.setText(name.trim());
+        writeToXml(doc, bankFile);
+    }
+
+    public String getHPort() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
         Element root1Elm = rootElm.element("hport");
-       
+
         if (root1Elm == null) {
             return null;
         } else {
@@ -594,7 +630,7 @@ public class XmlSax {
             root1Elm = rootElm.addElement("hport");
         }
         root1Elm.setText(name.trim());
-         writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     public String getBnakName() {
@@ -627,7 +663,7 @@ public class XmlSax {
 
         }
         node.setText(name.trim());
-        writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     public String getMechineNO() {
@@ -659,7 +695,7 @@ public class XmlSax {
             node = root1Elm.addElement("title");
         }
         node.setText(title.trim());
-        writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     public void getBankInfo() {
@@ -868,7 +904,7 @@ public class XmlSax {
     public synchronized void clearMon() {
         SQLiteService.clearMon();
     }
- 
+
     public synchronized boolean isRepeatMon(String mon, int limit) {
         return SQLiteService.isRepeatMon(1, mon, limit);
     }
@@ -876,7 +912,6 @@ public class XmlSax {
     public synchronized boolean isRepeatMonATMAdd(String mon, int limit) {
         return SQLiteService.isRepeatMon(2, mon, limit);
     }
-
 
     public boolean deleteMachineInfo(MachinesCfg cfg) {
         Document doc = load(bankFile, false);
@@ -894,8 +929,8 @@ public class XmlSax {
                 break;
             }
         }
-      
-        return  writeToXml(doc,bankFile);
+
+        return writeToXml(doc, bankFile);
     }
 
     /**
@@ -1056,7 +1091,7 @@ public class XmlSax {
             elm.setAttributeValue("myname", title);
             elm.setAttributeValue("id", "2");
         }
-         writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     /**
@@ -1210,7 +1245,7 @@ public class XmlSax {
             node = root1Elm.addElement("loginer");
         }
         node.setText(this.lastLoginer);
-         writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
 
     }
 
@@ -1247,7 +1282,7 @@ public class XmlSax {
             node = root1Elm.addElement("com");
         }
         node.setText(this.lastAddCom);
-         writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     public String getLastPaperSize() {
@@ -1270,7 +1305,7 @@ public class XmlSax {
             node = root1Elm.addElement("lastSize");
         }
         node.setText(this.lastPaperSize);
-        writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     /**
@@ -1299,7 +1334,7 @@ public class XmlSax {
             node = root1Elm.addElement("com");
         }
         node.setText(this.lastCom);
-        writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     /**
@@ -1328,7 +1363,7 @@ public class XmlSax {
             node = root1Elm.addElement("NO");
         }
         node.setText(this.lastCom);
-         writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     /**
@@ -1370,7 +1405,7 @@ public class XmlSax {
             node = root1Elm.addElement(ar.getAkey().trim());
         }
         node.setText(ar.getAvalue().trim());
-         writeToXml(doc,bankFile);
+        writeToXml(doc, bankFile);
     }
 
     /**

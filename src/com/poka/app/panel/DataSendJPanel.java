@@ -63,11 +63,14 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         if(XmlSax.getInstance().getDiaoChaoLogin().equals("1")){
             userjLabel.setVisible(false);
         }
-   
-        this.portTextField.setText("2222");
+        String sp1 = xml.getDPort(XmlSax.clientPort);
+        this.portTextField.setText(sp1==null?"2222":sp1);
+        
         this.numTextField.setText("1000");
 
-        this.guaoPortTextField.setText("1000");
+         String sp2 = xml.getDPort(XmlSax.serverPort);
+        this.guaoPortTextField.setText(sp2==null?"1000":sp2);
+        
         this.limitComboBox.setSelectedIndex(1);
         this.guaoLimitComboBox.setSelectedIndex(1);
         fileUploadMonitor.setVisible(false);
@@ -1479,6 +1482,9 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 //                this.numTextField.selectAll();
 //                return;
 //            } else {//1024到49151
+            
+            xml.setDPort(XmlSax.clientPort, port);
+            
             iNum = Integer.parseInt(num);
             int idex = this.limitComboBox.getSelectedIndex();
             int limit = getSelectlimit(idex);
@@ -1624,6 +1630,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 //                return;
 //            }
             // iNum = Integer.parseInt(num);
+            xml.setDPort(XmlSax.serverPort, port);
             this.guaoReceButton.setEnabled(false);
             int idex = this.guaoLimitComboBox.getSelectedIndex();
             int limit = getSelectlimit(idex);
