@@ -69,7 +69,11 @@
   <dgC>[0-9A-Za-z]*_[0-9]{14}_[0-9A-Za-z]{8}_[0-9]*_(4|8|12)[.]FSN$</dgC>  
   <zcxdL>[0-9]{8}_[0-9A-Za-z]*_[0-9]*_1_(CNY)[.]FSN$</zcxdL>  
   <zcxdC>[0-9]{8}_[0-9A-Za-z]*_[0-9]*_2_(CNY)[.]FSN$</zcxdC>  
-  <hport>
-    <name>2221</name>
-  </hport>
+  <hport> 
+    <name>2221</name> 
+  </hport>  
+  <dport> 
+    <client>22321</client>  
+    <server>1001</server> 
+  </dport> 
 </root>
