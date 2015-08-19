@@ -158,7 +158,7 @@ public final class PokaMainFrame extends javax.swing.JFrame implements ActionLis
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.DATE, -7);
+        cal.add(Calendar.DATE, -30);
         Date dt1 = cal.getTime();
         String reStr = sdf.format(dt1);
         deleteFile(baseFsnPath, reStr);
