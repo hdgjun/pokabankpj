@@ -3,7 +3,7 @@
     <type>org.netbeans.modules.java.j2seproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>PokaBankPj_guangxi_20150408_生产版本</name>
+            <name>PokaBankPj_guangxi_20150408_releases</name>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
