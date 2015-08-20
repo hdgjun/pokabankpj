@@ -80,7 +80,10 @@
 
 
         <!-- don't edit below this line -->
-
+        
+         <property name="build.dir" value="build"/>
+         
+        
         <property name="store.dir" value="store"/>
         <property name="store.jar" value="${store.dir}/${store.jar.name}.jar"/>
 
@@ -104,6 +107,7 @@
         </zip>
 
         <delete file="${store.dir}/temp_final.jar"/>
+        <delete dir="${build.dir}/classes"/>
 
     </target>
 </project>
