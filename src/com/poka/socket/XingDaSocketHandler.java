@@ -16,7 +16,6 @@ import com.poka.util.MsgThread;
 import com.poka.util.StaticVar;
 import com.poka.util.StringUtil;
 import com.poka.util.UploadFtp;
-import com.poka.util.argPro;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,7 +52,6 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
         this.socketHandle = socketHandle;
         this.property = property;
         fsn = new PokaFsn();
-         System.out.println("!!handle port:"+StaticVar.cfgMap.get(argPro.port));
     }
 
     byte get_iflag(int n) {
