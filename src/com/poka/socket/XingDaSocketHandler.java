@@ -16,6 +16,7 @@ import com.poka.util.MsgThread;
 import com.poka.util.StaticVar;
 import com.poka.util.StringUtil;
 import com.poka.util.UploadFtp;
+import com.poka.util.argPro;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +53,7 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
         this.socketHandle = socketHandle;
         this.property = property;
         fsn = new PokaFsn();
+         System.out.println("!!handle port:"+StaticVar.cfgMap.get(argPro.port));
     }
 
     byte get_iflag(int n) {
@@ -167,6 +169,10 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
 
                 byte[] temD = null;
                 if (temHead.iDataLen > 0) {
+                    if(temHead.iDataLen>1024*1024*100){
+                      //  System.out.println("datalen = "+temHead.iDataLen);
+                        continue;
+                    }
                     temD = new byte[temHead.iDataLen];
                     input.read(temD);
                 }
@@ -175,6 +181,11 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
                         break;
                     }
                     case dataCmd: {
+                       // System.out.println("!!!!!!!!!!!!!!!!!!!!!!port:"+StaticVar.cfgMap.get(argPro.port));
+                        if(sComName == null){
+                        //    System.out.println("没有机器码！！！"+temHead.iDataLen);
+                            continue;
+                        }
                         PokaFsnBody body = new PokaFsnBody();
                         ImageSno imageSNo = body.getImageSNo();
                         body.setDate("" + date);
@@ -206,6 +217,8 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
                         String strNum = new String(chNum).trim();
                         body.setsNo(strNum);
                         body.setMacinSno(sComName);
+                        
+                        body.setBundleId("");
 
                         imageSNo.setNum(temD[20]);
                         imageSNo.setHeight(32);
@@ -232,9 +245,13 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
 
                                     usr = this.property.getXmlCfg().getUser1AndUser2(ip, FsnComProperty.comBusType);
 
+                                    body.setAtmId("");
+                                    body.setBagId("");
                                     body.setUserId1(usr.getUser1());
 
                                     body.setUserId2(usr.getUser2());
+                                    body.setUserId3("");
+                                    body.setUserId4("");
 
                                     body.setFlag((byte) this.property.getMoType());
 
@@ -242,6 +259,10 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
 
                                     usr = this.property.getXmlCfg().getUser1AndUser2(ip, FsnComProperty.atmAddBusType);
 
+                                    body.setUserId1("");
+
+                                    body.setUserId2("");
+                                    
                                     body.setUserId3(usr != null ? usr.getUser1() : "");
 
                                     body.setUserId4(usr != null ? usr.getUser2() : "");
@@ -295,8 +316,9 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
 
             }
         } catch (IOException ex) {
- 
+            System.out.println(ex.getMessage());
         } finally {
+            
             try {
                 showMsg(PanelMsgEntity.connectMSGType, "ip:" + ip + " 机具已断开连接！", null, ip, PanelMsgEntity.closeState);
                 if (fsn.getFhead().getCount() > 0) {
