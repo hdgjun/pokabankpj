@@ -13,6 +13,7 @@ import com.poka.entity.MoneyData;
 import com.poka.entity.PokaFsn;
 import com.poka.entity.PokaFsnBody;
 import com.poka.printer.com.ComClient;
+import com.poka.socket.GuAoQin;
 import com.poka.socket.KoreanBrandExtension;
 import com.poka.socket.KoreanBrandExtensionHandler;
 import com.poka.util.BundleDeal;
@@ -637,7 +638,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         meTypeComboBox.setEnabled(false);
         lastPaperSizeComboBox.setEnabled(false);
         myTimer.start();
-       
+
     }//GEN-LAST:event_startDealjButtonMouseClicked
     /**
      * 停止数据操作
@@ -687,7 +688,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
             countAc = 0;
             countBc = 0;
 
-            if (4 == meTypeComboBox.getSelectedIndex()||5 == meTypeComboBox.getSelectedIndex()) {
+            if (4 == meTypeComboBox.getSelectedIndex() || 5 == meTypeComboBox.getSelectedIndex()) {
                 koreadLis.stop();
                 koread_flag = false;
             }
@@ -825,7 +826,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                 showPort(false);
             } else {
                 sqlserverCfgjButton.setVisible(false);
-                if (4 == paper||5 == paper) {
+                if (4 == paper || 5 == paper) {
                     showPort(true);
                 } else {
                     showPort(false);
@@ -1307,16 +1308,16 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                         koreadLis.startAccept();
                         koread_flag = true;
                     }
-                    refreshFile(XmlSax.getInstance().getKoreadFileNameL(),XmlSax.getInstance().getKoreadFileNameC() );
+                    refreshFile(XmlSax.getInstance().getKoreadFileNameL(), XmlSax.getInstance().getKoreadFileNameC());
                 } else {
                     if (!koread_flag) {
                         koreadLis.setListenPort(Integer.parseInt(port.getText().trim()));
-                        koreadLis.setHandle(KoreanBrandExtensionHandler.class.getName());
+                        koreadLis.setHandle(GuAoQin.class.getName());
                         koreadLis.setPath(filePath);
                         koreadLis.startAccept();
                         koread_flag = true;
                     }
-                    refreshFile("[0-9A-Za-z]+[.]FSN$", "[0-9A-Z]+[.]FSN11111111111111111$");
+                    refreshFile(XmlSax.getInstance().getGuAaoFileNameL(),XmlSax.getInstance().getGuAaoFileNameC() );
                 }
             }
         });

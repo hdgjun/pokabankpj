@@ -29,7 +29,7 @@ public class KoreanBrandExtension {
     private final int POOL_SIZE = 10;//单个CPU线程池大小
     private String path;
     private String handle = "";
-    
+
 
     public KoreanBrandExtension(){
          this.stopFlag = false;
@@ -134,7 +134,7 @@ public class KoreanBrandExtension {
      */
     public String getHandle() {
         return handle;
-    }
+}
 
     /**
      * @param handle the handle to set

@@ -6,8 +6,10 @@
 package com.poka.socket;
 
 import com.poka.entity.PokaFsn;
+import com.poka.entity.PokaFsnBody;
 import com.poka.util.LogManager;
 import com.poka.util.StringUtil;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -84,8 +86,28 @@ public class GuAoQin implements Runnable, BaseHandle {
                     case CMD_DATA_NO_PI: {
                         PokaFsn temFsn = new PokaFsn();
                         if (!temFsn.readBaseFsnFile(input, cmd_byte[0])) {
+                            output.write(cmd_byte);
+                            output.write(new byte[]{-1,-1});
                             break;
                         }
+                         input.read(end, 0, 4);
+                         output.write(new byte[]{0, 0});
+                         String date = new java.text.SimpleDateFormat("yyyyMMddhhnnss").format(new Date());
+                         String fsnPath1 = path+File.separator+date+"_"+"1"+".FSN";
+                         String fsnPath2 = path+File.separator+date+"_"+"2"+".FSN";
+                         PokaFsn liutong = new PokaFsn();
+                         PokaFsn cang = new PokaFsn();
+                         for(PokaFsnBody item:temFsn.getbList()){
+                             byte[] cashPort = new byte[2];
+                             StringUtil.stringToByte2(item.getReservel(), cashPort, 0);
+                             if(3 == cashPort[1]){
+                                 cang.add(item);
+                             }else{
+                                 liutong.add(item);
+                             }
+                         }
+                         liutong.writeBaseFsnFile(fsnPath1);
+                         cang.writeBaseFsnFile(fsnPath2);
                     }
                     break;
                 }
