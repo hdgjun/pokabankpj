@@ -306,6 +306,40 @@ public class XmlSax {
         return res;
     }
 
+        public String getKoreadFileNameL() {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        if (rootElm == null) {
+            rootElm = doc.addElement("root");
+        }
+        Element root1Elm = rootElm.element("koreadL");
+        if (root1Elm == null) {
+            root1Elm = rootElm.addElement("koreadL");
+            root1Elm.setText("[0-9A-Za-z]+[.]FSN$");
+            writeToXml(doc, bankFile);
+            return "[0-9A-Za-z]+[.]FSN$";
+        } else {
+            return root1Elm.getTextTrim();
+        }
+    }
+
+    public String getKoreadFileNameC() {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        if (rootElm == null) {
+            rootElm = doc.addElement("root");
+        }
+        Element root1Elm = rootElm.element("koreadC");
+        if (root1Elm == null) {
+            root1Elm = rootElm.addElement("koreadC");
+            root1Elm.setText("[0-9A-Z]+[.]FSN11111111111111111$");
+            writeToXml(doc, bankFile);
+            return "[0-9A-Z]+[.]FSN11111111111111111$";
+        } else {
+            return root1Elm.getTextTrim();
+        }
+    }
+    
     public String getZCXDFileNameL() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();

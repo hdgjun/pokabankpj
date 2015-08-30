@@ -28,6 +28,8 @@ public class KoreanBrandExtension {
     private ExecutorService executorService;//线程池
     private final int POOL_SIZE = 10;//单个CPU线程池大小
     private String path;
+    private String handle = "";
+    
 
     public KoreanBrandExtension(){
          this.stopFlag = false;
@@ -57,12 +59,14 @@ public class KoreanBrandExtension {
                     }
                     break;
                 }
-                KoreanBrandExtensionHandler thread = new KoreanBrandExtensionHandler(incomingConnection,path);
-                executorService.execute(thread);
-            } catch (IOException ex) {
+                
+                Class<?> runable = Class.forName(handle);
+                BaseHandle thread = (BaseHandle)runable.newInstance();
+                thread.init(incomingConnection, path);
+                executorService.execute((Runnable)thread);
+            } catch (IOException | ClassNotFoundException |InstantiationException | IllegalAccessException  ex) {
                 logger.log(Level.SEVERE, null, ex);
             }
-
         }
     }
 
@@ -123,6 +127,20 @@ public class KoreanBrandExtension {
      */
     public void setPath(String path) {
         this.path = path;
+    }
+
+    /**
+     * @return the handle
+     */
+    public String getHandle() {
+        return handle;
+    }
+
+    /**
+     * @param handle the handle to set
+     */
+    public void setHandle(String handle) {
+        this.handle = handle;
     }
 
 }

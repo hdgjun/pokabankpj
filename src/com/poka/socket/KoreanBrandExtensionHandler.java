@@ -20,13 +20,16 @@ import java.util.logging.Logger;
  *
  * @author Administrator
  */
-public class KoreanBrandExtensionHandler implements Runnable {
+public class KoreanBrandExtensionHandler implements Runnable ,BaseHandle{
 
     static final Logger logger = LogManager.getLogger(KoreanBrandExtensionHandler.class);
     
     private Socket connection;
     private String path;
 
+    public KoreanBrandExtensionHandler(){
+        
+    }
     public KoreanBrandExtensionHandler(Socket connection, String path) {
         this.connection = connection;
         this.path = path;
@@ -40,6 +43,12 @@ public class KoreanBrandExtensionHandler implements Runnable {
     @Override
     public void run() {
         handleConnection();
+    }
+
+    @Override
+    public void init(Socket connection, String path) {
+         this.connection = connection;
+        this.path = path;
     }
 
     class Request {
@@ -130,13 +139,13 @@ public class KoreanBrandExtensionHandler implements Runnable {
                 }
 
             } catch (IOException ex) {
-                Logger.getLogger(KoreanBrandExtensionHandler.class.getName()).log(Level.SEVERE, null, ex);
+                logger.log(Level.SEVERE, null, ex);
             } finally {
                 if (connection != null) {
                     try {
                         connection.close();
                     } catch (IOException ex) {
-                        Logger.getLogger(KoreanBrandExtensionHandler.class.getName()).log(Level.SEVERE, null, ex);
+                        logger.log(Level.SEVERE, null, ex);
                     }
                 }
             }

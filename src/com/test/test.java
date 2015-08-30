@@ -6,6 +6,7 @@
 package com.test;
 
 import com.poka.entity.PokaFsn;
+import com.poka.socket.KoreanBrandExtensionHandler;
 import com.poka.util.StringUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,20 +25,22 @@ import java.util.logging.Logger;
 public class test {
 private List<String> myList = new ArrayList<String>();
     public static void main(String[] args) {
-        try {
-            ServerSocket serverSocket;
-            serverSocket = new ServerSocket(2222);
-            Socket incomingConnection = null;
-            while (true) {
-                incomingConnection = serverSocket.accept();
-                System.out.println("设备已经连接上，准备接收数据：");
-                MyThread12 tt = new MyThread12();
-                tt.setIncomingConnection(incomingConnection);
-                tt.start();
-            }
-        } catch (IOException ex) {
-
-        }
+//        try {
+//            ServerSocket serverSocket;
+//            serverSocket = new ServerSocket(2222);
+//            Socket incomingConnection = null;
+//            while (true) {
+//                incomingConnection = serverSocket.accept();
+//                System.out.println("设备已经连接上，准备接收数据：");
+//                MyThread12 tt = new MyThread12();
+//                tt.setIncomingConnection(incomingConnection);
+//                tt.start();
+//            }
+//        } catch (IOException ex) {
+//
+//        }
+      
+        System.out.println(KoreanBrandExtensionHandler.class.getName());
        
     }
 }

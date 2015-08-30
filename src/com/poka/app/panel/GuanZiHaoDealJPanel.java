@@ -14,6 +14,7 @@ import com.poka.entity.PokaFsn;
 import com.poka.entity.PokaFsnBody;
 import com.poka.printer.com.ComClient;
 import com.poka.socket.KoreanBrandExtension;
+import com.poka.socket.KoreanBrandExtensionHandler;
 import com.poka.util.BundleDeal;
 import com.poka.util.IOUtil;
 import com.poka.util.LogManager;
@@ -51,9 +52,9 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
 
     static final Logger logger = LogManager.getLogger(GuanZiHaoDealJPanel.class);
 
-    private String[] mechType = new String[]{"光荣清分机", "辽宁聚龙清分机", "广电清分机", "中钞信达清分机", "韩国品牌清分机"};
+    private String[] mechType = new String[]{"光荣清分机", "辽宁聚龙清分机", "广电清分机", "中钞信达清分机", "韩国品牌清分机", "古鳌清分机"};
 
-    public void showPort(boolean b) {
+    public final void showPort(boolean b) {
         this.port.setVisible(b);
         this.portJLabel.setVisible(b);
     }
@@ -67,8 +68,8 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         jPanel7.setVisible(false);
         this.stopDealjButton.setEnabled(false);
 
-        showPort(false);
-        
+        this.showPort(false);
+
         if (XmlSax.getInstance().getDiaoChaoLogin().equals("1")) {
             userjLabel.setVisible(false);
         }
@@ -83,9 +84,9 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
             this.bankNamejTextField.setText(name);
         }
         String po = this.xml.getHPort();
-        if(po != null){
-          this.port.setText(po);
-        }else{
+        if (po != null) {
+            this.port.setText(po);
+        } else {
             this.port.setText("2221");
         }
         bankId = StaticVar.bankId;  //银行号
@@ -628,7 +629,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         this.initjButton.setEnabled(false);
         this.sqlserverCfgjButton.setEnabled(false);
         this.bankNamejTextField.setEditable(false);
-        
+
         this.xml.setHPort(this.port.getText().trim());
 
         this.bachoice1.setEnabled(false);
@@ -636,7 +637,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         meTypeComboBox.setEnabled(false);
         lastPaperSizeComboBox.setEnabled(false);
         myTimer.start();
-
+       
     }//GEN-LAST:event_startDealjButtonMouseClicked
     /**
      * 停止数据操作
@@ -647,10 +648,6 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         Object[] options = {"确定", "取消"};
         int response = JOptionPane.showOptionDialog(this, "是否确认停止?", "提示", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if (response == 0) {
-//            if (moneyBase == null || dbreload) {
-//                moneyBase = new BaseDaoSqlServer<Map>();
-//                dbreload = false;
-//            }
             myTimer.stop();
             this.kunCo = 0;
             this.startDealjButton.setEnabled(true);
@@ -690,8 +687,9 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
             countAc = 0;
             countBc = 0;
 
-            if(meTypeComboBox.getSelectedIndex()==4){
+            if (4 == meTypeComboBox.getSelectedIndex()||5 == meTypeComboBox.getSelectedIndex()) {
                 koreadLis.stop();
+                koread_flag = false;
             }
         } else {
 
@@ -777,6 +775,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
 
                 this.liuTongMonLabel.setText("冠字号个数:0");
                 this.cansunMonLabel.setText("冠字号个数:0");
+                this.koread_flag = false;
 
             }
 
@@ -821,15 +820,15 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         if (itemFlag) {
             int paper = this.meTypeComboBox.getSelectedIndex();
             this.xml.setLastQF(paper);
-            if (paper == 0) {
+            if (0 == paper) {
                 sqlserverCfgjButton.setVisible(true);
                 showPort(false);
             } else {
                 sqlserverCfgjButton.setVisible(false);
-                if(paper == 4){
+                if (4 == paper||5 == paper) {
                     showPort(true);
-                }else{
-                     showPort(false);
+                } else {
+                    showPort(false);
                 }
             }
         }
@@ -1044,7 +1043,6 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         if (type == 1) {
             guanNum += 100;
             if (machineId == 1) {
-
                 this.countA++;
             } else {
                 this.countB++;
@@ -1299,19 +1297,34 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                     refreshFile(XmlSax.getInstance().getLLJLFileNameL(), XmlSax.getInstance().getLLJLFileNameC());
                 } else if (meTypeComboBox.getSelectedIndex() == 2) {//广电清分机
                     refreshFile(XmlSax.getInstance().getGDFileNameL(), XmlSax.getInstance().getGDFileNameC());
-                } else if (meTypeComboBox.getSelectedIndex() == 3){//中钞信达清分机
+                } else if (meTypeComboBox.getSelectedIndex() == 3) {//中钞信达清分机
                     refreshFile(XmlSax.getInstance().getZCXDFileNameL(), XmlSax.getInstance().getZCXDFileNameC());
-                }else {
-                    koreadLis.setListenPort(Integer.parseInt(port.getText().trim()));
-                    koreadLis.setPath(filePath);
-                    koreadLis.startAccept();
-                    refreshFile("[0-9A-Za-z]+[.]FSN$","[0-9A-Z]+[.]FSN11111111111111111$");
+                } else if (meTypeComboBox.getSelectedIndex() == 4) {
+                    if (!koread_flag) {
+                        koreadLis.setListenPort(Integer.parseInt(port.getText().trim()));
+                        koreadLis.setHandle(KoreanBrandExtensionHandler.class.getName());
+                        koreadLis.setPath(filePath);
+                        koreadLis.startAccept();
+                        koread_flag = true;
+                    }
+                    refreshFile(XmlSax.getInstance().getKoreadFileNameL(),XmlSax.getInstance().getKoreadFileNameC() );
+                } else {
+                    if (!koread_flag) {
+                        koreadLis.setListenPort(Integer.parseInt(port.getText().trim()));
+                        koreadLis.setHandle(KoreanBrandExtensionHandler.class.getName());
+                        koreadLis.setPath(filePath);
+                        koreadLis.startAccept();
+                        koread_flag = true;
+                    }
+                    refreshFile("[0-9A-Za-z]+[.]FSN$", "[0-9A-Z]+[.]FSN11111111111111111$");
                 }
             }
         });
         tt.start();
     }
-KoreanBrandExtension koreadLis = new KoreanBrandExtension();
+    private KoreanBrandExtension koreadLis = new KoreanBrandExtension();
+    private Boolean koread_flag = false;
+
     //private int count = 0;
     public void refreshFile(String rxt, String rxt2) {
         String monVal = "";

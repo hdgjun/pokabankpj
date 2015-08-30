@@ -204,7 +204,6 @@ public class YiTeNuoSocketHandler extends AbstractSocketHandle {
             this.socketHandle.getSocket().close();
         } catch (IOException ex) {
             showMsg(PanelMsgEntity.connectMSGType, "ip:" + ip + " 机具已断开连接！", null, ip, PanelMsgEntity.closeState);
-           // ex.printStackTrace();
             logger.log(Level.INFO, null,ex);
         }
     }
