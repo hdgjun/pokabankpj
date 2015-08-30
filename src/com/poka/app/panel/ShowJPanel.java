@@ -849,15 +849,15 @@ public class ShowJPanel extends javax.swing.JPanel {
 
                     newRow2[5] = "" + b.getValuta();
 
-                    newRow2[6] = b.getBundleId();
+                    newRow2[6] = b.getBundleId().trim();
 
                     newRow2[8] = b.getDate() + " " + b.getTime();
-                    newRow2[9] = b.getUserId1();
-                    newRow2[10] = b.getUserId2();
-                    newRow2[11] = b.getBagId();
-                    newRow2[12] = b.getAtmId();
-                    newRow2[13] = b.getUserId3();
-                    newRow2[14] = b.getUserId4();
+                    newRow2[9] = b.getUserId1().trim();
+                    newRow2[10] = b.getUserId2().trim();
+                    newRow2[11] = b.getBagId().trim();
+                    newRow2[12] = b.getAtmId().trim();
+                    newRow2[13] = b.getUserId3().trim();
+                    newRow2[14] = b.getUserId4().trim();
 
                     pokaModel.addRow(newRow2);
 
