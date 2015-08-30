@@ -305,7 +305,73 @@ public class XmlSax {
         }
         return res;
     }
+public String getGuAaoFileNameL() {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        if (rootElm == null) {
+            rootElm = doc.addElement("root");
+        }
+        Element root1Elm = rootElm.element("guaoL");
+        if (root1Elm == null) {
+            root1Elm = rootElm.addElement("guaoL");
+            root1Elm.setText("[0-9]{14}_1_+[.]FSN$");
+            writeToXml(doc, bankFile);
+            return "[0-9]{14}_1_+[.]FSN$";
+        } else {
+            return root1Elm.getTextTrim();
+        }
+    }
 
+    public String getGuAaoFileNameC() {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        if (rootElm == null) {
+            rootElm = doc.addElement("root");
+        }
+        Element root1Elm = rootElm.element("guaoC");
+        if (root1Elm == null) {
+            root1Elm = rootElm.addElement("guaoC");
+            root1Elm.setText("[0-9]{14}_2_+[.]FSN$");
+            writeToXml(doc, bankFile);
+            return "[0-9]{14}_2_+[.]FSN$";
+        } else {
+            return root1Elm.getTextTrim();
+        }
+    }
+        public String getKoreadFileNameL() {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        if (rootElm == null) {
+            rootElm = doc.addElement("root");
+        }
+        Element root1Elm = rootElm.element("koreadL");
+        if (root1Elm == null) {
+            root1Elm = rootElm.addElement("koreadL");
+            root1Elm.setText("[0-9A-Za-z]+[.]FSN$");
+            writeToXml(doc, bankFile);
+            return "[0-9A-Za-z]+[.]FSN$";
+        } else {
+            return root1Elm.getTextTrim();
+        }
+    }
+
+    public String getKoreadFileNameC() {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        if (rootElm == null) {
+            rootElm = doc.addElement("root");
+        }
+        Element root1Elm = rootElm.element("koreadC");
+        if (root1Elm == null) {
+            root1Elm = rootElm.addElement("koreadC");
+            root1Elm.setText("[0-9A-Z]+[.]FSN11111111111111111$");
+            writeToXml(doc, bankFile);
+            return "[0-9A-Z]+[.]FSN11111111111111111$";
+        } else {
+            return root1Elm.getTextTrim();
+        }
+    }
+    
     public String getZCXDFileNameL() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();

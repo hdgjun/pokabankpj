@@ -63,6 +63,8 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
             output = client.getOutputStream();
 
             output.write("0000".getBytes());
+            String date = new java.text.SimpleDateFormat("yyyyMMddhhnnss").format(new Date());
+            output.write(date.getBytes("utf-8"));
             ip = client.getInetAddress().getHostAddress();
 
             byte cmd[] = new byte[4];
@@ -86,8 +88,7 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
                 switch (scmd) {
                     case G1Cmd: {
                         output.write("0000".getBytes());
-                        String date = new java.text.SimpleDateFormat("yyyyMMddhhnnss").format(new Date());
-                        output.write(date.getBytes());
+                        
                         break;
                     }
                     case G2Cmd: {
