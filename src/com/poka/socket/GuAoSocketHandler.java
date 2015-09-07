@@ -88,15 +88,14 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
                 switch (scmd) {
                     case G1Cmd: {
                         output.write("0000".getBytes());
-                        
+                        output.write((new java.text.SimpleDateFormat("yyyyMMddhhnnss").format(new Date())).getBytes("utf-8"));
                         break;
                     }
                     case G2Cmd: {
-                        output.write("0000".getBytes());
-//               
-
-//                    }
-//                    case G3Cmd: {
+                        output.write("0000".getBytes());             
+                        break;
+                    }
+                    case G3Cmd: {
                         PokaFsn.readData(cmd, 4, input);
                         PokaFsn.readData(len, 2, input);
                         byte td;
@@ -180,9 +179,7 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
 
                                 }
                             }
-
                             bList.clear();
-
                             if (fsn.getbList().size() > 0) {
                                 String newPokaName = getFsnName();
                                 System.out.println(newPokaName);
@@ -206,7 +203,6 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
         } catch (IOException ex) {
 
         } finally {
-
             if (socketHandle.getSocket() != null) {
                 try {
                     socketHandle.getSocket().close();
