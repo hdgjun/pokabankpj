@@ -1,8 +1,6 @@
 package com.poka.entity;
 
 import com.poka.util.StringUtil;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FsnBody {
 
@@ -45,12 +43,14 @@ public class FsnBody {
         this.charNum = StringUtil.byteToInt(fbData, loca, 2);
         loca += 2;
         this.sNo = StringUtil.byteToString(fbData, loca, 2 * 12);
-        Pattern pattern = Pattern.compile("[0-9A-Za-z]{10}");
+        
+        this.sNo = this.sNo.replaceAll("[^0-9A-Za-z?*]", "*");
+       /* Pattern pattern = Pattern.compile("[0-9A-Za-z]{10}");
         Matcher matcher = pattern.matcher(this.sNo.trim());
         boolean b = matcher.matches();
         if (!b) {
             this.sNo = "**********";
-        }
+        }*/
         loca += 2 * 12;
         this.macinSno = StringUtil.byteToString(fbData, loca, 2 * 24);
         loca += 2 * 24;
