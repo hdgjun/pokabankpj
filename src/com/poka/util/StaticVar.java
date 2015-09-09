@@ -22,4 +22,8 @@ public class StaticVar {
     public static String agencyNo = "";
     public static String showSoftName = "";
     public static boolean monTcpListen = false;
+    public static String isTimer = "0";  //0定时
+    public static String noTimer = "1";  //1不定时
+    public static String isZip = "0";  //0压缩
+    public static String noZip = "1";  //1不压缩
 }

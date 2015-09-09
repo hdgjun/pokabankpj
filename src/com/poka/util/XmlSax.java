@@ -305,7 +305,7 @@ public class XmlSax {
         }
         return res;
     }
-public String getGuAaoFileNameL() {
+    public String getGuAaoFileNameL() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
         if (rootElm == null) {
@@ -473,7 +473,22 @@ public String getGuAaoFileNameL() {
             return root1Elm.getTextTrim();
         }
     }
-
+    public String getLanFangJuLlongFileName() {
+        Document doc = load(bankFile, false);
+        Element rootElm = doc.getRootElement();
+        if (rootElm == null) {
+            rootElm = doc.addElement("root");
+        }
+        Element root1Elm = rootElm.element("lflljl");
+        if (root1Elm == null) {
+            root1Elm = rootElm.addElement("lflljl");
+            root1Elm.setText("CNY15_[0-9]{14}_[0-9A-Za-z]*_[0-9A-Za-z_]*[.]FSN$");
+            writeToXml(doc, bankFile);
+            return "CNY15_[0-9]{14}_[0-9A-Za-z]*_[0-9A-Za-z_]*[.]FSN$";
+        } else {
+            return root1Elm.getTextTrim();
+        }
+    }
     public boolean isNeedBreakQF() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();

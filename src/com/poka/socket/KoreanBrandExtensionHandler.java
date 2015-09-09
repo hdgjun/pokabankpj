@@ -108,7 +108,6 @@ public class KoreanBrandExtensionHandler implements Runnable ,BaseHandle{
                     byte[] fName = new byte[getFilenameLen()];
                     iRet = input.read(fName);
                     setFilename(new String(fName, "utf-8"));
-                    
                     logger.info("filename:"+this.getFilename());
 
                     iRet = input.read(data1, 0, 2);

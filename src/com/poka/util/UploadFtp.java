@@ -7,6 +7,7 @@ package com.poka.util;
 
 import static com.jcraft.jsch.ChannelSftp.RESUME;
 import com.poka.app.util.FileUploadMonitor;
+import static com.poka.util.ZipUtil.compress;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -427,5 +428,68 @@ public class UploadFtp {
         }
         sftp.disConnect();
     }
-
+    
+    /**
+     * 上传FSN文件
+     * @param resourcePath
+     * @param fileName 
+     */
+    public static void uploadFsnFile(String resourcePath,String fileName){       
+        if(StaticVar.cfgMap.get(argPro.isZip).equals(StaticVar.isZip) && StaticVar.cfgMap.get(argPro.isTimer).equals(StaticVar.isTimer)){  
+            //0定时、0压缩  生成fsn之后，压缩文件到reupload文件夹中，压缩之后就不管了
+            String fileNameNoFsn = fileName.substring(0, fileName.length()-4);  //文件名去除.fsn
+            String zipPath = StaticVar.cfgMap.get(argPro.localAddr)+File.separator+ UploadFtp.reUpload + File.separator+fileNameNoFsn+".zip";
+            compress(resourcePath,zipPath);
+            File delFile = new File(resourcePath);
+            if(delFile.exists()){
+                delFile.delete();
+            }
+        }else if(StaticVar.cfgMap.get(argPro.isZip).equals(StaticVar.noZip) && StaticVar.cfgMap.get(argPro.isTimer).equals(StaticVar.isTimer)){
+           //0定时，1不压缩 生成fsn文件后，把fsncopy到reupload文件夹中
+            File file = new File(resourcePath);
+            if(file.exists()){
+                String zipPath = StaticVar.cfgMap.get(argPro.localAddr)+File.separator+ UploadFtp.reUpload + File.separator+fileName;
+                File dest = new File(zipPath);
+                if(file.renameTo(dest)){
+//                    file.delete();
+                }
+            }
+        }else if(StaticVar.cfgMap.get(argPro.isZip).equals(StaticVar.isZip) && StaticVar.cfgMap.get(argPro.isTimer).equals(StaticVar.noTimer)){            
+           //1实时、0压缩 生成fsn文件后，压缩文件到tem目录，再上传 
+            String fileNameNoFsn = fileName.substring(0, fileName.length()-4);  //文件名去除.fsn
+            String zipPath = StaticVar.cfgMap.get(argPro.localAddr)+File.separator+ UploadFtp.tem + File.separator+fileNameNoFsn+".zip";
+            compress(resourcePath,zipPath);
+            File delFile = new File(resourcePath);
+            if(delFile.exists()){
+                delFile.delete();
+            }
+            oneFileUploadFtp(fileNameNoFsn+".zip", UploadFtp.fsnbak);
+        }else if(StaticVar.cfgMap.get(argPro.isZip).equals(StaticVar.noZip) && StaticVar.cfgMap.get(argPro.isTimer).equals(StaticVar.noTimer)){
+            //实时、不压缩 生成fsn文件后，直接上传
+            oneFileUploadFtp(fileName, UploadFtp.fsnbak);
+        }
+    }
+    
+    /**
+     * 上传BK文件
+     * @param resourcePath
+     * @param fileName 
+     */
+    public static void uploadBkFile(String resourcePath,String fileName){       
+        if(StaticVar.cfgMap.get(argPro.isTimer).equals(StaticVar.isTimer)){
+            //0定时、生成文件到reupload文件夹中，就不管了
+            File file = new File(resourcePath);
+            if(file.exists()){
+                String zipPath = StaticVar.cfgMap.get(argPro.localAddr)+File.separator+ UploadFtp.reUpload + File.separator+fileName;
+                File dest = new File(zipPath);
+                if(file.renameTo(dest)){
+//                    file.delete();
+                }
+            }
+        }else if(StaticVar.cfgMap.get(argPro.isTimer).equals(StaticVar.noTimer)){
+            //实时 生成bk文件后，直接上传
+            oneFileUploadFtp(fileName, UploadFtp.bkbak);
+        }        
+    }
+        
 }

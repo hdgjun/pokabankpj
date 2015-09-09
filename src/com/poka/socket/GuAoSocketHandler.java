@@ -14,6 +14,8 @@ import com.poka.util.LogManager;
 import com.poka.util.MsgThread;
 import com.poka.util.StaticVar;
 import com.poka.util.UploadFtp;
+import static com.poka.util.ZipUtil.compress;
+import com.poka.util.argPro;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +60,6 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
         String ip = null;
         try {
             Socket client = this.socketHandle.getSocket();
-
             input = client.getInputStream();
             output = client.getOutputStream();
 
@@ -184,12 +185,13 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
                                 String newPokaName = getFsnName();
                                 System.out.println(newPokaName);
                                 String newPokaPath = this.property.getPath() + File.separator + UploadFtp.tem + File.separator + newPokaName;
-
-                                fsn.writePokaFsnFile(newPokaPath);
+                                //生成fsn文件
+                                fsn.writePokaFsnFile(newPokaPath);                                
                                 fsn.getFhead().setCount(0);
                                 fsn.getbList().clear();
                                 fsn = null;
-                                UploadFtp.oneFileUploadFtp(newPokaName, UploadFtp.fsnbak);
+								UploadFtp.uploadFsnFile(newPokaPath, newPokaName);
+                                //UploadFtp.oneFileUploadFtp(newPokaName, UploadFtp.fsnbak);
                             }
                         }
                         break;

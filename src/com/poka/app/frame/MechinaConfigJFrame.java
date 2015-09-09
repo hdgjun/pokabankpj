@@ -327,7 +327,7 @@ public class MechinaConfigJFrame extends javax.swing.JFrame implements KeyListen
         }
         return -1;
     }
-    String[] spMechinas = new String[]{"中钞信达点钞机", "伊特诺点钞机", "仁杰点钞机", "新大点钞机", "辽宁聚龙","古鳌点钞机","维融点钞机"};
+    String[] spMechinas = new String[]{"中钞信达点钞机", "伊特诺点钞机", "仁杰点钞机", "新大点钞机", "辽宁聚龙","古鳌点钞机","维融点钞机","越创点钞机"};
     String[] spMechinasKeHu = new String[]{"中钞信达点钞机", "古鳌点钞机"};
 
     private void addButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseClicked
