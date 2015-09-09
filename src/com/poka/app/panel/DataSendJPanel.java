@@ -151,7 +151,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         }
         propertyGuao = new FsnComProperty(StaticVar.bankId, StaticVar.agencyNo, StaticVar.cfgMap.get(argPro.localAddr), "", this);
 
-        guaoTimet = new Timer(6000, new ActionListener() {
+        guaoTimet = new Timer(3000, new ActionListener() {
             FsnComProperty property;
 
             public void setProperty(FsnComProperty property) {
@@ -165,6 +165,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                     propertyGuao.setIp(cfg.getIp());
 
                     ClientTypeHandleThread hd = new ClientTypeHandleThread();
+                    System.out.println(cfg.getIp());
                     hd.setProperty(propertyGuao);
                     Thread ht = new Thread(hd);
                     ht.start();

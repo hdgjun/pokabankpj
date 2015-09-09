@@ -16,6 +16,8 @@ import com.poka.util.MsgThread;
 import com.poka.util.StaticVar;
 import com.poka.util.StringUtil;
 import com.poka.util.UploadFtp;
+import static com.poka.util.ZipUtil.compress;
+import com.poka.util.argPro;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -191,10 +193,11 @@ public class YiTeNuoSocketHandler extends AbstractSocketHandle {
                         String newPokaPath = this.property.getPath() + File.separator + UploadFtp.tem + File.separator + newPokaName;
 
                         fsn.writePokaFsnFile(newPokaPath);
+                        UploadFtp.uploadFsnFile(newPokaPath, newPokaName);
                         fsn.getFhead().setCount(0);
                         fsn.getbList().clear();
                         fsn = null;
-                        UploadFtp.oneFileUploadFtp(newPokaName, UploadFtp.fsnbak);
+                        //UploadFtp.oneFileUploadFtp(newPokaName, UploadFtp.fsnbak);
                     }
                 }
                 

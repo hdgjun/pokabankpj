@@ -1,8 +1,12 @@
 package com.poka.entity;
 
+import static com.poka.app.panel.ConfigJPanel.timer;
 import com.poka.util.LogManager;
+import com.poka.util.StaticVar;
 import com.poka.util.StringUtil;
 import com.poka.util.UploadFtp;
+import static com.poka.util.ZipUtil.compress;
+import com.poka.util.argPro;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -169,8 +173,19 @@ public class PokaFsn {
           //  }
             temBody.init();
             bList.add(temBody);
+            System.out.println(temBody.getsNo());
         }
         return true;
+    }
+    public static PokaFsnBody readBaseFsnFileNoHead(InputStream input) {
+       byte[] tem = null;
+        PokaFsnBody temBody = new PokaFsnBody();
+        tem = temBody.getFbData();
+        PokaFsn.readData(tem, tem.length, input);        
+        tem = temBody.getImageSNo().getImData();
+        PokaFsn.readData(tem, tem.length, input);          
+        temBody.init();       
+       return temBody;
     }
 
     public boolean writePokaFsnFile(String fPath) throws IOException {
@@ -290,9 +305,10 @@ public class PokaFsn {
                 this.bList.clear();
                 randomFile.close();
                 if (this.fhead.getCount() == count) {
-                    UploadFtp.oneFileUploadFtp(this.fileName, UploadFtp.fsnbak);
-                    this.fileName = "";
-                    this.fhead.setCount(0);
+	                String resourcePath = this.path+File.separator+this.fileName;
+	                UploadFtp.uploadFsnFile(resourcePath, this.fileName);
+	                this.fileName = "";
+	                this.fhead.setCount(0);
                 }
             } catch (IOException ex) {
                logger.log(Level.INFO, null,ex);
@@ -408,5 +424,9 @@ public class PokaFsn {
     public void setPath(String path) {
         this.path = path;
     }
-
+    
+    public void clear(){
+        this.bList.clear();
+        this.getFhead().setCount(0);
+    }
 }

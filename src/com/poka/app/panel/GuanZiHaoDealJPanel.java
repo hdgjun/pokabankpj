@@ -53,7 +53,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
 
     static final Logger logger = LogManager.getLogger(GuanZiHaoDealJPanel.class);
 
-    private String[] mechType = new String[]{"光荣清分机", "辽宁聚龙清分机", "广电清分机", "中钞信达清分机", "韩国品牌清分机", "古鳌清分机"};
+    private String[] mechType = new String[]{"光荣清分机", "辽宁聚龙清分机", "广电清分机", "中钞信达清分机", "韩国品牌清分机", "古鳌清分机","辽宁聚龙清分机二代"};
 
     public final void showPort(boolean b) {
         this.port.setVisible(b);
@@ -1130,10 +1130,12 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
             }
 
             //上传BK文件
-            UploadFtp.oneFileUploadFtp(fileName, UploadFtp.bkbak);
-
+//            UploadFtp.oneFileUploadFtp(fileName, UploadFtp.bkbak);//          
+            UploadFtp.uploadBkFile(BKNamePath, fileName);
             //上传FSN文件
-            UploadFtp.oneFileUploadFtp(fsnFileName, UploadFtp.fsnbak);
+//            UploadFtp.oneFileUploadFtp(fsnFileName, UploadFtp.fsnbak);
+              UploadFtp.uploadFsnFile(mypath, fsnFileName);
+           
 
             if (type == 1) {
                 this.countA = 0;
@@ -1259,7 +1261,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
     private String filePath = StaticVar.cfgMap.get(argPro.localAddr) + File.separator + UploadFtp.qfFile;
     private List<MoneyData> myList = new ArrayList<MoneyData>();
     private List<MoneyData> myListC = new ArrayList<MoneyData>();
-    private Timer myTimer = new Timer(2000, this);
+    private Timer myTimer = new Timer(20000, this);
     private int countA = 0;
     private int countB = 0;
     private int countAc = 0;
@@ -1302,22 +1304,37 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                     refreshFile(XmlSax.getInstance().getZCXDFileNameL(), XmlSax.getInstance().getZCXDFileNameC());
                 } else if (meTypeComboBox.getSelectedIndex() == 4) {
                     if (!koread_flag) {
+                        koread_flag = true;
                         koreadLis.setListenPort(Integer.parseInt(port.getText().trim()));
                         koreadLis.setHandle(KoreanBrandExtensionHandler.class.getName());
-                        koreadLis.setPath(filePath);
-                        koreadLis.startAccept();
-                        koread_flag = true;
+                        koreadLis.setPath(filePath);                        
+                        Thread threa = new Thread(koreadLis);
+                        threa.start();
+                        
                     }
                     refreshFile(XmlSax.getInstance().getKoreadFileNameL(), XmlSax.getInstance().getKoreadFileNameC());
-                } else {
+                } else if (meTypeComboBox.getSelectedIndex() == 5){
                     if (!koread_flag) {
                         koreadLis.setListenPort(Integer.parseInt(port.getText().trim()));
                         koreadLis.setHandle(GuAoQin.class.getName());
                         koreadLis.setPath(filePath);
-                        koreadLis.startAccept();
+//                        koreadLis.startAccept();
                         koread_flag = true;
+                        Thread threa = new Thread(koreadLis);
+                        threa.start();
                     }
-                    refreshFile(XmlSax.getInstance().getGuAaoFileNameL(),XmlSax.getInstance().getGuAaoFileNameC() );
+                    refreshFile(XmlSax.getInstance().getGuAaoFileNameL(),XmlSax.getInstance().getGuAaoFileNameC());
+                }else if(meTypeComboBox.getSelectedIndex() == 6){ //聚龙清分机根据每条记录判断钞票类型的模式   
+                    if (!koread_flag) {
+                        koread_flag = true;
+                        analysisFile(XmlSax.getInstance().getLanFangJuLlongFileName());
+                    }else{
+                        refreshFile(XmlSax.getInstance().getZCXDFileNameL(),XmlSax.getInstance().getZCXDFileNameC() );
+                        koread_flag = false;
+                    }                   
+                    
+                    
+                   
                 }
             }
         });
@@ -1325,7 +1342,87 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
     }
     private KoreanBrandExtension koreadLis = new KoreanBrandExtension();
     private Boolean koread_flag = false;
-
+    
+    /**
+     * 解析聚龙清分机上传上来的fsn文件
+     * @param rxt 过滤参数
+     */
+    public void analysisFile(String rxt){
+        File dir = new File(filePath.trim());
+        File[] files = dir.listFiles();
+        if (files == null) {
+            return;
+        } 
+        Pattern pattern = Pattern.compile(rxt);
+        for (File file : files) {        
+            if (file.isDirectory()) {
+                continue;
+            } else { 
+                String fileName = file.getName();
+                Matcher matcher = pattern.matcher(fileName);
+                if (matcher.matches()) {//过滤文件名                    
+                    File temFile = new File(filePath + File.separator + fileName + ".temFile");
+                    if(file.renameTo(temFile)){
+                        temFile.renameTo(file);
+                    }else{
+                        continue;
+                    }     
+                    myTimer.stop();
+                    System.out.println(fileName);
+                    PokaFsn temR = new PokaFsn();
+                    try {
+                        temR.readBaseFsnFile(file.getPath());   //读取FSN文件信息
+                    } catch (IOException ex) {
+                        logger.log(Level.INFO, null, ex);
+                    }
+                    List<PokaFsnBody> bd = temR.getbList();
+                    pokaFsn.clear();
+                    pokaFsnC.clear();
+                    for (PokaFsnBody mybd : bd) {
+                        String moneyType = mybd.getTfFlag();
+//                      System.out.println(mybd.getsNo());
+                        if(moneyType.equals("1")){      //流通钞
+                            pokaFsn.getbList().add(mybd);
+                        }else{
+                            pokaFsnC.getbList().add(mybd);
+                        }          
+                    }
+                }else{
+                    continue;
+                }
+                file.delete();
+            }
+            //将解析的fsn文件重新命名,写入到qffile文件夹中       
+            createFsnFile("1",pokaFsn);
+            createFsnFile("2",pokaFsnC);
+        } 
+      myTimer.restart();
+    }
+    /**
+     *  //生成fsn   
+     * @param moneyType 钞票类型
+     * @param pokaFsn类
+     */
+    public void createFsnFile(String moneyType,PokaFsn pokaFs){        
+        //20150717_000005_0010_1_CNY.FSN
+        if(pokaFs.getbList().size()==0){
+            return;
+        }
+        Date date = BundleDeal.getDBTime();
+        String mydate = new SimpleDateFormat("yyyyMMdd").format(date);
+        String raondomDate = new SimpleDateFormat("ssS").format(date);
+        String fsnFileName = mydate + "_000005_"+raondomDate+"_"+moneyType+"_CNY.FSN";     
+        String fsnPath = StaticVar.cfgMap.get(argPro.localAddr) + File.separator + UploadFtp.qfFile + File.separator + fsnFileName;     
+        try {            
+            pokaFs.getFhead().setCount(pokaFs.getbList().size());
+            pokaFs.writeBaseFsnFile(fsnPath);               
+        } catch (IOException ex) {
+            Logger.getLogger(GuanZiHaoDealJPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+      
+    }
+    
     //private int count = 0;
     public void refreshFile(String rxt, String rxt2) {
         String monVal = "";
@@ -1338,7 +1435,6 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         if (files == null) {
             return;
         }
-
         //   String rxt = "[0-9A-Z]*_1_[0-9]{4}_[0-9]{17}[.]FSN$";
         //  String rxt2 = "[0-9A-Z]*_2_[0-9]{4}_[0-9]{17}[.]FSN$";
         Pattern pattern = Pattern.compile(rxt);
@@ -1475,11 +1571,12 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                                 }
 
                                 //上传BK文件
-                                UploadFtp.oneFileUploadFtp(newName, UploadFtp.bkbak);
-
+                                //UploadFtp.oneFileUploadFtp(newName, UploadFtp.bkbak);//         
+                                UploadFtp.uploadBkFile(BKNamePath, newName);
                                 //上传FSN文件
-                                UploadFtp.oneFileUploadFtp(fsnFileName, UploadFtp.fsnbak);
-
+//                                UploadFtp.oneFileUploadFtp(fsnFileName, UploadFtp.fsnbak);
+                                UploadFtp.uploadFsnFile(mypath, fsnFileName);
+                                
                                 baCo = 0;
                                 curBaList.clear();
 

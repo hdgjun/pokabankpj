@@ -56,6 +56,7 @@ public class ClientTypeHandleThread implements Runnable {
         TianJinGuaoCmd cmd = new TianJinGuaoCmd();
    
         SocketClient client = new SocketClient(ip, port);
+        
         if (!client.connectServer()) {
              client.disConnect();
             return;
@@ -67,6 +68,7 @@ public class ClientTypeHandleThread implements Runnable {
             time = (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(BundleDeal.getDBTime());
         }
         TianJinGuaoMsg msg = cmd.getDataFromGuao(client.getInStream(), client.getOutStream(), null);
+        System.out.println("client:"+client.getSocket().isConnected());
         if (msg.getResult() == -1) {
            showMsg(PanelMsgEntity.connectMSGType, null, null, ip, PanelMsgEntity.closeState);
             return;

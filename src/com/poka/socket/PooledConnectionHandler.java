@@ -46,8 +46,9 @@ public class PooledConnectionHandler implements Runnable {
                 }
                 case FsnComProperty.renJieMeType: {
 
-                }
-                case FsnComProperty.yiTeNuoMeType: {
+                }case FsnComProperty.yueChuangType: {
+
+                }case FsnComProperty.yiTeNuoMeType: {
                     SocketHandle sh = new YiTenuoSockethandleImpl(this.connection);
                     xDhd = new YiTeNuoSocketHandler(sh, this.property);
                     break;
