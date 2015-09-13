@@ -6,6 +6,7 @@
 package com.poka.entity;
 
 import com.poka.util.LogManager;
+import com.poka.util.StaticVar;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class TianJinDatFile {
         this.fileHead = new TianJinGuaoHead();
     }
 
-    public boolean readFile(InputStream input) {
+    public boolean readFile(InputStream input,int bodyLen) {
         try {
             byte[] tem = fileHead.getDataBody();
             int len = input.read(tem);
@@ -41,19 +42,22 @@ public class TianJinDatFile {
             }
             fileHead.init();
             bList.clear();
-          
-            System.out.println("fileHead.getRecordCount():" + fileHead.getRecordCount());
+                     
             for (int i = 0; i < fileHead.getRecordCount(); i++) {
-                TianJinGuaoBody temBody = new TianJinGuaoBody();
-                if(!readData(temBody.getDataBody(),88,input)){
+                TianJinGuaoBody temBody = new TianJinGuaoBody(bodyLen);
+                if(!readData(temBody.getDataBody(),bodyLen,input)){
                    return false;
-                }
-               
-                
+                }               
                 if(!readData(temBody.getImage(),1544,input)){
                     return false;
                 }
-                temBody.init();
+                if(bodyLen == StaticVar.guAoBodyOldLen){
+                    temBody.init();
+                }else{
+                    input.read(new byte[136]);  //新协议多余的数据
+                    temBody.initNew();
+                }
+                
                 bList.add(temBody);
             }
          
@@ -86,7 +90,7 @@ public class TianJinDatFile {
         return true;
     }
 
-    public boolean writeDatFile(String fPath) throws IOException {
+    public boolean writeDatFile(String fPath,int bodyLen) throws IOException {
         File f = new File(fPath);
         if (!f.exists()) {
             File pf = f.getParentFile();
@@ -104,7 +108,12 @@ public class TianJinDatFile {
         FileOutputStream output = new FileOutputStream(f);
         output.write(this.fileHead.getDataBody());
         for (TianJinGuaoBody bo : this.bList) {
-            bo.reload();
+            if(bodyLen == StaticVar.guAoBodyOldLen){
+                bo.reload();
+            }else{
+                bo.reloadNew();
+            }
+            
             output.write(bo.getDataBody());
             output.write(bo.getImage());
         }

@@ -6,6 +6,7 @@
 package com.poka.entity;
 
 import com.poka.util.LogManager;
+import com.poka.util.StaticVar;
 import com.poka.util.StringUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -109,14 +110,14 @@ output.write(combine(this.cmdHead,this.cmdReadData,intToBytes(0x00000000),intToB
                 return msg;
             }
 
-            boolean re = DataFile.readFile(input);
+            boolean re = DataFile.readFile(input,StaticVar.guAoBodyOldLen);
             if (!re) {
                 msg.setResult(-1);
                 msg.setErrMsg("get file data err!");
                 this.respon(input, output, this.cmdNoData);
                 return msg;
             }
-//            System.out.println("getRecordCount:"+DataFile.getFileHead().getRecordCount());
+//            System.out.println("getRecordCount:"+DataFile.getFileHead().getRecordCount());            
             this.respon(input, output, this.cmdHasData);
 
         } catch (IOException ex) {

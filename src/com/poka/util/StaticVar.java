@@ -26,4 +26,8 @@ public class StaticVar {
     public static String noTimer = "1";  //1不定时
     public static String isZip = "0";  //0压缩
     public static String noZip = "1";  //1不压缩
+    public static int guAoBodyOldLen = 88;  //古鳌旧协议主体长度为88个字节
+    public static int guAoBodyNewLen = 96;  //古鳌新协议主体长度为96个字节
+    
+    
 }

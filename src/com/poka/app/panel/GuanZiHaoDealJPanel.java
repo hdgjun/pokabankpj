@@ -1381,7 +1381,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                     for (PokaFsnBody mybd : bd) {
                         String moneyType = mybd.getTfFlag();
 //                      System.out.println(mybd.getsNo());
-                        if(moneyType.equals("1")){      //流通钞
+                        if(moneyType.equals("1")){      //流通钞                           
                             pokaFsn.getbList().add(mybd);
                         }else{
                             pokaFsnC.getbList().add(mybd);
@@ -1530,7 +1530,6 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                                 if (this.xml.getDiaoChaoLogin().equals("1")) {
                                     StaticVar.loginUser = qingdianyuanjTextField.getText();
                                 }
-
                                 //生成捆ID                     
                                 String kunID = BundleDeal.productBKbunId(StaticVar.loginUser, juanbie, 1);
                                 //生成fsn            
