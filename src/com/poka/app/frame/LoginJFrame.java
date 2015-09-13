@@ -492,7 +492,7 @@ public class LoginJFrame extends javax.swing.JFrame implements KeyListener {
             public void run() {
                 logger.log(Level.INFO, "Server start!");
                 List<Arg> argList = XmlSax.getInstance().getArgList();
-                StaticVar.cfgMap = new HashMap<String, String>();
+                StaticVar.cfgMap.clear();
                 for (Arg a : argList) {
                     StaticVar.cfgMap.put(a.getAkey(), a.getAvalue());
                 }

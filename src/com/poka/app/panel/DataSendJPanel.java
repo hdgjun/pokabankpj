@@ -138,20 +138,13 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 
         if (this.machinesKewu.size() <= 0) {
             this.guaoReceButton.setEnabled(false);
-
         } else {
             this.flashMachClient();
         }
        
-
-        List<Arg> argList = xml.getArgList();
-        StaticVar.cfgMap = new HashMap<String, String>();
-        for (Arg a : argList) {
-            StaticVar.cfgMap.put(a.getAkey(), a.getAvalue());
-        }
         propertyGuao = new FsnComProperty(StaticVar.bankId, StaticVar.agencyNo, StaticVar.cfgMap.get(argPro.localAddr), "", this);
 
-        guaoTimet = new Timer(6000, new ActionListener() {
+        guaoTimet = new Timer(15000, new ActionListener() {
             FsnComProperty property;
 
             public void setProperty(FsnComProperty property) {
@@ -163,14 +156,14 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                 List<MachinesCfg> list = this.property.getXmlCfg().getGuaoMachines();
                 for (MachinesCfg cfg : list) {
                     propertyGuao.setIp(cfg.getIp());
-
+                    propertyGuao.setMechinaType(cfg.getMachineNum());
                     ClientTypeHandleThread hd = new ClientTypeHandleThread();
                     hd.setProperty(propertyGuao);
                     Thread ht = new Thread(hd);
                     ht.start();
 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(5000);
                     } catch (InterruptedException ex) {
                         logger.log(Level.INFO, null, e);
                         // Logger.getLogger(DataSendJPanel.class.getName()).log(Level.SEVERE, null, ex);
