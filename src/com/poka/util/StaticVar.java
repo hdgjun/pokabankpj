@@ -6,7 +6,6 @@
 
 package com.poka.util;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,7 +17,7 @@ public class StaticVar {
     public static String loginUser = "";   //登录用户
     public static String loginName = "";
     public static String checkUser ="";   //审核用户
-    public final static Map<String,String> cfgMap = new HashMap<String, String>();  //ftp信息Map
+    public static Map<String,String> cfgMap;  //ftp信息Map
     public static String bankId = "";
     public static String agencyNo = "";
     public static String showSoftName = "";

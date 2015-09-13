@@ -493,7 +493,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements KeyListener {
 
         UploadFtp.newDir(localAddr + File.separator + UploadFtp.tem + File.separator + "TEM");
 
-        StaticVar.cfgMap.clear();
+        StaticVar.cfgMap = new HashMap<String, String>();
         for (Arg a : argList) {
             StaticVar.cfgMap.put(a.getAkey(), a.getAvalue());
         }

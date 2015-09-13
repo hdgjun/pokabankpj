@@ -54,13 +54,15 @@ public class ClientTypeHandleThread implements Runnable {
         String ip = this.property.getIp();
         int port = this.property.getPort();
         TianJinGuaoCmd cmd = new TianJinGuaoCmd();
-        cmd.setType(this.property.getMechinaType());
    
         SocketClient client = new SocketClient(ip, port);
         if (!client.connectServer()) {
              client.disConnect();
             return;
         }
+     
+        
+        
         if (time == null) {
             time = (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(BundleDeal.getDBTime());
         }
@@ -69,6 +71,8 @@ public class ClientTypeHandleThread implements Runnable {
            showMsg(PanelMsgEntity.connectMSGType, null, null, ip, PanelMsgEntity.closeState);
             return;
         } else if (msg.getResult() == 1) {
+                //  threadStat[id] = false;
+            //   guAoShowMessage(new PanelMsgEntity("ip为:" + ip + " 的机具没有要上传的数据！", null));
             showMsg(PanelMsgEntity.connectMSGType, null, null, ip, PanelMsgEntity.connectState);
             return;
         }
@@ -77,7 +81,11 @@ public class ClientTypeHandleThread implements Runnable {
         showMsg(PanelMsgEntity.connectMSGType, null, null, ip, PanelMsgEntity.connectState);
         PokaFsn fsn = new PokaFsn();
         TianJinDatFile tjData = msg.getFileData();
-
+//        try {
+//            tjData.writeDatFile("D:\\tem\\aa.txt");
+//        } catch (IOException ex) {
+//            Logger.getLogger(DataSendJPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         int limit = this.property.getLimit();
      
         for (TianJinGuaoBody bd : tjData.getbList()) {
@@ -147,8 +155,10 @@ public class ClientTypeHandleThread implements Runnable {
                 fsn.add(body);
                 
                 showMsg(PanelMsgEntity.monMSGType, null, bd.getsNO().trim(), ip, -1);
+                //   guAoShowMessage(new PanelMsgEntity(null, bd.getsNO().trim()));
             } else {
                 showMsg(PanelMsgEntity.monMSGType, null, bd.getsNO().trim() + "(重复)", ip, -1);
+                //  guAoShowMessage(new PanelMsgEntity(null, bd.getsNO().trim() + "(重复)"));
             }
             System.out.println(bd.getsNO().trim());
         }
@@ -190,6 +200,7 @@ public class ClientTypeHandleThread implements Runnable {
     
     private void showMsg(int busyType, String cmdMsg, String dataMsg, String ip, int state) {
         if (this.property.getDealPanel() != null) {
+            
             PanelMsgEntity pMsg = new PanelMsgEntity(busyType, cmdMsg, dataMsg, ip, state,PanelMsgEntity.clientType);
             MsgThread mt = new MsgThread();
             mt.setDealPanel(this.property.getDealPanel());

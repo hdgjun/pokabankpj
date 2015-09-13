@@ -94,6 +94,7 @@ public class MechinaConfigJFrame extends javax.swing.JFrame implements KeyListen
                 newRow[2] = tem.getUser1();
                 newRow[3] = tem.getUser2();
                 tableModle.addRow(newRow);
+                
             }
         }
         
@@ -326,10 +327,8 @@ public class MechinaConfigJFrame extends javax.swing.JFrame implements KeyListen
         }
         return -1;
     }
-    
     String[] spMechinas = new String[]{"中钞信达点钞机", "伊特诺点钞机", "仁杰点钞机", "新大点钞机", "辽宁聚龙","古鳌点钞机","维融点钞机"};
-    
-    String[] spMechinasKeHu = new String[]{"中钞信达点钞机","2015版中钞信达点钞机", "古鳌点钞机"};
+    String[] spMechinasKeHu = new String[]{"中钞信达点钞机", "古鳌点钞机"};
 
     private void addButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseClicked
         String ip = this.ipTextField.getText().trim();

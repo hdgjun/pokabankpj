@@ -48,6 +48,8 @@ public class TianJinDatFile {
                 if(!readData(temBody.getDataBody(),88,input)){
                    return false;
                 }
+               
+                
                 if(!readData(temBody.getImage(),1544,input)){
                     return false;
                 }
