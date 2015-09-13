@@ -53,7 +53,7 @@ public class GuAoQin implements Runnable, BaseHandle {
                 }
                 byte[] cmd_byte = new byte[2];
                 iRet = input.read(cmd_byte, 0, 2);
-                if (10 != iRet) {
+                if (2 != iRet) {
                     break;
                 }
                 int cmd_int = StringUtil.byteToInt16(cmd_byte, 0);
@@ -61,7 +61,7 @@ public class GuAoQin implements Runnable, BaseHandle {
                     case CMD_TIME: {
                         input.read(end, 0, 4);
                         output.write(cmd_byte);
-                        output.write(new java.text.SimpleDateFormat("yyyyMMddhhnnss").format(new Date()).getBytes("utf-8"));
+                        output.write(new java.text.SimpleDateFormat("yyyyMMddhhmmss").format(new Date()).getBytes("utf-8"));
                     }
                     break;
                     case CMD_PORT_MODE: {
@@ -83,7 +83,7 @@ public class GuAoQin implements Runnable, BaseHandle {
                     }
                     break;
                     case CMD_DATA:
-                    case CMD_DATA_NO_PI: {
+                    case CMD_DATA_NO_PI: {                     
                         PokaFsn temFsn = new PokaFsn();
                         if (!temFsn.readBaseFsnFile(input, cmd_byte[0])) {
                             output.write(cmd_byte);
@@ -91,10 +91,11 @@ public class GuAoQin implements Runnable, BaseHandle {
                             break;
                         }
                          input.read(end, 0, 4);
+                         output.write(cmd_byte);
                          output.write(new byte[]{0, 0});
-                         String date = new java.text.SimpleDateFormat("yyyyMMddhhnnss").format(new Date());
-                         String fsnPath1 = path+File.separator+date+"_"+"1"+".FSN";
-                         String fsnPath2 = path+File.separator+date+"_"+"2"+".FSN";
+                         String date = new java.text.SimpleDateFormat("yyyyMMddhhmmssS").format(new Date());
+                         String fsnPath1 = path+File.separator+date+"_"+"1_"+".FSN";
+                         String fsnPath2 = path+File.separator+date+"_"+"2_"+".FSN";
                          PokaFsn liutong = new PokaFsn();
                          PokaFsn cang = new PokaFsn();
                          for(PokaFsnBody item:temFsn.getbList()){
@@ -106,8 +107,13 @@ public class GuAoQin implements Runnable, BaseHandle {
                                  liutong.add(item);
                              }
                          }
-                         liutong.writeBaseFsnFile(fsnPath1);
-                         cang.writeBaseFsnFile(fsnPath2);
+                         if(liutong.getbList().size()!=0){
+                             liutong.writeBaseFsnFile(fsnPath1);
+                         }
+                         if(cang.getbList().size() != 0){
+                             cang.writeBaseFsnFile(fsnPath2);
+                         }
+                         
                     }
                     break;
                 }
