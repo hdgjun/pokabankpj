@@ -37,6 +37,7 @@ public class XingDaSocketHandler extends AbstractSocketHandle {
     public static final int dataCmd = 0x00000010;
     public static final int errCmd = 0x00000020;
     public static final int beginCmd = 0x00000030;
+    
     public static final int endCmd = 0x00000040;
 
     static Object lock = new Object();
