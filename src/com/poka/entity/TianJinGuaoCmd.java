@@ -108,7 +108,7 @@ public class TianJinGuaoCmd {
                 return msg;
             }
 
-            boolean re = DataFile.readFile(input,type);
+            boolean re = DataFile.readFile(input);
             if (!re) {
                 msg.setResult(-1);
                 msg.setErrMsg("get file data err!");
@@ -116,7 +116,10 @@ public class TianJinGuaoCmd {
                 return msg;
             }
             
-            
+            if(FsnComProperty.zhongchao2015Metype_c == type){
+                byte[] b = new byte[136];
+                TianJinDatFile.readData(b, 136, input);
+            }
 //            System.out.println("getRecordCount:"+DataFile.getFileHead().getRecordCount());
             this.respon(input, output, this.cmdHasData);
 
