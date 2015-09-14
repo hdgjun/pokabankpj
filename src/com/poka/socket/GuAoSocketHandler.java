@@ -13,6 +13,7 @@ import com.poka.entity.PokaFsnBody;
 import com.poka.util.LogManager;
 import com.poka.util.MsgThread;
 import com.poka.util.StaticVar;
+import com.poka.util.StringUtil;
 import com.poka.util.UploadFtp;
 import java.io.File;
 import java.io.IOException;
@@ -56,19 +57,20 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
         InputStream input = null;
         OutputStream output = null;
         String ip = null;
+        boolean flag = false;
         try {
             Socket client = this.socketHandle.getSocket();
 
             input = client.getInputStream();
             output = client.getOutputStream();
 
-            output.write("0000".getBytes());
-            String date = new java.text.SimpleDateFormat("yyyyMMddhhnnss").format(new Date());
-            output.write(date.getBytes("utf-8"));
+            String date = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            output.write(("0000" + date).getBytes());
+
             ip = client.getInetAddress().getHostAddress();
 
             byte cmd[] = new byte[4];
-            byte len[] = new byte[2];
+            byte len[] = new byte[4];
             while (StaticVar.monTcpListen) {
                 if (client.isConnected()) {
                     PokaFsn.readData(cmd, 4, input);
@@ -77,34 +79,42 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
                 }
                 String scmd = new String(cmd);
 
-                PokaFsn.readData(len, 2, input);
+                PokaFsn.readData(len, 4, input);
 
-                int iLen = len[1] * 256 + len[0];
+                int iLen = StringUtil.byteToInt32(len, 0);
 
                 byte data[] = new byte[iLen];
 
                 PokaFsn.readData(data, iLen, input);
-
+                System.out.println("cmd:" + scmd + "    len:" + iLen);
                 switch (scmd) {
                     case G1Cmd: {
-                        output.write("0000".getBytes());
-                        output.write((new java.text.SimpleDateFormat("yyyyMMddhhnnss").format(new Date())).getBytes("utf-8"));
+                        String date2 = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+                        output.write(("0000" + date2).getBytes());
+                        flag = true;
                         break;
                     }
                     case G2Cmd: {
-                        output.write("0000".getBytes());             
-                        break;
-                    }
-                    case G3Cmd: {
+                        System.out.println("g2cmd replay 0000");
+                        output.write("0000".getBytes());
+
                         PokaFsn.readData(cmd, 4, input);
-                        PokaFsn.readData(len, 2, input);
-                        byte td;
-                        while (true) {
-                            td = (byte) input.read();
-                            if (td == 0x6E) {
-                                break;
-                            }
-                        }
+                        PokaFsn.readData(len, 4, input);
+
+                        System.out.println("in case 2 cmd:" + new String(cmd) + "    len:" + StringUtil.byteToInt32(len, 0));
+                        
+                        byte[] h1 = new byte[4];
+                        PokaFsn.readData(h1, 4, input);
+                        System.out.println("文件版本:" + new String(h1));
+
+                        int nameLen1;
+                        nameLen1 = input.read();
+
+                        System.out.println("fsn文件名长度:" + nameLen1);
+
+                        byte[] fsnName = new byte[nameLen1];
+                        PokaFsn.readData(fsnName, nameLen1, input);
+                        System.out.println("fsn文件名:" + new String(fsnName));
 
                         PokaFsn temFsn = new PokaFsn();
                         if (!temFsn.readBaseFsnFile(input, (byte) 0x30)) {
@@ -114,13 +124,15 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
                         output.write("0000".getBytes());
 
                         PokaFsn.readData(cmd, 4, input);
-                        PokaFsn.readData(len, 2, input);
-                        iLen = len[1] * 256 + len[0];
+                        PokaFsn.readData(len, 4, input);
+
+                        System.out.println("in case 2 txt cmd:" + new String(cmd) + "    len:" + StringUtil.byteToInt32(len, 0));
+                        iLen = StringUtil.byteToInt32(len, 0);
 
                         byte data1[] = new byte[iLen];
 
                         PokaFsn.readData(data1, iLen, input);
-                        
+
                         output.write("0000".getBytes());
                         int i;
                         if (fsn == null) {
@@ -194,14 +206,23 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
                         }
                         break;
                     }
+                    case G4Cmd:
+                        flag = true;
+                        break;
                     default: {
+
                         break;
                     }
                 }
-                break;
+
+                System.out.println("flag:" + flag);
+                if (flag) {
+                    break;
+                }
+                // break;
             }
         } catch (IOException ex) {
-
+            System.out.println(ex.getMessage());
         } finally {
             if (socketHandle.getSocket() != null) {
                 try {
@@ -248,5 +269,4 @@ public class GuAoSocketHandler extends AbstractSocketHandle {
             return this.property.getXmlCfg().isRepeatMonATMAdd(mon, property.getLimit());
         }
     }
-
 }

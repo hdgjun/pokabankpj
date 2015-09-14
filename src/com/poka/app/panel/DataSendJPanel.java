@@ -151,7 +151,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         }
         propertyGuao = new FsnComProperty(StaticVar.bankId, StaticVar.agencyNo, StaticVar.cfgMap.get(argPro.localAddr), "", this);
 
-        guaoTimet = new Timer(6000, new ActionListener() {
+        guaoTimet = new Timer(3000, new ActionListener() {
             FsnComProperty property;
 
             public void setProperty(FsnComProperty property) {
@@ -163,19 +163,16 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                 List<MachinesCfg> list = this.property.getXmlCfg().getGuaoMachines();
                 for (MachinesCfg cfg : list) {
                     propertyGuao.setIp(cfg.getIp());
-
-                    ClientTypeHandleThread hd = new ClientTypeHandleThread();
+                    ClientTypeHandleThread hd = new ClientTypeHandleThread();                    
                     hd.setProperty(propertyGuao);
                     Thread ht = new Thread(hd);
                     ht.start();
-
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
                         logger.log(Level.INFO, null, e);
                         // Logger.getLogger(DataSendJPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
                 }
             }
         });
@@ -1445,7 +1442,6 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             int moType = this.tcpComboBox.getSelectedIndex();
             String num = this.numTextField.getText();
             String port = this.portTextField.getText();
-
             if (port.length() <= 0) {
                 JOptionPane.showMessageDialog(null, "请输入正确的监听端口号！");
                 this.portTextField.requestFocus();

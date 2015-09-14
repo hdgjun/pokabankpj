@@ -314,7 +314,40 @@ public class PokaSftp {
         }
 
     }
+    //上传reupload中的文件
+    public static void uploadFile(){       
+            File dir = new File(((String) StaticVar.cfgMap.get(argPro.localAddr)) + File.separator + UploadFtp.reUpload);
+            File[] files = dir.listFiles();
+            if (files == null) {
+                return;
+            }
+            PokaSftp sftp = new PokaSftp();
+            boolean flag = false;
+            sftp.connect(StaticVar.cfgMap.get(argPro.ftp), PokaSftp.SFTP_DEFAULT_PORT, StaticVar.cfgMap.get(argPro.user), StaticVar.cfgMap.get(argPro.pwd), 6000);
+            if (sftp.getSftp() == null) {
+                return;
+            }
+            String fileType = "";
+            for (File f : files) {
+                String file = f.getName().trim();
+                if (file.endsWith(".FSN") || file.endsWith(".FSN.zip")) {
+                    fileType = UploadFtp.fsnbak;                  
+                } else if (file.endsWith(".BK")) {
+                    fileType = UploadFtp.bkbak;
+                } else if (file.endsWith(".CT")) {
+                    fileType = UploadFtp.ctbak;
+                } else if (file.endsWith(".BF")) {
+                    fileType = UploadFtp.bfbak;
+                }
+                flag = UploadFtp.againFileUploadFtp(file, fileType, sftp);
+                if (flag) {//上传成功，备份poka fsn文件
 
+                } else {//上传失败，不处理poka fsn文件
+
+                }
+            }
+            sftp.disConnect();
+    }
     public ChannelSftp getSftp() {
         return sftp;
     }

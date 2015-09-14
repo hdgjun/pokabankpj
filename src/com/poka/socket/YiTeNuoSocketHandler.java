@@ -191,10 +191,11 @@ public class YiTeNuoSocketHandler extends AbstractSocketHandle {
                         String newPokaPath = this.property.getPath() + File.separator + UploadFtp.tem + File.separator + newPokaName;
 
                         fsn.writePokaFsnFile(newPokaPath);
+                        UploadFtp.uploadFsnFile(newPokaPath, newPokaName);
                         fsn.getFhead().setCount(0);
                         fsn.getbList().clear();
                         fsn = null;
-                        UploadFtp.oneFileUploadFtp(newPokaName, UploadFtp.fsnbak);
+                        //UploadFtp.oneFileUploadFtp(newPokaName, UploadFtp.fsnbak);
                     }
                 }
                 

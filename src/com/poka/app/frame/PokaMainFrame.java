@@ -4,6 +4,7 @@ import com.poka.app.impl.LoginActionI;
 import com.poka.app.panel.ATMAddMonJPanel;
 import com.poka.app.panel.AboutJPanel;
 import com.poka.app.panel.ConfigJPanel;
+import static com.poka.app.panel.ConfigJPanel.timer;
 import com.poka.app.panel.DataSendJPanel;
 import com.poka.app.panel.GetMoneyJPanel;
 import com.poka.app.panel.GuanZiHaoDealJPanel;
@@ -106,6 +107,11 @@ public final class PokaMainFrame extends javax.swing.JFrame implements ActionLis
         Thread tt = new Thread(new Runnable() {
             @Override
             public void run() {
+                //是否执行定时上传fsn操作                
+                if(StaticVar.cfgMap.get(argPro.isTimer).equals(StaticVar.isTimer)){
+                    timer(StaticVar.cfgMap.get(argPro.selfTimer));
+                    return;
+                }
 
                 File dir = new File(((String) StaticVar.cfgMap.get(argPro.localAddr)) + File.separator + UploadFtp.reUpload);
                 File[] files = dir.listFiles();

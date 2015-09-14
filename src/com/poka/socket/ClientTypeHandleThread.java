@@ -56,13 +56,11 @@ public class ClientTypeHandleThread implements Runnable {
         TianJinGuaoCmd cmd = new TianJinGuaoCmd();
    
         SocketClient client = new SocketClient(ip, port);
+        
         if (!client.connectServer()) {
              client.disConnect();
             return;
         }
-     
-        
-        
         if (time == null) {
             time = (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(BundleDeal.getDBTime());
         }

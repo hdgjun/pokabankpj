@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author Administrator
  */
-public class KoreanBrandExtension {
+public class KoreanBrandExtension implements Runnable{
 
     static final Logger logger = LogManager.getLogger(KoreanBrandExtension.class);
     private int listenPort;
@@ -29,7 +29,6 @@ public class KoreanBrandExtension {
     private final int POOL_SIZE = 10;//单个CPU线程池大小
     private String path;
     private String handle = "";
-
 
     public KoreanBrandExtension(){
          this.stopFlag = false;
@@ -43,7 +42,9 @@ public class KoreanBrandExtension {
     private void acceptConnections() {
 
         try {
+            System.out.println("hello");
             serverSocket = new ServerSocket(getListenPort());
+            System.out.println("hello11111");
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
@@ -141,6 +142,11 @@ public class KoreanBrandExtension {
      */
     public void setHandle(String handle) {
         this.handle = handle;
+    }
+
+    @Override
+    public void run() {
+       acceptConnections();
     }
 
 }

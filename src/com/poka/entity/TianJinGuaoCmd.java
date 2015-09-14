@@ -6,6 +6,7 @@
 package com.poka.entity;
 
 import com.poka.util.LogManager;
+import com.poka.util.StaticVar;
 import com.poka.util.StringUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,8 @@ import java.util.logging.Logger;
 public class TianJinGuaoCmd {
     static final Logger logger = LogManager.getLogger(TianJinGuaoCmd.class);
     private final byte[] cmdCheckData = new byte[] {(byte)0x00,(byte)0x00,(byte)0x00,(byte)0xF0};
+  //  private final byte[] cmdCheckData = new byte[] {(byte)0xF0,(byte)0x00,(byte)0x00,(byte)0x00};
+    
     private final byte[] cmdReadData =  new byte[] {(byte)0x01,(byte)0x00,(byte)0x00,(byte)0xF0};
     private final byte[] cmdReadDataAfterTime =  new byte[] {(byte)0x02,(byte)0x00,(byte)0x00,(byte)0xF0};
     private final byte[] cmdSetTime =  new byte[] {(byte)0x03,(byte)0x00,(byte)0x00,(byte)0xF0};
@@ -27,7 +30,8 @@ public class TianJinGuaoCmd {
     private final byte[] cmdSetMechina = new byte[] {(byte)0x05,(byte)0x00,(byte)0x00,(byte)0xF0};
     private final byte[] cmdSetBank =  new byte[] {(byte)0x06,(byte)0x00,(byte)0x00,(byte)0xF0};
     private final byte[] cmdReturn =  new byte[] {(byte)0x07,(byte)0x00,(byte)0x00,(byte)0xF0};
-
+    
+  //  private final byte[] cmdHead = new byte[] {(byte)0x00,(byte)0x00,(byte)0x00,(byte)0x00};
     private final byte[] cmdHead = new byte[] {(byte)0x00,(byte)0x55,(byte)0xAA,(byte)0xFF};
     private final byte[] cmdReady =  new byte[] {(byte)0xAA,(byte)0xAA,(byte)0xAA,(byte)0xAA};
     private final byte[] cmdErr =  new byte[] {(byte)0x55,(byte)0x55,(byte)0x55,(byte)0x55};
@@ -42,21 +46,22 @@ public class TianJinGuaoCmd {
             msg.setResult(-1);
             if (time == null) {
                 //上位机查询设备是否有数据要上传
-                output.write(combine(this.cmdHead,this.cmdCheckData,intToBytes(0x00000000),intToBytes(0x00000040)));
+                output.write(combine(this.cmdHead,this.cmdCheckData,intToBytes(0x00000000),intToBytes(0x00000004)));  //0x00000040改成了04
             } else {//特定时间
-                output.write(combine(this.cmdHead,this.cmdReadDataAfterTime,intToBytes(0x0000000E),intToBytes(0x00000040)));
+                output.write(combine(this.cmdHead,this.cmdReadDataAfterTime,intToBytes(0x0000000E),intToBytes(0x00000004)));
             }
 
             byte[] result = new byte[4];
             int len;
             
-           // len = input.read(result);
+           
             if (!TianJinDatFile.readData(result, 4, input)) {
                 msg.setResult(-1);
                 msg.setErrMsg("read response err 1!");
                 return msg;
             }
             String tem = StringUtil.byteToHexString2(result, 0, 4);
+            System.out.println(tem);
             if (!tem.equals("AAAAAAAA")) {
                 msg.setResult(-1);
                 msg.setErrMsg("the Counting machine is not ready!");
@@ -89,7 +94,7 @@ public class TianJinGuaoCmd {
 //            output.write(this.cmdReadData);
 //            output.write(intToBytes(0x00000000));
 //            output.write(intToBytes(dataLen));
-output.write(combine(this.cmdHead,this.cmdReadData,intToBytes(0x00000000),intToBytes(dataLen)));
+            output.write(combine(this.cmdHead,this.cmdReadData,intToBytes(0x00000000),intToBytes(dataLen)));
           //  len = input.read(result);
             if (!TianJinDatFile.readData(result, 4, input)) {
                 msg.setResult(-1);
@@ -105,14 +110,14 @@ output.write(combine(this.cmdHead,this.cmdReadData,intToBytes(0x00000000),intToB
                 return msg;
             }
 
-            boolean re = DataFile.readFile(input);
+            boolean re = DataFile.readFile(input,StaticVar.guAoBodyOldLen);
             if (!re) {
                 msg.setResult(-1);
                 msg.setErrMsg("get file data err!");
                 this.respon(input, output, this.cmdNoData);
                 return msg;
             }
-//            System.out.println("getRecordCount:"+DataFile.getFileHead().getRecordCount());
+         
             this.respon(input, output, this.cmdHasData);
 
         } catch (IOException ex) {

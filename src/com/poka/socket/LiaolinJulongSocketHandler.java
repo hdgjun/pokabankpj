@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -144,14 +143,16 @@ public class LiaolinJulongSocketHandler extends AbstractSocketHandle {
                         }
 
                         fsn.writePokaFsnFile(this.fsnFilePath);
+                        UploadFtp.uploadFsnFile(this.fsnFilePath, fsn.getFsnName());
                         tem.getbList().clear();
 
                         fsn.getFhead().setCount(0);
-                        fsn.getbList().clear();
-                        File upFile = new File(this.temFileName);
-                        upFile.renameTo(new File(this.property.getPath() + File.separator + UploadFtp.basebak + File.separator + this.temFileName));
-                        upFile.delete();
-                        UploadFtp.oneFileUploadFtp(this.fsnFileName, UploadFtp.fsnbak);
+                        fsn.getbList().clear();                        
+                        //上传fsn
+//                        File upFile = new File(this.temFileName);
+//                        upFile.renameTo(new File(this.property.getPath() + File.separator + UploadFtp.basebak + File.separator + this.temFileName));
+//                        upFile.delete();
+//                        UploadFtp.oneFileUploadFtp(this.fsnFileName, UploadFtp.fsnbak);
                         break;
                     }
                     default: {
