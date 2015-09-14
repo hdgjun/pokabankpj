@@ -117,7 +117,7 @@ public class TianJinGuaoCmd {
                 this.respon(input, output, this.cmdNoData);
                 return msg;
             }
-         
+
             this.respon(input, output, this.cmdHasData);
 
         } catch (IOException ex) {

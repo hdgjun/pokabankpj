@@ -3,16 +3,20 @@
 <root> 
   <bankInfos> 
     <bankInfo myname="冠字号采集软件" id="2"/>  
-    <bankInfo ip="192.168.1.250" port="8001" bankNum="0299" NetWorkNum="0204" id="1"/> 
+    <bankInfo ip="127.0.0.1" port="1433" bankNum="0299" NetWorkNum="0204" id="1"/> 
   </bankInfos>  
   <loginers> 
     <loginer>00000000</loginer> 
   </loginers>  
   <machines> 
     <machine machineType="中钞信达点钞机" machineNum="0" ip="192.168.1.2" user1="11111111" user2="1111111" type="0"/>  
-    <machine machineType="中钞信达点钞机" machineNum="0" ip="10.16.130.120" user1="9999" user2="999999" type="0"/>  
+    <machine machineType="中钞信达点钞机" machineNum="0" ip="10.16.130.120" user1="9999000" user2="999999" type="0"/>  
     <machine machineType="仁杰点钞机" machineNum="2" ip="192.168.1.221" user1="11111111" user2="22222222" type="0"/>  
-    <machine machineType="中钞信达点钞机" machineNum="0" ip="10.16.130.119" user1="2222" user2="22" type="2"/> 
+    <machine machineType="中钞信达点钞机" machineNum="0" ip="10.16.130.119" user1="2222" user2="22" type="2"/>  
+    <machine machineType="中钞信达点钞机" machineNum="0" ip="192.168.100.18" user1="00000000" user2="00000000" type="0"/>  
+    <machine machineType="中钞信达点钞机" machineNum="0" ip="192.168.1.11" user1="11111111" user2="01111111" type="0"/>  
+    <machine machineType="中钞信达点钞机" machineNum="0" ip="172.21.1.200" user1="11111111" user2="01111111" type="0"/>  
+    <machine machineType="古鳌点钞机" machineNum="1" ip="192.168.1.10" user1="00000000" user2="00000000" type="2"/> 
   </machines>  
   <addcoms> 
     <com>COM2</com> 
@@ -24,20 +28,27 @@
     <lastSize>155*77</lastSize> 
   </paperSize>  
   <args> 
-    <ftp>192.168.100.233</ftp>  
+    <ftp>192.168.100.224</ftp>  
     <user>root</user>  
-    <pwd>123456</pwd>  
+    <pwd>root</pwd>  
     <localAddr>D:\fsn</localAddr>  
     <remoteAddr>/fsn</remoteAddr>  
     <updatePath>/home/poka/update</updatePath>  
-    <softVersion>VGX141218.2</softVersion> 
+    <softVersion>VGX150812.0</softVersion>  
+    <isTimer>0</isTimer>  
+    <!--0定时 1不定时-->  
+    <selfTimer>13-53</selfTimer>  
+    <isZip>0</isZip>  
+    <!--0压缩 1不压缩-->  
+    <webPath/>  
+    <port>22</port> 
   </args>  
   <login>1</login>  
   <mechineNo> 
     <title>00000000000000</title> 
   </mechineNo>  
   <bankName> 
-    <name>gfggfgf</name> 
+    <name>中国银行</name> 
   </bankName>  
   <folwMoney> 
     <flow>1|2</flow>  
@@ -48,7 +59,7 @@
     <mb>2</mb> 
   </grmachine>  
   <QFJ> 
-    <laftQF>4</laftQF> 
+    <laftQF>5</laftQF> 
   </QFJ>  
   <quans> 
     <A100A10>5A</A100A10>  
@@ -69,11 +80,14 @@
   <dgC>[0-9A-Za-z]*_[0-9]{14}_[0-9A-Za-z]{8}_[0-9]*_(4|8|12)[.]FSN$</dgC>  
   <zcxdL>[0-9]{8}_[0-9A-Za-z]*_[0-9]*_1_(CNY)[.]FSN$</zcxdL>  
   <zcxdC>[0-9]{8}_[0-9A-Za-z]*_[0-9]*_2_(CNY)[.]FSN$</zcxdC>  
-  <hport> 
-    <name>2221</name> 
-  </hport>  
   <dport> 
-    <client>22321</client>  
-    <server>1001</server> 
-  </dport> 
+    <client>2222</client>  
+    <server>2222</server> 
+  </dport>  
+  <hport>9110</hport>  
+  <lflljl>CNY15_[0-9]{14}_[0-9A-Za-z]*_[0-9A-Za-z_]*[.]FSN$</lflljl>  
+  <koreadL>[0-9A-Za-z]+[.]FSN$</koreadL>  
+  <koreadC>[0-9A-Z]+[.]FSN11111111111111111$</koreadC>  
+  <guaoL>[0-9]{14}_1_+[.]FSN$</guaoL>  
+  <guaoC>[0-9]{14}_2_+[.]FSN$</guaoC> 
 </root>

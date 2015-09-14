@@ -53,8 +53,6 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
 
     static final Logger logger = LogManager.getLogger(GuanZiHaoDealJPanel.class);
 
-
-
     public final void showPort(boolean b) {
         this.port.setVisible(b);
         this.portJLabel.setVisible(b);
@@ -1315,7 +1313,9 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                         
                     }
                     refreshFile(XmlSax.getInstance().getKoreadFileNameL(), XmlSax.getInstance().getKoreadFileNameC());
+
                 } else if (meTypeComboBox.getSelectedIndex() == 5){//古鳌清分机
+
                     if (!koread_flag) {
                         koreadLis.setListenPort(Integer.parseInt(port.getText().trim()));
                         koreadLis.setHandle(GuAoQin.class.getName());
@@ -1333,6 +1333,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                         refreshFile(XmlSax.getInstance().getZCXDFileNameL(),XmlSax.getInstance().getZCXDFileNameC());
                         koread_flag = false;
                     }
+
                 }
             }
         });

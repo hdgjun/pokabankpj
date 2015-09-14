@@ -53,8 +53,8 @@ public class XmlSax {
     // private static final String gzhFile = path + "\\GZH.xml";
     private static final String sqlserverFile = path + "\\hibernate.cfg.sqlserver.xml";
 
-    private final String encodingType = "GBK";
-
+    private final String encodingType = "utf-8";
+//    private final String encodingType = "gbk"; //编译时 字符编码    
     private final String dbTyep = "mysql";
 
     private String ip = "";
@@ -305,7 +305,7 @@ public class XmlSax {
         }
         return res;
     }
-public String getGuAaoFileNameL() {
+    public String getGuAaoFileNameL() {
         Document doc = load(bankFile, false);
         Element rootElm = doc.getRootElement();
         if (rootElm == null) {
