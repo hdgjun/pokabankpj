@@ -16,8 +16,6 @@ import com.poka.util.MsgThread;
 import com.poka.util.StaticVar;
 import com.poka.util.StringUtil;
 import com.poka.util.UploadFtp;
-import static com.poka.util.ZipUtil.compress;
-import com.poka.util.argPro;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
