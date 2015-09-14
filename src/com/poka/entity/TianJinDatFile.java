@@ -31,7 +31,7 @@ public class TianJinDatFile {
         this.fileHead = new TianJinGuaoHead();
     }
 
-    public boolean readFile(InputStream input) {
+    public boolean readFile(InputStream input, int type) {
         try {
             byte[] tem = fileHead.getDataBody();
             int len = input.read(tem);
@@ -41,28 +41,32 @@ public class TianJinDatFile {
             }
             fileHead.init();
             bList.clear();
-          
+
             System.out.println("fileHead.getRecordCount():" + fileHead.getRecordCount());
             for (int i = 0; i < fileHead.getRecordCount(); i++) {
                 TianJinGuaoBody temBody = new TianJinGuaoBody();
-                if(!readData(temBody.getDataBody(),88,input)){
-                   return false;
-                }
-                if(!readData(temBody.getImage(),1544,input)){
+                if (!readData(temBody.getDataBody(), 88, input)) {
                     return false;
+                }
+                if (!readData(temBody.getImage(), 1544, input)) {
+                    return false;
+                }
+                if (FsnComProperty.zhongchao2015Metype_c == type) {
+                    byte[] b = new byte[136];
+                    TianJinDatFile.readData(b, 136, input);
                 }
                 temBody.init();
                 bList.add(temBody);
             }
-         
+
             return true;
         } catch (IOException ex) {
-           logger.log(Level.INFO, null,ex);
+            logger.log(Level.INFO, null, ex);
             return false;
         }
     }
 
-    public static  boolean readData(byte[] disDa, int dataLen, InputStream input) {
+    public static boolean readData(byte[] disDa, int dataLen, InputStream input) {
         try {
             int count = dataLen;
             int lo = 0;
@@ -78,7 +82,7 @@ public class TianJinDatFile {
                 return false;
             }
         } catch (IOException ex) {
-           logger.log(Level.INFO, null,ex);
+            logger.log(Level.INFO, null, ex);
             return false;
         }
         return true;
