@@ -65,6 +65,7 @@ public class ClientTypeHandleThread implements Runnable {
             time = (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(BundleDeal.getDBTime());
         }
         TianJinGuaoMsg msg = cmd.getDataFromGuao(client.getInStream(), client.getOutStream(), null);
+        logger.log(Level.INFO, "msg:{0}", msg.getErrMsg());
         if (msg.getResult() == -1) {
            showMsg(PanelMsgEntity.connectMSGType, null, null, ip, PanelMsgEntity.closeState);
             return;
@@ -81,17 +82,11 @@ public class ClientTypeHandleThread implements Runnable {
         int limit = this.property.getLimit();
      
         for (TianJinGuaoBody bd : tjData.getbList()) {
-            if (bd.getsNO().trim().length() <= 0) {
+            if (bd.getsNO().length() <= 0) {
                 continue;
             }
-            Pattern pattern = Pattern.compile("^[0-9A-Z]*");
-//                Pattern pattern = Pattern.compile("[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]");
-            Matcher matcher = pattern.matcher(bd.getsNO().trim());
-            boolean b = matcher.matches();
-            if (!b) {
-                continue;
-            }
-            if (removeRepeat(bd.getsNO().trim(), limit)) {
+            String sno = bd.getsNO().trim().replaceAll("[^0-9A-Za-z?*]", "*");
+            if (removeRepeat(sno, limit)) {
                 PokaFsnBody body = new PokaFsnBody();
                 OperationUser usr = null;
                 usr = this.property.getXmlCfg().getUser1AndUser2(ip, FsnComProperty.guaoBusType);
@@ -138,19 +133,19 @@ public class ClientTypeHandleThread implements Runnable {
                 }
 
                 body.setValuta(Integer.parseInt(bd.getValuta()));
-                body.setCharNum(bd.getsNO().trim().length());
-                body.setsNo(bd.getsNO().trim());
+                body.setCharNum(sno.trim().length());
+                body.setsNo(sno);
                 body.setMacinSno(bd.getMacinSno());
                 body.getImageSNo().setImData(bd.getImage());
                 body.getImageSNo().init();
 
                 fsn.add(body);
                 
-                showMsg(PanelMsgEntity.monMSGType, null, bd.getsNO().trim(), ip, -1);
+                showMsg(PanelMsgEntity.monMSGType, null, sno, ip, -1);
             } else {
-                showMsg(PanelMsgEntity.monMSGType, null, bd.getsNO().trim() + "(重复)", ip, -1);
+                showMsg(PanelMsgEntity.monMSGType, null, sno + "(重复)", ip, -1);
             }
-            System.out.println(bd.getsNO().trim());
+            System.out.println(sno);
         }
         
         if (fsn.getbList().size() > 0) {

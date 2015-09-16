@@ -26,8 +26,22 @@ public class TianJinGuaoBody {
     private String bank = "";
     private String reservel = "";
 
-    private byte[] dataBody = new byte[88];
+    public final static int oldSize = 88;
+    public final static int newSize = 96;
+    private int currentSize = 88;
+
+    private byte[] dataBody;
     private byte[] image = new byte[1544];
+
+    public TianJinGuaoBody(int size) {
+        if (size != TianJinGuaoBody.oldSize && size != TianJinGuaoBody.newSize) {
+            dataBody = new byte[TianJinGuaoBody.oldSize];
+            currentSize = TianJinGuaoBody.oldSize;
+        } else {
+            dataBody = new byte[size];
+            currentSize = size;
+        }
+    }
 
     public void init() {
         int loc = 0;
@@ -47,11 +61,20 @@ public class TianJinGuaoBody {
         loc += 24;
         this.user = StringUtil.byteToString2(dataBody, loc, 7);
         loc += 7;
-        this.dots = StringUtil.byteToString2(dataBody, loc, 6);
-        loc += 6;
-        this.bank = StringUtil.byteToString2(dataBody, loc, 6);
-        loc += 6;
-        this.reservel = StringUtil.byteToString2(dataBody, loc, 4);
+
+        if (TianJinGuaoBody.oldSize == this.currentSize) {
+            this.dots = StringUtil.byteToString2(dataBody, loc, 6);
+            loc += 6;
+            this.bank = StringUtil.byteToString2(dataBody, loc, 6);
+            loc += 6;
+            this.reservel = StringUtil.byteToString2(dataBody, loc, 4);
+        } else {
+            this.dots = StringUtil.byteToString2(dataBody, loc, 11);
+            loc += 11;
+            this.bank = StringUtil.byteToString2(dataBody, loc, 11);
+            loc += 11;
+            this.reservel = StringUtil.byteToString2(dataBody, loc, 2);
+        }
     }
 
     public void reload() {
@@ -66,21 +89,30 @@ public class TianJinGuaoBody {
         loca += 3;
         StringUtil.charToByte2(this.valuta.toCharArray(), 6, loca, this.dataBody);
         loca += 6;
-        
+
         this.dataBody[loca++] = (byte) this.vType;
         this.dataBody[loca++] = (byte) this.mType;
-        
+
         StringUtil.charToByte2(this.macinSno.toCharArray(), 24, loca, this.dataBody);
         loca += 24;
         StringUtil.charToByte2(this.user.toCharArray(), 7, loca, this.dataBody);
         loca += 7;
-        StringUtil.charToByte2(this.dots.toCharArray(), 6, loca, this.dataBody);
-        loca += 6;
-        StringUtil.charToByte2(this.bank.toCharArray(), 6, loca, this.dataBody);
-        loca += 6;
-        StringUtil.charToByte2(this.reservel.toCharArray(), 4, loca, this.dataBody);
-        loca += 4;
-        
+
+        if (TianJinGuaoBody.oldSize == this.currentSize) {
+            StringUtil.charToByte2(this.dots.toCharArray(), 6, loca, this.dataBody);
+            loca += 6;
+            StringUtil.charToByte2(this.bank.toCharArray(), 6, loca, this.dataBody);
+            loca += 6;
+            StringUtil.charToByte2(this.reservel.toCharArray(), 4, loca, this.dataBody);
+            loca += 4;
+        } else {
+            StringUtil.charToByte2(this.dots.toCharArray(), 11, loca, this.dataBody);
+            loca += 11;
+            StringUtil.charToByte2(this.bank.toCharArray(), 11, loca, this.dataBody);
+            loca += 11;
+            StringUtil.charToByte2(this.reservel.toCharArray(), 2, loca, this.dataBody);
+            loca += 2;
+        }
     }
 
     /**

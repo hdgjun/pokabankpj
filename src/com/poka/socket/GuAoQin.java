@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.codec.binary.Hex;
 
 /**
  *
@@ -45,10 +46,13 @@ public class GuAoQin implements Runnable, BaseHandle {
             input = connection.getInputStream();
             output = connection.getOutputStream();
             while (true) {
+                System.out.println("start~~");
                 byte[] end = new byte[4];
                 byte[] data1 = new byte[10];
                 iRet = input.read(data1, 0, 10);
                 if (10 != iRet) {
+                    System.out.println("break:"+iRet);
+                    System.out.println(Hex.encodeHexString(data1));
                     break;
                 }
                 byte[] cmd_byte = new byte[2];

@@ -52,6 +52,7 @@ public class KoreanBrandExtension {
         Socket incomingConnection = null;
         while (true) {
             try {
+                System.out.println("try to accept ");
                 incomingConnection = serverSocket.accept();
                 if(this.stopFlag){
                     if(incomingConnection != null){
@@ -59,7 +60,7 @@ public class KoreanBrandExtension {
                     }
                     break;
                 }
-                
+                System.out.println("after");
                 Class<?> runable = Class.forName(handle);
                 BaseHandle thread = (BaseHandle)runable.newInstance();
                 thread.init(incomingConnection, path);

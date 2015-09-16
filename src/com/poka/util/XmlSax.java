@@ -314,9 +314,9 @@ public String getGuAaoFileNameL() {
         Element root1Elm = rootElm.element("guaoL");
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("guaoL");
-            root1Elm.setText("[0-9]{14}_1_+[.]FSN$");
+            root1Elm.setText("[0-9]{17}_1_+[.]FSN$");
             writeToXml(doc, bankFile);
-            return "[0-9]{14}_1_+[.]FSN$";
+            return "[0-9]{17}_1_+[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
@@ -331,9 +331,9 @@ public String getGuAaoFileNameL() {
         Element root1Elm = rootElm.element("guaoC");
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("guaoC");
-            root1Elm.setText("[0-9]{14}_2_+[.]FSN$");
+            root1Elm.setText("[0-9]{17}_2_+[.]FSN$");
             writeToXml(doc, bankFile);
-            return "[0-9]{14}_2_+[.]FSN$";
+            return "[0-9]{17}_2_+[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }

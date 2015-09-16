@@ -69,7 +69,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         jPanel7.setVisible(false);
         this.stopDealjButton.setEnabled(false);
 
-        this.showPort(false);
+        
 
         if (XmlSax.getInstance().getDiaoChaoLogin().equals("1")) {
             userjLabel.setVisible(false);
@@ -90,6 +90,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         } else {
             this.port.setText("2221");
         }
+        
         bankId = StaticVar.bankId;  //银行号
         netWorkId = StaticVar.agencyNo;  //网点号
         itemFlag = false;
@@ -116,6 +117,11 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
         this.meTypeComboBox.setSelectedIndex(item);
         if (item != 0) {
             sqlserverCfgjButton.setVisible(false);
+        }
+        if(item == 4 || item == 5){
+            this.showPort(true);
+        }else{
+            this.showPort(false);
         }
         itemFlag = true;
 
@@ -411,8 +417,10 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(bachoice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(bankNamejTextField)))
+                                .addComponent(bankNamejTextField)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(bachoice1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(0, 0, Short.MAX_VALUE))))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                             .addComponent(jLabel10)
                             .addGap(2, 2, 2)
@@ -488,7 +496,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                 logoutButtonMouseClicked(evt);
             }
         });
-        jPanel4.add(logoutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
+        jPanel4.add(logoutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
         jPanel4.add(userLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 79, 23));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 17, 277, 92));
@@ -537,7 +545,7 @@ public class GuanZiHaoDealJPanel extends javax.swing.JPanel implements ActionLis
                 testButtonMouseClicked(evt);
             }
         });
-        jPanel1.add(testButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 450, -1, 36));
+        jPanel1.add(testButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 450, -1, 36));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
