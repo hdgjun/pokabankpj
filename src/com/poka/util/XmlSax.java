@@ -54,7 +54,7 @@ public class XmlSax {
     private static final String sqlserverFile = path + "\\hibernate.cfg.sqlserver.xml";
 
     private final String encodingType = "utf-8";
-//    private final String encodingType = "gbk"; //编译时 字符编码    
+//    private final String encodingType = "gbk"; //±àÒëÊ± ×Ö·û±àÂë    
     private final String dbTyep = "mysql";
 
     private String ip = "";
@@ -88,7 +88,7 @@ public class XmlSax {
             SAXReader saxReader = new SAXReader();
             //saxReader.setValidation(false);  
             //saxReader.setFeature("http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd", false);              
-            //document = saxReader.read(f); //读取XML文件,获得document对象
+            //document = saxReader.read(f); //¶ÁÈ¡XMLÎÄ¼þ,»ñµÃdocument¶ÔÏó
             if (isHiberConfig) {
                 saxReader.setEntityResolver(new EntityResolver() {
                     @Override
@@ -108,7 +108,7 @@ public class XmlSax {
                 document = DocumentHelper.createDocument();
             //    document.addDocType("hibernate-configuration", "-//Hibernate/Hibernate Configuration DTD 3.0//EN", "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd");
 
-                // 创建根节点并添加进文档
+                // ´´½¨¸ù½Úµã²¢Ìí¼Ó½øÎÄµµ
                 Element root = DocumentHelper.createElement("root");
                 document.setRootElement(root);
             } else {
@@ -314,9 +314,9 @@ public class XmlSax {
         Element root1Elm = rootElm.element("guaoL");
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("guaoL");
-            root1Elm.setText("[0-9]{14}_1_+[.]FSN$");
+            root1Elm.setText("[0-9]{17}_1_+[.]FSN$");
             writeToXml(doc, bankFile);
-            return "[0-9]{14}_1_+[.]FSN$";
+            return "[0-9]{17}_1_+[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
@@ -331,9 +331,9 @@ public class XmlSax {
         Element root1Elm = rootElm.element("guaoC");
         if (root1Elm == null) {
             root1Elm = rootElm.addElement("guaoC");
-            root1Elm.setText("[0-9]{14}_2_+[.]FSN$");
+            root1Elm.setText("[0-9]{17}_2_+[.]FSN$");
             writeToXml(doc, bankFile);
-            return "[0-9]{14}_2_+[.]FSN$";
+            return "[0-9]{17}_2_+[.]FSN$";
         } else {
             return root1Elm.getTextTrim();
         }
@@ -539,7 +539,7 @@ public class XmlSax {
     }
 
     /**
-     * 修改SqlServer配置文件
+     * ÐÞ¸ÄSqlServerÅäÖÃÎÄ¼þ
      *
      * @return
      */
@@ -571,7 +571,7 @@ public class XmlSax {
     }
 
     /**
-     * 获取sqlserver数据库配置文件中的值
+     * »ñÈ¡sqlserverÊý¾Ý¿âÅäÖÃÎÄ¼þÖÐµÄÖµ
      *
      * @return
      */
@@ -933,9 +933,9 @@ public class XmlSax {
             writer.write(doc);
             writer.flush();
             writer.close();
-            if (flag) {//更新
+            if (flag) {//¸üÐÂ
                 return 0;
-            } else {//新增
+            } else {//ÐÂÔö
                 return 1;
             }
             //  return true;
@@ -1015,7 +1015,7 @@ public class XmlSax {
     }
 
     /**
-     * 获取数据库配置文件中的值dddddd
+     * »ñÈ¡Êý¾Ý¿âÅäÖÃÎÄ¼þÖÐµÄÖµdddddd
      *
      * @return
      */

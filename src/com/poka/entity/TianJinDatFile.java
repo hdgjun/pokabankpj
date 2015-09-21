@@ -32,7 +32,7 @@ public class TianJinDatFile {
         this.fileHead = new TianJinGuaoHead();
     }
 
-    public boolean readFile(InputStream input,int bodyLen) {
+    public boolean readFile(InputStream input, int type) {
         try {
             byte[] tem = fileHead.getDataBody();
             int len = input.read(tem);
@@ -42,33 +42,27 @@ public class TianJinDatFile {
             }
             fileHead.init();
             bList.clear();
-                     
+
+            System.out.println("fileHead.getRecordCount():" + fileHead.getRecordCount());
+            TianJinGuaoBody temBody;
             for (int i = 0; i < fileHead.getRecordCount(); i++) {
-                TianJinGuaoBody temBody = new TianJinGuaoBody(bodyLen);
-                if(!readData(temBody.getDataBody(),bodyLen,input)){
-                   return false;
-                }               
-                if(!readData(temBody.getImage(),1544,input)){
-                    return false;
+                if (FsnComProperty.zhongchao2015Metype_c == type) {
+                    temBody = new TianJinGuaoBody(TianJinGuaoBody.newSize);
+                } else {
+                    temBody = new TianJinGuaoBody(TianJinGuaoBody.oldSize);
                 }
-                if(bodyLen == StaticVar.guAoBodyOldLen){
-                    temBody.init();
-                }else{
-                    input.read(new byte[136]);  //新协议多余的数据
-                    temBody.initNew();
-                }
-                
-                bList.add(temBody);
+                    temBody.readBody(input);
+                    bList.add(temBody);
             }
-         
+
             return true;
         } catch (IOException ex) {
-           logger.log(Level.INFO, null,ex);
+            logger.log(Level.INFO, null, ex);
             return false;
         }
     }
 
-    public static  boolean readData(byte[] disDa, int dataLen, InputStream input) {
+    public static boolean readData(byte[] disDa, int dataLen, InputStream input) {
         try {
             int count = dataLen;
             int lo = 0;
@@ -84,13 +78,13 @@ public class TianJinDatFile {
                 return false;
             }
         } catch (IOException ex) {
-           logger.log(Level.INFO, null,ex);
+            logger.log(Level.INFO, null, ex);
             return false;
         }
         return true;
     }
 
-    public boolean writeDatFile(String fPath,int bodyLen) throws IOException {
+    public boolean writeDatFile(String fPath) throws IOException {
         File f = new File(fPath);
         if (!f.exists()) {
             File pf = f.getParentFile();
@@ -108,12 +102,7 @@ public class TianJinDatFile {
         FileOutputStream output = new FileOutputStream(f);
         output.write(this.fileHead.getDataBody());
         for (TianJinGuaoBody bo : this.bList) {
-            if(bodyLen == StaticVar.guAoBodyOldLen){
-                bo.reload();
-            }else{
-                bo.reloadNew();
-            }
-            
+            bo.reload();
             output.write(bo.getDataBody());
             output.write(bo.getImage());
         }

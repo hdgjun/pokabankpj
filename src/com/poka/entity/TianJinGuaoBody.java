@@ -5,7 +5,9 @@
  */
 package com.poka.entity;
 
+import static com.poka.entity.TianJinDatFile.readData;
 import com.poka.util.StringUtil;
+import java.io.InputStream;
 
 /**
  *
@@ -26,13 +28,23 @@ public class TianJinGuaoBody {
     private String bank = "";
     private String reservel = "";
 
+    public final static int oldSize = 88;
+    public final static int newSize = 96;
+    private int currentSize = 88;
+
     private byte[] dataBody;
     private byte[] image = new byte[1544];
-    
-    public TianJinGuaoBody(int len){
-        dataBody = new byte[len];
+
+    public TianJinGuaoBody(int size) {
+        if (size != TianJinGuaoBody.oldSize && size != TianJinGuaoBody.newSize) {
+            dataBody = new byte[TianJinGuaoBody.oldSize];
+            currentSize = TianJinGuaoBody.oldSize;
+        } else {
+            dataBody = new byte[size];
+            currentSize = size;
+        }
     }
-    
+
     public void init() {
         int loc = 0;
         this.colTime = StringUtil.byteToString2(dataBody, loc, 14);
@@ -51,36 +63,22 @@ public class TianJinGuaoBody {
         loc += 24;
         this.user = StringUtil.byteToString2(dataBody, loc, 7);
         loc += 7;
-        this.dots = StringUtil.byteToString2(dataBody, loc, 6);
-        loc += 6;
-        this.bank = StringUtil.byteToString2(dataBody, loc, 6);
-        loc += 6;
-        this.reservel = StringUtil.byteToString2(dataBody, loc, 4);
+
+        if (TianJinGuaoBody.oldSize == this.currentSize) {
+            this.dots = StringUtil.byteToString2(dataBody, loc, 6);
+            loc += 6;
+            this.bank = StringUtil.byteToString2(dataBody, loc, 6);
+            loc += 6;
+            this.reservel = StringUtil.byteToString2(dataBody, loc, 4);
+        } else {
+            this.dots = StringUtil.byteToString2(dataBody, loc, 11);
+            loc += 11;
+            this.bank = StringUtil.byteToString2(dataBody, loc, 11);
+            loc += 11;
+            this.reservel = StringUtil.byteToString2(dataBody, loc, 2);
+        }
     }
-    public void initNew() {
-        int loc = 0;
-        this.colTime = StringUtil.byteToString2(dataBody, loc, 14);
-        loc += 14;
-        this.sNO = StringUtil.byteToString2(dataBody, loc, 12);
-        loc += 12;
-        this.ver = StringUtil.byteToString2(dataBody, loc, 4);
-        loc += 4;
-        this.moneyFlag = StringUtil.byteToString2(dataBody, loc, 3);
-        loc += 3;
-        this.valuta = StringUtil.byteToString2(dataBody, loc, 6);
-        loc += 6;
-        this.vType = (char) dataBody[loc++];
-        this.mType = (char) dataBody[loc++];
-        this.macinSno = StringUtil.byteToString2(dataBody, loc, 24);
-        loc += 24;
-        this.user = StringUtil.byteToString2(dataBody, loc, 7);
-        loc += 7;
-        this.dots = StringUtil.byteToString2(dataBody, loc, 11);
-        loc += 11;
-        this.bank = StringUtil.byteToString2(dataBody, loc, 11);
-        loc += 11;
-        this.reservel = StringUtil.byteToString2(dataBody, loc, 2);
-    }
+
     public void reload() {
         int loca = 0;
         StringUtil.charToByte2(this.colTime.toCharArray(), 14, loca, this.dataBody);
@@ -93,50 +91,41 @@ public class TianJinGuaoBody {
         loca += 3;
         StringUtil.charToByte2(this.valuta.toCharArray(), 6, loca, this.dataBody);
         loca += 6;
-        
+
         this.dataBody[loca++] = (byte) this.vType;
         this.dataBody[loca++] = (byte) this.mType;
-        
+
         StringUtil.charToByte2(this.macinSno.toCharArray(), 24, loca, this.dataBody);
         loca += 24;
         StringUtil.charToByte2(this.user.toCharArray(), 7, loca, this.dataBody);
         loca += 7;
-        StringUtil.charToByte2(this.dots.toCharArray(), 6, loca, this.dataBody);
-        loca += 6;
-        StringUtil.charToByte2(this.bank.toCharArray(), 6, loca, this.dataBody);
-        loca += 6;
-        StringUtil.charToByte2(this.reservel.toCharArray(), 4, loca, this.dataBody);
-        loca += 4;
-        
+
+        if (TianJinGuaoBody.oldSize == this.currentSize) {
+            StringUtil.charToByte2(this.dots.toCharArray(), 6, loca, this.dataBody);
+            loca += 6;
+            StringUtil.charToByte2(this.bank.toCharArray(), 6, loca, this.dataBody);
+            loca += 6;
+            StringUtil.charToByte2(this.reservel.toCharArray(), 4, loca, this.dataBody);
+            loca += 4;
+        } else {
+            StringUtil.charToByte2(this.dots.toCharArray(), 11, loca, this.dataBody);
+            loca += 11;
+            StringUtil.charToByte2(this.bank.toCharArray(), 11, loca, this.dataBody);
+            loca += 11;
+            StringUtil.charToByte2(this.reservel.toCharArray(), 2, loca, this.dataBody);
+            loca += 2;
+        }
     }
-    
-    public void reloadNew() {
-        int loca = 0;
-        StringUtil.charToByte2(this.colTime.toCharArray(), 14, loca, this.dataBody);
-        loca += 14;
-        StringUtil.charToByte2(this.sNO.toCharArray(), 12, loca, this.dataBody);
-        loca += 12;
-        StringUtil.charToByte2(this.ver.toCharArray(), 4, loca, this.dataBody);
-        loca += 4;
-        StringUtil.charToByte2(this.moneyFlag.toCharArray(), 3, loca, this.dataBody);
-        loca += 3;
-        StringUtil.charToByte2(this.valuta.toCharArray(), 6, loca, this.dataBody);
-        loca += 6;
-        
-        this.dataBody[loca++] = (byte) this.vType;
-        this.dataBody[loca++] = (byte) this.mType;
-        
-        StringUtil.charToByte2(this.macinSno.toCharArray(), 24, loca, this.dataBody);
-        loca += 24;
-        StringUtil.charToByte2(this.user.toCharArray(), 7, loca, this.dataBody);
-        loca += 7;
-        StringUtil.charToByte2(this.dots.toCharArray(), 11, loca, this.dataBody);
-        loca += 11;
-        StringUtil.charToByte2(this.bank.toCharArray(), 11, loca, this.dataBody);
-        loca += 11;
-        StringUtil.charToByte2(this.reservel.toCharArray(), 2, loca, this.dataBody);
-        loca += 2;
-        
+
+    public boolean readBody(InputStream input) {
+        if (!readData(this.getDataBody(), this.getDataBody().length, input)) {
+            return false;
+        }
+        if (!readData(this.getImage(), 1544, input)) {
+            return false;
+        }
+        this.init();
+        return true;
     }
 
     /**

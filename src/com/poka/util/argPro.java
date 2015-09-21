@@ -23,8 +23,10 @@ public class argPro {
   public static final String updatePath = "updatePath";     //软件更新路径（）
   public static final String softVersion = "softVersion";
   public static final String webPtah = "webPath";
+
   public static final String ver = "GX150819.0";
   public static final String selfTimer = "selfTimer";  //定时xml名称
   public static final String isZip = "isZip";  //压缩
   public static final String isTimer = "isTimer";  //定时
+
 }

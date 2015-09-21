@@ -25,8 +25,8 @@ public class KoreanBrandExtension implements Runnable{
     private int listenPort;
     private ServerSocket serverSocket;
     private boolean stopFlag;
-    private ExecutorService executorService;//线程池
-    private final int POOL_SIZE = 10;//单个CPU线程池大小
+    private ExecutorService executorService;//̳߳
+    private final int POOL_SIZE = 10;//CPU̳߳شС
     private String path;
     private String handle = "";
 
@@ -42,9 +42,7 @@ public class KoreanBrandExtension implements Runnable{
     private void acceptConnections() {
 
         try {
-            System.out.println("hello");
             serverSocket = new ServerSocket(getListenPort());
-            System.out.println("hello11111");
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }

@@ -23,6 +23,8 @@ import com.poka.entity.PokaFsnBody;
 import com.poka.printer.com.ComClient;
 import com.poka.serialport.PortListener;
 import com.poka.socket.FsnListenServer;
+import com.poka.socket.GuAoQin;
+import com.poka.socket.KoreanBrandExtension;
 import com.poka.util.BundleDeal;
 import com.poka.util.IOUtil;
 import com.poka.util.LogManager;
@@ -88,23 +90,24 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         this.msgShanLabel.setForeground(Color.red);
         this.limitComboBox.setSelectedIndex(1);
 
-        
-
         String tem = StaticVar.cfgMap.get(argPro.localAddr);
         if (null != tem) {
             this.julongFilePath = tem + File.separator + UploadFtp.qfFile;
-            this.addFilePath  = tem + File.separator + UploadFtp.addQFFile;
+            this.addFilePath = tem + File.separator + UploadFtp.addQFFile;
             this.baseBakPath = tem + File.separator + UploadFtp.basebak;
             UploadFtp.newDir(this.addFilePath + File.separator + "tem");
             UploadFtp.newDir(this.baseBakPath + File.separator + "tem");
             UploadFtp.newDir(this.julongFilePath + File.separator + "tem");
         }
-        
+
         if (1 == this.qingComboBox.getSelectedIndex()) {
             this.sqlserverCfgjButton.setVisible(true);
+        } else if (3 == this.qingComboBox.getSelectedIndex()) {
+            this.showPort(true);
         } else {
+            this.showPort(false);
             this.sqlserverCfgjButton.setVisible(false);
-            this.qmsgShanLabel.setText("文件存放路径:"+this.julongFilePath);
+            this.qmsgShanLabel.setText("文件存放路径:" + this.julongFilePath);
         }
         this.xml = XmlSax.getInstance();
         int si = xml.getAddMachines().size();
@@ -134,6 +137,15 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             public void actionPerformed(ActionEvent e) {
                 Thread tt = new Thread(new Runnable() {
                     public void run() {
+                        if (qingComboBox.getSelectedIndex() == 3) {
+                            if (!koread_flag) {
+                                koreadLis.setListenPort(Integer.parseInt(portQfTextField.getText().trim()));
+                                koreadLis.setHandle(GuAoQin.class.getName());
+                                koreadLis.setPath(julongFilePath);
+                                koreadLis.startAccept();
+                                koread_flag = true;
+                            }
+                        }
                         scannerMoneyDataFile();
                     }
                 ;
@@ -230,7 +242,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                 return canEdit[columnIndex];
             }
         };
-        
+
         atmModle = new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
@@ -415,9 +427,11 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         jLabel16 = new javax.swing.JLabel();
         maxMoneyTextField = new javax.swing.JTextField();
         maxToggleButton = new javax.swing.JToggleButton();
+        portQfTextField = new javax.swing.JTextField();
+        portLabel1 = new javax.swing.JLabel();
+        qmsgShanLabel = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         qshowAddTable = new javax.swing.JTable();
-        qmsgShanLabel = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         qstartButton = new javax.swing.JButton();
         qendButton = new javax.swing.JButton();
@@ -788,12 +802,12 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         jPanel8.add(qsaoTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 293, -1));
 
         jLabel12.setText("钞箱号：");
-        jPanel8.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
-        jPanel8.add(qchaoIdTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 293, -1));
+        jPanel8.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        jPanel8.add(qchaoIdTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 293, -1));
 
         jLabel13.setText("ATM号：");
-        jPanel8.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
-        jPanel8.add(qatmIdTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 293, -1));
+        jPanel8.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, 20));
+        jPanel8.add(qatmIdTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 293, -1));
 
         jLabel15.setText("单个文件张数:");
         jPanel8.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 80, 20));
@@ -809,21 +823,21 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                 sqlserverCfgjButtonMouseClicked(evt);
             }
         });
-        jPanel8.add(sqlserverCfgjButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 10, -1, -1));
+        jPanel8.add(sqlserverCfgjButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 10, 100, -1));
 
-        qingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "辽宁聚龙清分机", "光荣清分机", "中钞信达清分机" }));
+        qingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "辽宁聚龙清分机", "光荣清分机", "中钞信达清分机", "古鳌清分机" }));
         qingComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 qingComboBoxItemStateChanged(evt);
             }
         });
-        jPanel8.add(qingComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 50, 150, -1));
+        jPanel8.add(qingComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 50, 160, -1));
 
         jLabel14.setText("清分机类型:");
         jPanel8.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 80, 20));
 
         jLabel16.setText("加钞总张数:");
-        jPanel8.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 80, 70, 30));
+        jPanel8.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 80, 70, 20));
 
         com.poka.util.LimitDocument lit2q1 = new com.poka.util.LimitDocument(10);
         lit2q1.setAllowChar("0123456789");
@@ -837,6 +851,15 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             }
         });
         jPanel8.add(maxToggleButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 80, 60, -1));
+
+        com.poka.util.LimitDocument l1 = new com.poka.util.LimitDocument(7);
+        l1.setAllowChar("0123456789");
+        portQfTextField.setDocument(l1);
+        jPanel8.add(portQfTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, 80, -1));
+
+        portLabel1.setText("  监听端口:");
+        jPanel8.add(portLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, 70, 20));
+        jPanel8.add(qmsgShanLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 106, 352, 30));
 
         showAddTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -920,11 +943,8 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane3)
-                            .addComponent(qmsgShanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -933,18 +953,15 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(qmsgShanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(29, 29, 29)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29))
         );
 
         jTabbedPane2.addTab("清分机散张加钞", jPanel7);
@@ -1055,6 +1072,11 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void showPort(boolean flag) {
+        this.portQfTextField.setVisible(flag);
+        this.portLabel1.setVisible(flag);
+    }
 
     private int getSelectlimit() {
         int idex = this.limitComboBox.getSelectedIndex();
@@ -1587,13 +1609,16 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
 //                this.qportTextField.selectAll();
 //                return;
 //            }
-//            int port = Integer.parseInt(sPort);
-//            if (port < 1024 || port > 49151) {
-//                JOptionPane.showMessageDialog(null, "请输入正确的监听端口号(范围：1024-49151)！");
-//                this.qportTextField.requestFocus();
-//                this.qportTextField.selectAll();
-//                return;
-//            }
+            if (3 == this.qingComboBox.getSelectedIndex()) {
+                String sPort = this.portQfTextField.getText().trim();
+                int port = Integer.parseInt(sPort);
+                if (port < 1024 || port > 49151) {
+                    JOptionPane.showMessageDialog(null, "请输入正确的监听端口号(范围：1024-49151)！");
+                    this.portQfTextField.requestFocus();
+                    this.portQfTextField.selectAll();
+                    return;
+                }
+            }
             String atmId = this.qatmIdTextField.getText().trim().toUpperCase();
             if (atmId.length() <= 0) {
                 JOptionPane.showMessageDialog(null, "请输入正确的18位ATM标签号！如“A12345678901234567”");
@@ -1628,6 +1653,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             this.qstartButton.setEnabled(false);
             this.qendButton.setEnabled(true);
 
+            isAdding = true;
             if (1 == this.qingComboBox.getSelectedIndex()) {
                 this.qingTimer.start();
             } else {
@@ -1636,6 +1662,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         }
     }//GEN-LAST:event_qstartButtonMouseClicked
     //private List<MoneyData> myList = new ArrayList<MoneyData>();
+    private boolean isAdding = false;
     private int maxAdd;
     private int curAdd;
     private PokaFsn pokaFsn = new PokaFsn();
@@ -1644,11 +1671,13 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
 
     private void scannerMoneyDataFile() {
         //  String monVal = "";
-        String rxt="";
-        if(0 == this.qingComboBox.getSelectedIndex()){
-            rxt= XmlSax.getInstance().getLLJLFileNameL();
-        }else{
-            rxt= XmlSax.getInstance().getZCXDFileNameL();
+        String rxt = "";
+        if (0 == this.qingComboBox.getSelectedIndex()) {//辽宁聚龙
+            rxt = XmlSax.getInstance().getLLJLFileNameL();
+        } else if (3 == this.qingComboBox.getSelectedIndex()) {//古鳌
+            rxt = XmlSax.getInstance().getGuAaoFileNameL();
+        } else {
+            rxt = XmlSax.getInstance().getZCXDFileNameL();//中钞信达
         }
         Pattern pattern = Pattern.compile(rxt);
 
@@ -1658,15 +1687,18 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         if (!temFile.getParentFile().exists()) {
             temFile.getParentFile().mkdirs();
         }
-        if (files == null ||files.length ==0) {
+        if (files == null || files.length == 0) {
             dir = new File(this.addFilePath);
             files = dir.listFiles();
         }
-        if(files == null){
+        if (files == null) {
             return;
         }
         this.julongTime.stop();
         for (File file : files) {
+            if(!isAdding){
+                break;
+            }
             if (maxToggleButton.isSelected()) {
                 if (this.curAdd == this.maxAdd) {
                     break;
@@ -1689,6 +1721,9 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                         }
                         List<PokaFsnBody> bd = temR.getbList();
                         for (PokaFsnBody mybd : bd) {
+                            if(!isAdding){
+                                break;
+                            }
                             mybd.setUserId1("");
                             mybd.setUserId2("");
                             mybd.setUserId3(this.adderTextField.getText().trim());  //加钞员
@@ -1719,10 +1754,14 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                             if (maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
                                 break;
                             }
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(ATMAddMonJPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                         file.renameTo(UploadFtp.newDir(this.baseBakPath + File.separator + (new java.text.SimpleDateFormat("yyyyMMdd")).format(new Date()) + File.separator + file.getName()));
                         file.delete();
-
                     }
 
                 }
@@ -1732,7 +1771,9 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         if (maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
             qendButton.doClick();
         } else {
-            julongTime.restart();
+            if (isAdding) {
+                julongTime.restart();
+            }
         }
 
     }
@@ -1844,7 +1885,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             p.setFlag((byte) 3);
             pokaFsn.addAndWrite(p, this.fileCount);
             this.curAdd++;
-            if (maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
+            if (!isAdding || maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
                 break;
             }
         }
@@ -1868,13 +1909,16 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         if (maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
             qendButton.doClick();
         } else {
-            qingTimer.restart();
+            if (isAdding) {
+                qingTimer.restart();
+            }
         }
     }
     private BaseDaoSqlServer<Map> moneyBase = null;
     private void newButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newButtonMouseClicked
         if (newButton.isEnabled()) {
             Object[] options = {"确定", "取消"};
+            koread_flag = false;
             int response;
             if (1 == this.qingComboBox.getSelectedIndex()) {
                 response = JOptionPane.showOptionDialog(this, "初始化操作将删除表中所有数据,是否执行", "提示", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -1885,7 +1929,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                         dbreload = false;
                     }
                     int result = moneyBase.executeSql(delsql, null);
-
+                    this.qingModle.setRowCount(0);
                     JOptionPane.showMessageDialog(null, "数据库初始化完成.");
 
                 }
@@ -1896,19 +1940,19 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                     if (this.julongFilePath != null) {
                         IOUtil.deleteDir(new File(julongFilePath));
                     }
-                    if(this.addFilePath != null){
+                    if (this.addFilePath != null) {
                         File f = new File(this.addFilePath);
-                        if(f.exists()){
+                        if (f.exists()) {
                             IOUtil.deleteDir(f);
                         }
                     }
                     JOptionPane.showMessageDialog(null, "初始化完成.");
-
+                    this.qingModle.setRowCount(0);
                 }
             }
+            isAdding = false;
         }
     }//GEN-LAST:event_newButtonMouseClicked
-
 
 
     private void sqlserverCfgjButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sqlserverCfgjButtonMouseClicked
@@ -1925,7 +1969,12 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             this.qmsgShanLabel.setText("");
         } else {
             sqlserverCfgjButton.setVisible(false);
-            this.qmsgShanLabel.setText("文件存放路径:"+this.julongFilePath);
+            this.qmsgShanLabel.setText("文件存放路径:" + this.julongFilePath);
+        }
+        if (3 == qingComboBox.getSelectedIndex()) {
+            showPort(true);
+        } else {
+            showPort(false);
         }
     }//GEN-LAST:event_qingComboBoxItemStateChanged
 
@@ -1946,8 +1995,13 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             this.qsaoTextField.setEditable(true);
             this.qstartButton.setEnabled(true);
             this.qendButton.setEnabled(false);
-            this.qingModle.setRowCount(0);
 
+            koread_flag = false;
+            isAdding = false;
+            this.curAdd = 0;
+            
+            qmsgShanLabel.setText("当前已加钞：" + this.curAdd + " 张");
+            
             if (qingTimer.isRunning()) {
                 qingTimer.stop();
             }
@@ -1958,30 +2012,41 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                 pokaFsn.addAndWrite(null, pokaFsn.getFhead().getCount());
             }
             JOptionPane.showMessageDialog(null, "加钞完成！");
+
+            this.qingModle.setRowCount(0);
         }
     }//GEN-LAST:event_qendButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         if (this.cancelButton.isEnabled()) {
-            this.qatmIdTextField.setEditable(true);
-            this.qchaoIdTextField.setEditable(true);
-            this.qcountTextField.setEditable(true);
-            this.qsaoTextField.setEditable(true);
-            this.qstartButton.setEnabled(true);
-            this.qendButton.setEnabled(false);
-            this.qingModle.setRowCount(0);
+            int response;
+            Object[] options = {"确定", "取消"};
+            response = JOptionPane.showOptionDialog(this, "是否放弃本次加钞操作", "提示", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (0 == response) {
+                this.qatmIdTextField.setEditable(true);
+                this.qchaoIdTextField.setEditable(true);
+                this.qcountTextField.setEditable(true);
+                this.qsaoTextField.setEditable(true);
+                this.qstartButton.setEnabled(true);
+                this.qendButton.setEnabled(false);
+                this.qingModle.setRowCount(0);
 
-            if (qingTimer.isRunning()) {
-                qingTimer.stop();
+                koread_flag = false;
+                isAdding = false;
+                this.curAdd = 0;
+                qmsgShanLabel.setText("当前已加钞：" + this.curAdd + " 张");
+                if (qingTimer.isRunning()) {
+                    qingTimer.stop();
+                }
+                if (this.julongTime.isRunning()) {
+                    this.julongTime.stop();
+                }
+                if (pokaFsn.getFhead().getCount() > 0) {
+                    pokaFsn.deleteFile();
+                }
+                pokaFsn = new PokaFsn();
             }
-            if (this.julongTime.isRunning()) {
-                this.julongTime.stop();
-            }
-            if (pokaFsn.getFhead().getCount() > 0) {
-                pokaFsn.deleteFile();
-            }
-            pokaFsn = new PokaFsn();
-            
+
         }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -2271,7 +2336,8 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
 
     private FsnListenServer fServer = null;
     private Thread tt = null;
-
+    private boolean koread_flag = false;
+    private KoreanBrandExtension koreadLis = new KoreanBrandExtension();
     private XmlSax xml;
     //   private Timer clearXmlTimer;
 
@@ -2335,6 +2401,8 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
     private javax.swing.JLabel msgShanLabel;
     private javax.swing.JButton newButton;
     private javax.swing.JToggleButton openComToggleButton;
+    private javax.swing.JLabel portLabel1;
+    private javax.swing.JTextField portQfTextField;
     private javax.swing.JTextField portTextField;
     private javax.swing.JTextField qatmIdTextField;
     private javax.swing.JTextField qchaoIdTextField;
@@ -2422,7 +2490,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
 
     @Override
     public void flashMach() {
-        
+
     }
 
     @Override

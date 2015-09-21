@@ -66,10 +66,10 @@ public class YiTeNuoSocketHandler extends AbstractSocketHandle {
 
             byte[] res = {0x00, 0x00};
             byte[] reErr = {0x01, 0x01};
-      
+       
 
             ip = client.getInetAddress().getHostAddress();
-        
+            
             int off = 0;
             while (StaticVar.monTcpListen) {
                 int bRt = PokaFsn.readInputStreamWithTimeout(input, startWord, 5000, off);
@@ -79,8 +79,8 @@ public class YiTeNuoSocketHandler extends AbstractSocketHandle {
                     continue;
                 }
                 sTime = StringUtil.byteToHexString(startWord, 0, startWord.length);
-              
-                if (!sTime.equalsIgnoreCase("55AA55AA")) {
+
+                if (!sTime.equalsIgnoreCase("55AA55AA")) {                   
                     output.write(reErr);
                     break;
                 }
