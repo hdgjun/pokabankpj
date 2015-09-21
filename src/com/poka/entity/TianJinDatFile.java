@@ -58,10 +58,10 @@ public class TianJinDatFile {
                 }
                 temBody.init();
                 bList.add(temBody);
-                if (FsnComProperty.zhongchao2015Metype_c == type) {
-                    byte[] b = new byte[136];
-                    TianJinDatFile.readData(b, 136, input);
-                }
+//                if (FsnComProperty.zhongchao2015Metype_c == type) {
+//                    byte[] b = new byte[136];
+//                    TianJinDatFile.readData(b, 136, input);
+//                }
             }
 
             return true;
