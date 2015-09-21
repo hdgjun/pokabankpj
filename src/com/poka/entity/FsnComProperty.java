@@ -38,7 +38,12 @@ public class FsnComProperty {
     public static final int liaoNinJulongType = 4;
     public static final int guaoMeType = 5;
     public static final int weiRongType = 6;
-    public static final int yueChuangType = 7;  //越创点钞机
+    public static final int yueChuangType = 7;  //越创点钞机    
+    
+    public static final int zhongchaoMeType_c = 0;
+    public static final int zhongchao2015Metype_c = 1;
+    public static final int guaoMetype_c = 2;
+
     public static final int comBusType = 0;  //服务端模式
     public static final int atmAddBusType = 1;//加钞
     public static final int guaoBusType = 2;//客户端模式

@@ -6,7 +6,6 @@
 package com.poka.entity;
 
 import com.poka.util.LogManager;
-import com.poka.util.StaticVar;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,8 +50,8 @@ public class TianJinDatFile {
                 } else {
                     temBody = new TianJinGuaoBody(TianJinGuaoBody.oldSize);
                 }
-                    temBody.readBody(input);
-                    bList.add(temBody);
+                temBody.readBody(input);
+                bList.add(temBody);
             }
 
             return true;

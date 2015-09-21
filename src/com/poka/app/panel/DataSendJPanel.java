@@ -86,7 +86,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         ipModle = new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "ip", "ÀàĞÍ", "×´Ì¬", "ÕÅÊı"
+                    "ip", "ç±»å‹", "çŠ¶æ€", "å¼ æ•°"
                 }
         ) {
             Class[] types = new Class[]{
@@ -109,7 +109,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         guaoIpModle = new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                    "ip", "ÀàĞÍ", "×´Ì¬", "ÕÅÊı"
+                    "ip", "ç±»å‹", "çŠ¶æ€", "å¼ æ•°"
                 }
         ) {
             Class[] types = new Class[]{
@@ -131,7 +131,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 
         if (machines.size() <= 0) {
             this.receButton.setEnabled(false);
-            this.msgLabel.setText("ÇëÅäÖÃ»ú¾ßĞÅÏ¢£¡");
+            this.msgLabel.setText("è¯·é…ç½®æœºå…·ä¿¡æ¯ï¼");
         } else {
             this.flashMach();
         }
@@ -202,7 +202,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             String[] newRow = new String[co];
             newRow[0] = cfg.getIp().trim();
             newRow[1] = cfg.getMachineType().trim();
-            newRow[2] = "Î´Á¬½Ó";
+            newRow[2] = "æœªè¿æ¥";
             newRow[3] = "" + 0;
             this.ipModle.addRow(newRow);
         }
@@ -288,9 +288,9 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         doc.setAllowChar("0123456789");
         portTextField.setDocument(doc);
 
-        jLabel14.setText("¶Ë¿ÚºÅ£º");
+        jLabel14.setText("ç«¯å£å·ï¼š");
 
-        guaoMechineButton.setText("»ú¾ßÅäÖÃ");
+        guaoMechineButton.setText("æœºå…·é…ç½®");
         guaoMechineButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 guaoMechineButtonMouseClicked(evt);
@@ -302,27 +302,27 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             }
         });
 
-        guaoReceButton.setText("½ÓÊÕÊı¾İ");
+        guaoReceButton.setText("æ¥æ”¶æ•°æ®");
         guaoReceButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 guaoReceButtonMouseClicked(evt);
             }
         });
 
-        guaoStopButton.setText("Í£Ö¹");
+        guaoStopButton.setText("åœæ­¢");
         guaoStopButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 guaoStopButtonMouseClicked(evt);
             }
         });
 
-        guaoLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1·ÖÖÓ", "5·ÖÖÓ", "10·ÖÖÓ", "15·ÖÖÓ", "20·ÖÖÓ", "30·ÖÖÓ", "1Ğ¡Ê±" }));
+        guaoLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1åˆ†é’Ÿ", "5åˆ†é’Ÿ", "10åˆ†é’Ÿ", "15åˆ†é’Ÿ", "20åˆ†é’Ÿ", "30åˆ†é’Ÿ", "1å°æ—¶" }));
 
-        jLabel15.setText("È¥ÖØÊ±ÏŞ£º");
+        jLabel15.setText("å»é‡æ—¶é™ï¼š");
 
-        jLabel16.setText("Ä£Ê½:");
+        jLabel16.setText("æ¨¡å¼:");
 
-        guaoTcpComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ä¬ÈÏ", "´æ¿î", "È¡¿î" }));
+        guaoTcpComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "é»˜è®¤", "å­˜æ¬¾", "å–æ¬¾" }));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -370,9 +370,9 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         guaoMonList.setModel(defaultListModel1);
         jScrollPane3.setViewportView(guaoMonList);
 
-        jLabel171.setText("ÒÑ½ÓÊÕ¹Ú×ÖºÅÊı¾İ£º");
+        jLabel171.setText("å·²æ¥æ”¶å† å­—å·æ•°æ®ï¼š");
 
-        jLabel181.setText("Éè±¸½ÓÈëĞÅÏ¢£º");
+        jLabel181.setText("è®¾å¤‡æ¥å…¥ä¿¡æ¯ï¼š");
 
         guaoIpjTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -420,15 +420,15 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        guaoPanel.addTab("²É¼¯Èí¼ş¿Í»§¶ËÄ£Ê½", jPanel6);
+        guaoPanel.addTab("é‡‡é›†è½¯ä»¶å®¢æˆ·ç«¯æ¨¡å¼", jPanel6);
 
-        jLabel2.setText("Éè±¸½ÓÈëĞÅÏ¢£º");
+        jLabel2.setText("è®¾å¤‡æ¥å…¥ä¿¡æ¯ï¼š");
 
         DefaultListModel defaultListModelg1  = new DefaultListModel();
         monList.setModel(defaultListModelg1);
         jScrollPane2.setViewportView(monList);
 
-        jLabel5.setText("ÒÑ½ÓÊÕ¹Ú×ÖºÅÊı¾İ£º");
+        jLabel5.setText("å·²æ¥æ”¶å† å­—å·æ•°æ®ï¼š");
 
         com.poka.util.LimitDocument docg = new com.poka.util.LimitDocument(5);
         docg.setAllowChar("0123456789");
@@ -438,38 +438,38 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         docg1.setAllowChar("0123456789");
         numTextField.setDocument(docg1);
 
-        jLabel7.setText("ÎÄ¼şÈİÁ¿£º");
+        jLabel7.setText("æ–‡ä»¶å®¹é‡ï¼š");
 
-        jLabel6.setText("¶Ë¿ÚºÅ£º");
+        jLabel6.setText("ç«¯å£å·ï¼š");
 
-        mechineButton.setText("»ú¾ßÅäÖÃ");
+        mechineButton.setText("æœºå…·é…ç½®");
         mechineButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mechineButtonMouseClicked(evt);
             }
         });
 
-        receButton.setText("½ÓÊÕÊı¾İ");
+        receButton.setText("æ¥æ”¶æ•°æ®");
         receButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 receButtonMouseClicked(evt);
             }
         });
 
-        stopButton.setText("Í£Ö¹");
+        stopButton.setText("åœæ­¢");
         stopButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 stopButtonMouseClicked(evt);
             }
         });
 
-        limitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1·ÖÖÓ", "5·ÖÖÓ", "10·ÖÖÓ", "15·ÖÖÓ", "20·ÖÖÓ", "30·ÖÖÓ", "1Ğ¡Ê±" }));
+        limitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1åˆ†é’Ÿ", "5åˆ†é’Ÿ", "10åˆ†é’Ÿ", "15åˆ†é’Ÿ", "20åˆ†é’Ÿ", "30åˆ†é’Ÿ", "1å°æ—¶" }));
 
-        jLabel10.setText("È¥ÖØÊ±ÏŞ£º");
+        jLabel10.setText("å»é‡æ—¶é™ï¼š");
 
-        jLabel12.setText("Ä£Ê½:");
+        jLabel12.setText("æ¨¡å¼:");
 
-        tcpComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ä¬ÈÏ", "´æ¿î", "È¡¿î" }));
+        tcpComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "é»˜è®¤", "å­˜æ¬¾", "å–æ¬¾" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -574,31 +574,31 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                 .addContainerGap())
         );
 
-        guaoPanel.addTab(" ²É¼¯Èí¼ş·şÎñ¶ËÄ£Ê½ ", jPanel2);
+        guaoPanel.addTab(" é‡‡é›†è½¯ä»¶æœåŠ¡ç«¯æ¨¡å¼ ", jPanel2);
 
-        jLabel1.setText("FSNÎÄ¼şÁĞ±í");
+        jLabel1.setText("FSNæ–‡ä»¶åˆ—è¡¨");
 
-        messagejLabel.setText("ÎÄ¼ş¸öÊı:");
+        messagejLabel.setText("æ–‡ä»¶ä¸ªæ•°:");
 
-        label1.setText("ÇëÎğ¹Ø±Õ£¬Êı¾İÕıÔÚ´¦ÀíÖĞ....");
+        label1.setText("è¯·å‹¿å…³é—­ï¼Œæ•°æ®æ­£åœ¨å¤„ç†ä¸­....");
 
-        jLabel3.setText("* ÔÚÎÄ¼ş½øĞĞ´«ÊäÊ±£¬¿ÉÄÜĞèÒªÒ»Ğ©Ê±¼ä½øĞĞºóÌ¨´¦Àí£¬ÇëÄÍĞÄµÈ´ı");
+        jLabel3.setText("* åœ¨æ–‡ä»¶è¿›è¡Œä¼ è¾“æ—¶ï¼Œå¯èƒ½éœ€è¦ä¸€äº›æ—¶é—´è¿›è¡Œåå°å¤„ç†ï¼Œè¯·è€å¿ƒç­‰å¾…");
 
-        autoDealCheckBox.setText("×Ô¶¯´¦Àí");
+        autoDealCheckBox.setText("è‡ªåŠ¨å¤„ç†");
         autoDealCheckBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 autoDealCheckBoxItemStateChanged(evt);
             }
         });
 
-        allDealButton.setText("ÅúÁ¿´«Êä");
+        allDealButton.setText("æ‰¹é‡ä¼ è¾“");
         allDealButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 allDealButtonMouseClicked(evt);
             }
         });
 
-        handButton.setText("µ¥¸ö´«Êä");
+        handButton.setText("å•ä¸ªä¼ è¾“");
         handButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 handButtonMouseClicked(evt);
@@ -629,9 +629,9 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        jLabel8.setText("²Ù×÷Ô±");
+        jLabel8.setText("æ“ä½œå‘˜");
 
-        jLabel9.setText("¼ì²éÔ±");
+        jLabel9.setText("æ£€æŸ¥å‘˜");
 
         com.poka.util.LimitDocument lit1q = new com.poka.util.LimitDocument(8);
 
@@ -648,9 +648,9 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             }
         });
 
-        jLabel11.setText("Ä£Ê½:");
+        jLabel11.setText("æ¨¡å¼:");
 
-        ftpComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ä¬ÈÏ", "´æ¿î", "È¡¿î" }));
+        ftpComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "é»˜è®¤", "å­˜æ¬¾", "å–æ¬¾" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -744,17 +744,17 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        guaoPanel.addTab("   FTPÄ£Ê½  ", jPanel1);
+        guaoPanel.addTab("   FTPæ¨¡å¼  ", jPanel1);
         jPanel1.getAccessibleContext().setAccessibleName("");
 
-        logoutButton.setText("ÍË³öµÇÂ¼");
+        logoutButton.setText("é€€å‡ºç™»å½•");
         logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logoutButtonMouseClicked(evt);
             }
         });
 
-        userjLabel.setText("µ±Ç°ÓÃ»§£º");
+        userjLabel.setText("å½“å‰ç”¨æˆ·ï¼š");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -827,7 +827,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 //        try {
 //            u = b.findBySql(sql, map);
 //        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, "Êı¾İ¿âÁ¬½Ó´íÎó£¬Çë¼ì²éÊı¾İ¿âÅäÖÃÊÇ·ñÕıÈ·¡£");
+//            JOptionPane.showMessageDialog(null, "æ•°æ®åº“è¿æ¥é”™è¯¯ï¼Œè¯·æ£€æŸ¥æ•°æ®åº“é…ç½®æ˜¯å¦æ­£ç¡®ã€‚");
 //            return -1;
 //        }
 //
@@ -845,7 +845,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 //        try {
 //            u = b.findBySql(sql, map);
 //        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, "Êı¾İ¿âÁ¬½Ó´íÎó£¬Çë¼ì²éÊı¾İ¿âÅäÖÃÊÇ·ñÕıÈ·¡£");
+//            JOptionPane.showMessageDialog(null, "æ•°æ®åº“è¿æ¥é”™è¯¯ï¼Œè¯·æ£€æŸ¥æ•°æ®åº“é…ç½®æ˜¯å¦æ­£ç¡®ã€‚");
 //        }
 //        for (Map map1 : u) {
 //            checkerCode = map1.get("USERCODE").toString();
@@ -869,7 +869,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         if (files.length == 0) {
             if (isPrompt) {
                 fileUploadMonitor.setVisible(false);
-                messagejLabel.setText("ÔİÊ±Ã»ÓĞĞèÒª´¦ÀíµÄÎÄ¼ş");
+                messagejLabel.setText("æš‚æ—¶æ²¡æœ‰éœ€è¦å¤„ç†çš„æ–‡ä»¶");
             }
             sending = false;
 
@@ -907,11 +907,11 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         fileUploadMonitor.setVisible(true);
         fileUploadMonitor.setMaximum(files.length);
         fileUploadMonitor.setValue(0);
-        fileUploadMonitor.setToolTipText("ÕıÔÚ×ª»¯ÎÄ¼ş......");
-        messagejLabel.setText("ÕıÔÚ×ª»¯ÎÄ¼ş......");
+        fileUploadMonitor.setToolTipText("æ­£åœ¨è½¬åŒ–æ–‡ä»¶......");
+        messagejLabel.setText("æ­£åœ¨è½¬åŒ–æ–‡ä»¶......");
         //  System.out.println("files count =" + files.length);
         for (String s : files) {
-            messagejLabel.setText("ÕıÔÚ×ª»¯ÎÄ¼ş:" + s);
+            messagejLabel.setText("æ­£åœ¨è½¬åŒ–æ–‡ä»¶:" + s);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException ex) {
@@ -933,10 +933,10 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                     bd.setUserId2(user2);
                     bd.setFlag((byte) moType);
                 }
-                //ÔÚÁÙÊ±ÎÄ¼ş¼ĞÖĞÉú³Époka fsnÎÄ¼ş
+                //åœ¨ä¸´æ—¶æ–‡ä»¶å¤¹ä¸­ç”Ÿæˆpoka fsnæ–‡ä»¶
                 po.writePokaFsnFile(temPath + File.separator + newPokaName);
 
-                //±¸·İ±ê×¼fsnÎÄ¼ş
+                //å¤‡ä»½æ ‡å‡†fsnæ–‡ä»¶
                 File f = new File(fsn);
                 File fNew = UploadFtp.newDir(baseBakPath + File.separator + curDate + File.separator + s);
                 if (fNew.exists()) {
@@ -947,7 +947,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                     pokaList.add(newPokaName);
 
                 } else {
-                    //±¸·İÊ§°Ü£¬ÏÂÒ»Ñ­»·ÖØĞÂ´¦Àí¸Ã±ê×¼fsnÎÄ¼ş£¬²¢°ÑÒÑ¾­Éú³ÉµÄpokafsnÎÄ¼şÉ¾³ı
+                    //å¤‡ä»½å¤±è´¥ï¼Œä¸‹ä¸€å¾ªç¯é‡æ–°å¤„ç†è¯¥æ ‡å‡†fsnæ–‡ä»¶ï¼Œå¹¶æŠŠå·²ç»ç”Ÿæˆçš„pokafsnæ–‡ä»¶åˆ é™¤
                     new File(temPath + File.separator + newPokaName).delete();
                     continue;
                 }
@@ -961,8 +961,8 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             fileUploadMonitor.setValue(fileUploadMonitor.getValue() + 1);
         }
         System.out.println("pokaList count =" + pokaList.size());
-        fileUploadMonitor.setToolTipText("ÎÄ¼şÉÏ´«ÖĞ.....");
-        //½«Éú³ÉµÄpokafsnÎÄ¼şÉÏ´«µ½Ç°ÖÃ»ú
+        fileUploadMonitor.setToolTipText("æ–‡ä»¶ä¸Šä¼ ä¸­.....");
+        //å°†ç”Ÿæˆçš„pokafsnæ–‡ä»¶ä¸Šä¼ åˆ°å‰ç½®æœº
         PokaSftp sftp = new PokaSftp();
         boolean flag = false;
         int count = 0;
@@ -983,12 +983,12 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             return;
         }
         for (String s : pokaList) {
-            messagejLabel.setText("ÕıÔÚÉÏ´«ÎÄ¼şµ½Ç°ÖÃ»úÖĞ:" + s.substring(s.lastIndexOf(File.separator) + 1));
+            messagejLabel.setText("æ­£åœ¨ä¸Šä¼ æ–‡ä»¶åˆ°å‰ç½®æœºä¸­:" + s.substring(s.lastIndexOf(File.separator) + 1));
 
             flag = UploadFtp.oneFileUploadFtp(s, UploadFtp.fsnbak, (FileUploadMonitor) fileUploadMonitor, sftp);
-            if (flag) {//ÉÏ´«³É¹¦£¬±¸·İpoka fsnÎÄ¼ş
+            if (flag) {//ä¸Šä¼ æˆåŠŸï¼Œå¤‡ä»½poka fsnæ–‡ä»¶
                 count++;
-            } else {//ÉÏ´«Ê§°Ü£¬²»´¦Àípoka fsnÎÄ¼ş
+            } else {//ä¸Šä¼ å¤±è´¥ï¼Œä¸å¤„ç†poka fsnæ–‡ä»¶
                 error++;
             }
         }
@@ -996,34 +996,34 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 
         timer.restart();
         if (isPrompt) {
-            // JOptionPane.showMessageDialog(null, "±ê×¼FSNÎÄ¼ş´¦ÀíÍê³É£¡");
+            // JOptionPane.showMessageDialog(null, "æ ‡å‡†FSNæ–‡ä»¶å¤„ç†å®Œæˆï¼");
         }
         sending = false;
         this.user1TextField.setEditable(true);
         this.user2TextField.setEditable(true);
         fileUploadMonitor.setVisible(false);
-        messagejLabel.setText("ÎÄ¼ş´¦ÀíÍê³É," + count + "¸öÎÄ¼ş´¦Àí³É¹¦£¬" + error + "¸öÎÄ¼ş´¦ÀíÊ§°Ü!");
+        messagejLabel.setText("æ–‡ä»¶å¤„ç†å®Œæˆ," + count + "ä¸ªæ–‡ä»¶å¤„ç†æˆåŠŸï¼Œ" + error + "ä¸ªæ–‡ä»¶å¤„ç†å¤±è´¥!");
     }
     private void allDealButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_allDealButtonMouseClicked
         if (this.allDealButton.isEnabled()) {
             if (this.user1TextField.getText().trim().length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈë²Ù×÷Ô±£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ“ä½œå‘˜ï¼");
                 this.user1TextField.selectAll();
                 return;
             }
             if (this.user2TextField.getText().trim().length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈë¼ì²éÔ±£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ£€æŸ¥å‘˜ï¼");
                 this.user2TextField.selectAll();
                 return;
             }
 
 //            int iRet = checkUser();
 //            if (iRet == -1 || iRet == 1) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ²Ù×÷Ô±ºÍ¼ì²éÔ±£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ“ä½œå‘˜å’Œæ£€æŸ¥å‘˜ï¼");
 //                this.user1TextField.selectAll();
 //                return;
 //            } else if (iRet == 2) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ¼ì²éÔ±£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ£€æŸ¥å‘˜ï¼");
 //                this.user2TextField.selectAll();
 //                return;
 //            }
@@ -1047,29 +1047,29 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
     private void handButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_handButtonMouseClicked
         if (this.handButton.isEnabled()) {
             if (this.user1TextField.getText().trim().length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈë²Ù×÷Ô±£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ“ä½œå‘˜ï¼");
                 this.user1TextField.selectAll();
                 return;
             }
             if (this.user2TextField.getText().trim().length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈë¼ì²éÔ±£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ£€æŸ¥å‘˜ï¼");
                 this.user2TextField.selectAll();
                 return;
             }
 //            int iRet = checkUser();
 //            if (iRet == -1 || iRet == 1) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ²Ù×÷Ô±ºÍ¼ì²éÔ±£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ“ä½œå‘˜å’Œæ£€æŸ¥å‘˜ï¼");
 //                this.user1TextField.selectAll();
 //                return;
 //            } else if (iRet == 2) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ¼ì²éÔ±£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ£€æŸ¥å‘˜ï¼");
 //                this.user2TextField.selectAll();
 //                return;
 //            }
             sending = true;
             String files = showList.getSelectedItem();
             if (files == null) {
-                JOptionPane.showMessageDialog(null, "ÇëÑ¡ÔñĞèÒª´¦ÀíµÄÎÄ¼ş");
+                JOptionPane.showMessageDialog(null, "è¯·é€‰æ‹©éœ€è¦å¤„ç†çš„æ–‡ä»¶");
                 sending = false;
                 return;
             }
@@ -1285,7 +1285,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             String[] newRow = new String[co];
             newRow[0] = cfg.getIp().trim();
             newRow[1] = cfg.getMachineType().trim();
-            newRow[2] = "Î´Á¬½Ó";
+            newRow[2] = "æœªè¿æ¥";
             newRow[3] = "" + 0;
             this.guaoIpModle.addRow(newRow);
         }
@@ -1310,7 +1310,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         this.user1TextField.setEditable(false);
         this.user2TextField.setEditable(false);
         int moType = this.ftpComboBox.getSelectedIndex();
-        messagejLabel.setText("ÕıÔÚ´¦ÀíÎÄ¼ş£º" + files);
+        messagejLabel.setText("æ­£åœ¨å¤„ç†æ–‡ä»¶ï¼š" + files);
         String loPath = StaticVar.cfgMap.get(argPro.localAddr);
         PokaFsn po = new PokaFsn();
         String temPath = loPath + File.separator + UploadFtp.tem;
@@ -1346,12 +1346,12 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                 bd.setFlag((byte) moType);
             }
             // Date date = new Date();
-            //pokafsnÎÄ¼şÃû
+            //pokafsnæ–‡ä»¶å
             newPokaName = StaticVar.bankId + "_" + StaticVar.agencyNo + "_XXXXXXXXXXXXXX_XXXXXXX" + (new java.text.SimpleDateFormat("yyyyMMddHHmmssSSS")).format(BundleDeal.getDBTime()) + ".FSN";
             newPokaPath = temPath + File.separator + newPokaName;
             po.writePokaFsnFile(newPokaPath);
 
-            //±¸·İ±ê×¼fsnÎÄ¼ş
+            //å¤‡ä»½æ ‡å‡†fsnæ–‡ä»¶
             File f = new File(fsn);
             
             File fNew = UploadFtp.newDir(baseBakPath + File.separator + curDate + File.separator + files);
@@ -1362,7 +1362,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                 f.delete();
                 //  pokaList.add(newPokaPath);
             } else {
-                //±¸·İÊ§°Ü£¬ÏÂÒ»Ñ­»·ÖØĞÂ´¦Àí¸Ã±ê×¼fsnÎÄ¼ş£¬²¢°ÑÒÑ¾­Éú³ÉµÄpokafsnÎÄ¼şÉ¾³ı
+                //å¤‡ä»½å¤±è´¥ï¼Œä¸‹ä¸€å¾ªç¯é‡æ–°å¤„ç†è¯¥æ ‡å‡†fsnæ–‡ä»¶ï¼Œå¹¶æŠŠå·²ç»ç”Ÿæˆçš„pokafsnæ–‡ä»¶åˆ é™¤
                 new File(newPokaPath).delete();
                 timer.restart();
                 sending = false;
@@ -1376,40 +1376,40 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         }
         showList.remove(files);
 
-        messagejLabel.setText("ÕıÔÚÉÏ´«ÎÄ¼ş£º" + newPokaPath.substring(newPokaPath.lastIndexOf(File.separator) + 1));
+        messagejLabel.setText("æ­£åœ¨ä¸Šä¼ æ–‡ä»¶ï¼š" + newPokaPath.substring(newPokaPath.lastIndexOf(File.separator) + 1));
 
         fileUploadMonitor.setVisible(true);
-        //½«Éú³ÉµÄpokafsnÎÄ¼şÉÏ´«µ½Ç°ÖÃ»ú
+        //å°†ç”Ÿæˆçš„pokafsnæ–‡ä»¶ä¸Šä¼ åˆ°å‰ç½®æœº
         UploadFtp.oneFileUploadFtp(newPokaName, UploadFtp.fsnbak, (FileUploadMonitor) fileUploadMonitor);
 
         timer.restart();
         this.label1.setVisible(false);
-        //  JOptionPane.showMessageDialog(null, "±ê×¼FSNÎÄ¼ş" + files + "´¦ÀíÍê³É£¡");
+        //  JOptionPane.showMessageDialog(null, "æ ‡å‡†FSNæ–‡ä»¶" + files + "å¤„ç†å®Œæˆï¼");
         fileUploadMonitor.setVisible(false);
         sending = false;
         this.user1TextField.setEditable(true);
         this.user2TextField.setEditable(true);
-        messagejLabel.setText("ÎÄ¼ş" + files + "´¦ÀíÍê³É");
+        messagejLabel.setText("æ–‡ä»¶" + files + "å¤„ç†å®Œæˆ");
     }
     private void autoDealCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_autoDealCheckBoxItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             if (this.user1TextField.getText().trim().length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈë²Ù×÷Ô±£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ“ä½œå‘˜ï¼");
                 this.user1TextField.selectAll();
                 return;
             }
             if (this.user2TextField.getText().trim().length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈë¼ì²éÔ±£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ£€æŸ¥å‘˜ï¼");
                 this.user2TextField.selectAll();
                 return;
             }
 //            int iRet = checkUser();
 //            if (iRet == -1 || iRet == 1) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ²Ù×÷Ô±ºÍ¼ì²éÔ±£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ“ä½œå‘˜å’Œæ£€æŸ¥å‘˜ï¼");
 //                this.user1TextField.selectAll();
 //                return;
 //            } else if (iRet == 2) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ¼ì²éÔ±£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ£€æŸ¥å‘˜ï¼");
 //                this.user2TextField.selectAll();
 //                return;
 //            }
@@ -1417,7 +1417,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             this.user2TextField.setEditable(false);
             this.allDealButton.setEnabled(false);
             this.handButton.setEnabled(false);
-            this.label1.setText("µ±Ç°²ÉÓÃµÄÊÇ×Ô¶¯´¦ÀíÄ£Ê½");
+            this.label1.setText("å½“å‰é‡‡ç”¨çš„æ˜¯è‡ªåŠ¨å¤„ç†æ¨¡å¼");
 
             autoDealFiletimer.start();
 
@@ -1441,7 +1441,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             String port = this.portTextField.getText();
 
             if (port.length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ¼àÌı¶Ë¿ÚºÅ£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„ç›‘å¬ç«¯å£å·ï¼");
                 this.portTextField.requestFocus();
                 this.portTextField.selectAll();
                 return;
@@ -1450,13 +1450,13 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 //            Matcher matcher = pattern.matcher(port);
 //            boolean b = matcher.matches();
 //            if (b) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ¼àÌı¶Ë¿ÚºÅ£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„ç›‘å¬ç«¯å£å·ï¼");
 //                this.portTextField.selectAll();
 //                return;
-//            } else {//1024µ½49151
+//            } else {//1024åˆ°49151
             iPort = Integer.parseInt(port);
             if (iPort < 1024 || iPort > 49151) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ¼àÌı¶Ë¿ÚºÅ£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„ç›‘å¬ç«¯å£å·ï¼");
                 this.portTextField.requestFocus();
                 this.portTextField.selectAll();
                 return;
@@ -1464,7 +1464,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 //            }
 
             if (num.length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄÎÄ¼şÈİÁ¿£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ–‡ä»¶å®¹é‡ï¼");
                 this.numTextField.requestFocus();
                 this.numTextField.selectAll();
                 return;
@@ -1472,10 +1472,10 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 //            matcher = pattern.matcher(num);
 //            b = matcher.matches();
 //            if (b) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄÎÄ¼şÈİÁ¿£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ–‡ä»¶å®¹é‡ï¼");
 //                this.numTextField.selectAll();
 //                return;
-//            } else {//1024µ½49151
+//            } else {//1024åˆ°49151
             
             xml.setDPort(XmlSax.clientPort, port);
             
@@ -1491,7 +1491,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             property.setBusType(FsnComProperty.comBusType);
             //  property.setMechinaType(FsnComProperty.zhongchaoMeType);
             property.setCount(iNum);
-            if(moType==0)moType=5;//µã³®»úÉèÖÃÎª5
+            if(moType==0)moType=5;//ç‚¹é’æœºè®¾ç½®ä¸º5
             property.setMoType(moType);
             fServer = new FsnListenServer(iPort, 10);
             getfServer().setProperty(property);
@@ -1534,11 +1534,11 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
     private void logoutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutButtonMouseClicked
         if (pokaMain.login) {
             if (socketStart) {
-                JOptionPane.showMessageDialog(null, "ÕıÔÚ½ÓÊÕµã³®»úÊı¾İ£¬ÇëÏÈ¹Ø±ÕÓëµã³®»úµÄÍ¨Ñ¶£¡");
+                JOptionPane.showMessageDialog(null, "æ­£åœ¨æ¥æ”¶ç‚¹é’æœºæ•°æ®ï¼Œè¯·å…ˆå…³é—­ä¸ç‚¹é’æœºçš„é€šè®¯ï¼");
                 return;
             }
             if (sending) {
-                JOptionPane.showMessageDialog(null, "ÕıÔÚ´¦ÀíÎÄ¼ş£¬ÇëÉÔºó£¡");
+                JOptionPane.showMessageDialog(null, "æ­£åœ¨å¤„ç†æ–‡ä»¶ï¼Œè¯·ç¨åï¼");
                 return;
             }
             pokaMain.dealGuanZiHaojMenu.setEnabled(true);
@@ -1593,7 +1593,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
         if (this.guaoReceButton.isEnabled()) {
             List<MachinesCfg> machines = this.xml.getGuaoMachines();
             if (machines.size() == 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÅäÖÃ»ú¾ßĞÅÏ¢£¡");
+                JOptionPane.showMessageDialog(null, "è¯·é…ç½®æœºå…·ä¿¡æ¯ï¼");
                 return;
             }
             int iPort;
@@ -1603,14 +1603,14 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             String port = this.guaoPortTextField.getText();
 
             if (port.length() <= 0) {
-                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ¼àÌı¶Ë¿ÚºÅ£¡");
+                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„ç›‘å¬ç«¯å£å·ï¼");
                 this.guaoPortTextField.requestFocus();
                 this.guaoPortTextField.selectAll();
                 return;
             }
             iPort = Integer.parseInt(port);
 //            if (iPort < 1024 || iPort > 49151) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄ¼àÌı¶Ë¿ÚºÅ£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„ç›‘å¬ç«¯å£å·ï¼");
 //                this.guaoPortTextField.requestFocus();
 //                this.guaoPortTextField.selectAll();
 //                return;
@@ -1618,7 +1618,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
 //            }
 
 //            if (num.length() <= 0) {
-//                JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕıÈ·µÄÎÄ¼şÈİÁ¿£¡");
+//                JOptionPane.showMessageDialog(null, "è¯·è¾“å…¥æ­£ç¡®çš„æ–‡ä»¶å®¹é‡ï¼");
 //                this.guaoNumTextField.requestFocus();
 //                this.guaoNumTextField.selectAll();
 //                return;
@@ -1634,7 +1634,7 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
             propertyGuao.setBusType(FsnComProperty.guaoBusType);
 
             // propertyGuao.setCount(iNum);
-            if(moType==0)moType=5;//µã³®»úÉèÖÃÎª5
+            if(moType==0)moType=5;//ç‚¹é’æœºè®¾ç½®ä¸º5
             propertyGuao.setMoType(moType);
             propertyGuao.setPort(iPort);
 
@@ -1690,10 +1690,10 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
                         temFile.renameTo(file);
                         this.showList.add(fileName);
                         count++;
-                        messagejLabel.setText("´ı´¦ÀíÎÄ¼ş¸öÊı£º" + this.showList.getItemCount());
+                        messagejLabel.setText("å¾…å¤„ç†æ–‡ä»¶ä¸ªæ•°ï¼š" + this.showList.getItemCount());
                         //  System.out.println("this.showList:"+this.showList.getItemCount()+" count:"+count);
                     } else {
-                        System.out.println("ÎÄ¼ş" + fileName + "ÉÏ´«ÖĞ£¡");
+                        System.out.println("æ–‡ä»¶" + fileName + "ä¸Šä¼ ä¸­ï¼");
                     }
                 }
             }
