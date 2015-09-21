@@ -859,8 +859,6 @@ public class DataSendJPanel extends javax.swing.JPanel implements ActionListener
     String checkerCode = "";
     String curDate = new java.text.SimpleDateFormat("yyyyMMdd").format(new Date());
 
-    ;
-
     private void autoDealFile(boolean isPrompt) {
         sending = true;
         handButton.setEnabled(false);
