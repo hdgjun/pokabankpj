@@ -1653,6 +1653,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             this.qstartButton.setEnabled(false);
             this.qendButton.setEnabled(true);
 
+            isAdding = true;
             if (1 == this.qingComboBox.getSelectedIndex()) {
                 this.qingTimer.start();
             } else {
@@ -1661,6 +1662,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         }
     }//GEN-LAST:event_qstartButtonMouseClicked
     //private List<MoneyData> myList = new ArrayList<MoneyData>();
+    private boolean isAdding = false;
     private int maxAdd;
     private int curAdd;
     private PokaFsn pokaFsn = new PokaFsn();
@@ -1694,6 +1696,9 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         }
         this.julongTime.stop();
         for (File file : files) {
+            if(!isAdding){
+                break;
+            }
             if (maxToggleButton.isSelected()) {
                 if (this.curAdd == this.maxAdd) {
                     break;
@@ -1716,6 +1721,9 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                         }
                         List<PokaFsnBody> bd = temR.getbList();
                         for (PokaFsnBody mybd : bd) {
+                            if(!isAdding){
+                                break;
+                            }
                             mybd.setUserId1("");
                             mybd.setUserId2("");
                             mybd.setUserId3(this.adderTextField.getText().trim());  //加钞员
@@ -1746,10 +1754,14 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                             if (maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
                                 break;
                             }
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(ATMAddMonJPanel.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                         file.renameTo(UploadFtp.newDir(this.baseBakPath + File.separator + (new java.text.SimpleDateFormat("yyyyMMdd")).format(new Date()) + File.separator + file.getName()));
                         file.delete();
-
                     }
 
                 }
@@ -1759,7 +1771,9 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         if (maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
             qendButton.doClick();
         } else {
-            julongTime.restart();
+            if (isAdding) {
+                julongTime.restart();
+            }
         }
 
     }
@@ -1871,7 +1885,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             p.setFlag((byte) 3);
             pokaFsn.addAndWrite(p, this.fileCount);
             this.curAdd++;
-            if (maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
+            if (!isAdding || maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
                 break;
             }
         }
@@ -1895,7 +1909,9 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
         if (maxToggleButton.isSelected() && this.curAdd == this.maxAdd) {
             qendButton.doClick();
         } else {
-            qingTimer.restart();
+            if (isAdding) {
+                qingTimer.restart();
+            }
         }
     }
     private BaseDaoSqlServer<Map> moneyBase = null;
@@ -1913,7 +1929,7 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                         dbreload = false;
                     }
                     int result = moneyBase.executeSql(delsql, null);
-
+                    this.qingModle.setRowCount(0);
                     JOptionPane.showMessageDialog(null, "数据库初始化完成.");
 
                 }
@@ -1931,9 +1947,10 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                         }
                     }
                     JOptionPane.showMessageDialog(null, "初始化完成.");
-
+                    this.qingModle.setRowCount(0);
                 }
             }
+            isAdding = false;
         }
     }//GEN-LAST:event_newButtonMouseClicked
 
@@ -1978,8 +1995,13 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
             this.qsaoTextField.setEditable(true);
             this.qstartButton.setEnabled(true);
             this.qendButton.setEnabled(false);
-            this.qingModle.setRowCount(0);
 
+            koread_flag = false;
+            isAdding = false;
+            this.curAdd = 0;
+            
+            qmsgShanLabel.setText("当前已加钞：" + this.curAdd + " 张");
+            
             if (qingTimer.isRunning()) {
                 qingTimer.stop();
             }
@@ -1990,31 +2012,40 @@ public class ATMAddMonJPanel extends javax.swing.JPanel implements ActionListene
                 pokaFsn.addAndWrite(null, pokaFsn.getFhead().getCount());
             }
             JOptionPane.showMessageDialog(null, "加钞完成！");
-            koread_flag = false;
+
+            this.qingModle.setRowCount(0);
         }
     }//GEN-LAST:event_qendButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         if (this.cancelButton.isEnabled()) {
-            this.qatmIdTextField.setEditable(true);
-            this.qchaoIdTextField.setEditable(true);
-            this.qcountTextField.setEditable(true);
-            this.qsaoTextField.setEditable(true);
-            this.qstartButton.setEnabled(true);
-            this.qendButton.setEnabled(false);
-            this.qingModle.setRowCount(0);
+            int response;
+            Object[] options = {"确定", "取消"};
+            response = JOptionPane.showOptionDialog(this, "是否放弃本次加钞操作", "提示", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (0 == response) {
+                this.qatmIdTextField.setEditable(true);
+                this.qchaoIdTextField.setEditable(true);
+                this.qcountTextField.setEditable(true);
+                this.qsaoTextField.setEditable(true);
+                this.qstartButton.setEnabled(true);
+                this.qendButton.setEnabled(false);
+                this.qingModle.setRowCount(0);
 
-            if (qingTimer.isRunning()) {
-                qingTimer.stop();
+                koread_flag = false;
+                isAdding = false;
+                this.curAdd = 0;
+                qmsgShanLabel.setText("当前已加钞：" + this.curAdd + " 张");
+                if (qingTimer.isRunning()) {
+                    qingTimer.stop();
+                }
+                if (this.julongTime.isRunning()) {
+                    this.julongTime.stop();
+                }
+                if (pokaFsn.getFhead().getCount() > 0) {
+                    pokaFsn.deleteFile();
+                }
+                pokaFsn = new PokaFsn();
             }
-            if (this.julongTime.isRunning()) {
-                this.julongTime.stop();
-            }
-            if (pokaFsn.getFhead().getCount() > 0) {
-                pokaFsn.deleteFile();
-            }
-            koread_flag = false;
-            pokaFsn = new PokaFsn();
 
         }
     }//GEN-LAST:event_cancelButtonActionPerformed
